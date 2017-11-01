@@ -63,6 +63,10 @@ namespace Common.Enum_My
         /// 数据插入成功
         /// </summary>
         DataInsertSuccessMessage = 12,
+        /// <summary>
+        /// 当前名称已存在
+        /// </summary>
+        DataExitNameMessage=13,
     }
 
     public static partial class GetString
@@ -115,6 +119,9 @@ namespace Common.Enum_My
                     break;
                 case Enum_Message.DataInsertSuccessMessage:
                     result = "数据插入成功";
+                    break;
+                case Enum_Message.DataExitNameMessage:
+                    result = "当前名称已存在";
                     break;
                 default:
                     result = "";

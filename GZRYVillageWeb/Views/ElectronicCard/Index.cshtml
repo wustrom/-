@@ -64,8 +64,6 @@
                 "data": function (data) {
                     //添加额外的参数传给服务器
                     data.SearchKey = $("#search-Input").val();
-                   // data.ElectronicTypeId = $("#Hidden_ElectronicTypeId").val();
-                    //data.ElectronicTypeId = 2;
                     return JSON.stringify(data);
                 }
             },
@@ -97,10 +95,9 @@
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
-        //添加按钮
+        //点击新增类型卡按钮，弹出窗体
         $("#insert").click(function () {
             add();
-            //InsertElectronicType();
         });
         //添加按钮
         $("#Modify_ElectronicCard").click(function () {

@@ -42,13 +42,13 @@ a {
     color: #666;
 }
 
-a, a:hover {
-    text-decoration: none;
-}
+    a, a:hover {
+        text-decoration: none;
+    }
 
-a:focus {
-    outline: none;
-}
+        a:focus {
+            outline: none;
+        }
 
 .animated {
     -webkit-animation-duration: 1.4s;
@@ -332,10 +332,10 @@ header {
     text-align: center;
 }
 
-.demo a {
-    margin: 0 5px 20px;
-    background-color: #eee;
-}
+    .demo a {
+        margin: 0 5px 20px;
+        background-color: #eee;
+    }
 
 /*------------------- 华丽分割线 -----------------------*/
 
@@ -392,16 +392,16 @@ header {
     padding: 15px 0;
 }
 
-.editInfos li {
-    width: 90%;
-    margin: 8px auto auto;
-    text-align: left;
-}
+    .editInfos li {
+        width: 90%;
+        margin: 8px auto auto;
+        text-align: left;
+    }
 
-.editInfos li label img{
-    height: 40px;
-    width: 40px;
-}
+        .editInfos li label img {
+            height: 40px;
+            width: 40px;
+        }
 
 .ipt {
     border: 1px solid #ccc;
@@ -413,12 +413,12 @@ header {
     margin-left: 5px;
 }
 
-.ipt:focus {
-    outline: none;
-    border-color: #66afe9;
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
-}
+    .ipt:focus {
+        outline: none;
+        border-color: #66afe9;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(102, 175, 233, 0.6);
+    }
 
 .submitBtn {
     width: 90px;
@@ -441,4 +441,40 @@ header {
     width: 90%;
     margin: 8px auto auto;
     text-align: left;
+}
+
+#editForm table {
+    width: 90%;
+    margin: 8px auto 8px auto;
+}
+
+#editForm table tr td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#editForm table .Label {
+    float: right;
+    display: inline-block;
+    max-width: 100%;
+    font-weight: 700;
+    padding-top: 11px;
+    padding-right: 5px;
+}
+
+#editForm table .Label_TextArea {
+    padding-top: 5px;
+}
+
+#editForm table textarea {
+    resize: none;
+    width: 143px;
+}
+
+#editForm table .submit {
+    text-align: center;
+}
+
+#editForm table .submit .submitBtn {
+    margin-top: -5px;
 }

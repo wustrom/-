@@ -73,15 +73,17 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Get_Consumption_List(ConsumptionDataTableRequest param)
         {
             var List_Consumption = Cache_Consumption.Instance.SelectConsumptionList(param.ElectronicId, param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
-            List<ConsumptionResponse> List_Response = new List<ConsumptionResponse>();
-            foreach (var item in List_Consumption.Item1)
-            {
-                ConsumptionResponse response = new ConsumptionResponse(item);
-                List_Response.Add(response);
-            }
-            DataTableResponse<ConsumptionResponse> Parameter_Consumption = new DataTableResponse<ConsumptionResponse>();
+            //List<ConsumptionResponse> List_Response = new List<ConsumptionResponse>();
+            //foreach (var item in List_Consumption.Item1)
+            //{
+            //    ConsumptionResponse response = new ConsumptionResponse(item);
+            //    List_Response.Add(response);
+            //}
+            //DataTableResponse<ConsumptionResponse> Parameter_Consumption = new DataTableResponse<ConsumptionResponse>();
+           DataTableResponse<ConsumptionInfo> Parameter_Consumption = new DataTableResponse<ConsumptionInfo>();
             Parameter_Consumption.draw = param.Draw;
-            Parameter_Consumption.data = List_Response;
+            //Parameter_Consumption.data = List_Response;
+            Parameter_Consumption.data = List_Consumption.Item1;
             Parameter_Consumption.recordsTotal = List_Consumption.Item2;
             Parameter_Consumption.recordsFiltered = List_Consumption.Item3;
             return Json(Parameter_Consumption.GetObject(), JsonRequestBehavior.AllowGet);

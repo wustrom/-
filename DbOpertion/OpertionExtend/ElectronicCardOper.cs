@@ -22,40 +22,19 @@ namespace DbOpertion.Operation
         /// <param name="card">电子储值卡实体类</param>
         /// <param name="user">用户实体类</param>
         /// <returns></returns>
-        //public List<ElectronicCardInfo> Get_ElectronicCardByTypeId1(int ElectronicTypeId,  string SearchKey,bool OrdeyBy,  int start, int PageSize)
-        //{
-        //    List<SqlParameter> parmList = new List<SqlParameter>();
-        //    parmList.Add(new SqlParameter("@ElectronicTypeId", ElectronicTypeId));
-        //    parmList.Add(new SqlParameter("@CaerMoney", "'%" + SearchKey + "%'"));
-        //    parmList.Add(new SqlParameter("@UserNickName", "'%" + SearchKey + "%'"));
-        //    parmList.Add(new SqlParameter("@UserPhone", "'%" + SearchKey + "%'"));
-        //    parmList.Add(new SqlParameter("@UserEmail", "'%" + SearchKey + "%'"));
-        //    string sql = string.Format(@"* from ElectronicCard a 
-        //                                 left join AUser b on a.UserId=b.UserId
-        //                                 where ElectronicTypeId=@ElectronicTypeId and CaerMoney like @CaerMoney or
-        //                                 UserNickName like @UserNickName or UserPhone like @UserPhone or 
-        //                                 UserEmail like @UserEmail+ +asc");
-        //    return SqlOpertion.Instance.GetQueryPage<ElectronicCardInfo>(sql, parmList, OrdeyBy, start, PageSize);
-        //}
-        /// <summary>
-        /// 根据电子储值卡的类型ID查询对应的卡片信息
-        /// </summary>
-        /// <param name="card">电子储值卡实体类</param>
-        /// <param name="user">用户实体类</param>
-        /// <returns></returns>
         public List<ElectronicCardInfo> Get_ElectronicCardByTypeId(int ElectronicTypeId, string SearchKey, string Key, int start, int PageSize, bool desc = true)
         {
             List<SqlParameter> parmList = new List<SqlParameter>();
             string SqlWhereLike = null;
             if (!SearchKey.IsNullOrEmpty())
             {
-                parmList.Add(new SqlParameter("@CaerMoney", "'%" + SearchKey + "%'"));
-                parmList.Add(new SqlParameter("@UserNickName", "'%" + SearchKey + "%'"));
-                parmList.Add(new SqlParameter("@UserPhone", "'%" + SearchKey + "%'"));
-                parmList.Add(new SqlParameter("@UserEmail", "'%" + SearchKey + "%'"));
-                SqlWhereLike = @" and CaerMoney like @CaerMoney or
+                parmList.Add(new SqlParameter("@CaerMoney", "%" + SearchKey + "%"));
+                parmList.Add(new SqlParameter("@UserNickName", "%" + SearchKey + "%"));
+                parmList.Add(new SqlParameter("@UserPhone", "%" + SearchKey + "%"));
+                parmList.Add(new SqlParameter("@UserEmail", "%" + SearchKey + "%"));
+                SqlWhereLike = @" and (CaerMoney like @CaerMoney or
                                          UserNickName like @UserNickName or UserPhone like @UserPhone or
-                                         UserEmail like @UserEmail";
+                                         UserEmail like @UserEmail)";
             }
             parmList.Add(new SqlParameter("@ElectronicTypeId", ElectronicTypeId));
             string sql = string.Format(@"select b.UserId,a.CaerMoney,a.ElectronicTypeId,a.ElectronicId,a.IsUser,a.IsDelete,b.UserNickName from ElectronicCard a 
@@ -82,9 +61,9 @@ namespace DbOpertion.Operation
                 parmList.Add(new SqlParameter("@UserNickName", "'%" + SearchKey + "%'"));
                 parmList.Add(new SqlParameter("@UserPhone", "'%" + SearchKey + "%'"));
                 parmList.Add(new SqlParameter("@UserEmail", "'%" + SearchKey + "%'"));
-                SqlWhereLike = @" and CaerMoney like @CaerMoney or
+                SqlWhereLike = @" and (CaerMoney like @CaerMoney or
                                          UserNickName like @UserNickName or UserPhone like @UserPhone or
-                                         UserEmail like @UserEmail";
+                                         UserEmail like @UserEmail)";
             }
             parmList.Add(new SqlParameter("@ElectronicTypeId", ElectronicTypeId));
             string sql = string.Format(@"select a.UserId,a.CaerMoney,a.ElectronicTypeId,a.ElectronicId,a.IsUser,a.IsDelete from ElectronicCard a 

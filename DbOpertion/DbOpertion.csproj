@@ -11,6 +11,7 @@
     <AssemblyName>DbOpertion</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheExtendApi\Cache_MemberShipCard.cs" />
+    <Compile Include="CacheExtendApi\Cache_TUser.cs" />
     <Compile Include="Cache\Cache_AddCard.cs" />
     <Compile Include="Cache\Cache_Consumption.cs" />
     <Compile Include="Cache\Cache_Coupon.cs" />
@@ -53,11 +56,15 @@
     <Compile Include="Cache\Cache_CouponUserRelation.cs" />
     <Compile Include="Cache\Cache_ElectronicCard.cs" />
     <Compile Include="Cache\Cache_ElectronicType.cs" />
+    <Compile Include="Cache\Cache_MemberCouponRelation.cs" />
     <Compile Include="Cache\Cache_MemberShipCard.cs" />
+    <Compile Include="Cache\Cache_MemberShipLevel.cs" />
     <Compile Include="Cache\Cache_MemberShipType.cs" />
     <Compile Include="Cache\Cache_TUser.cs" />
     <Compile Include="Cache\Cache_AUser.cs" />
+    <Compile Include="ModelExtend\ConsumptionInfo.cs" />
     <Compile Include="ModelExtend\ElectronicCardInfo.cs" />
+    <Compile Include="Model\Active.cs" />
     <Compile Include="Model\AUser.cs" />
     <Compile Include="Model\Consumption.cs" />
     <Compile Include="Model\Coupon.cs" />
@@ -65,13 +72,18 @@
     <Compile Include="Model\CouponUserRelation.cs" />
     <Compile Include="Model\ElectronicCard.cs" />
     <Compile Include="Model\ElectronicType.cs" />
+    <Compile Include="Model\MemberCouponRelation.cs" />
     <Compile Include="Model\MemberShipCard.cs" />
     <Compile Include="Model\MemberShipLevel.cs" />
     <Compile Include="Model\MemberShipType.cs" />
     <Compile Include="Model\Message.cs" />
     <Compile Include="Model\Store.cs" />
     <Compile Include="Model\TUser.cs" />
-    <Compile Include="MultiTableOpertion\MultiTable_Coupon_Opertion.cs" />
+    <Compile Include="OpertionExtendApi\ActiveOper.cs" />
+    <Compile Include="OpertionExtendApi\CouponCardRelationOper.cs" />
+    <Compile Include="OpertionExtendApi\MemberShipCardOper.cs" />
+    <Compile Include="OpertionExtendApi\MemberShipTypeOper.cs" />
+    <Compile Include="OpertionExtendApi\TUserOper.cs" />
     <Compile Include="OpertionExtend\AUserOper.cs" />
     <Compile Include="OpertionExtend\ConsumptionOper.cs" />
     <Compile Include="OpertionExtend\CouponCardRelationOper.cs" />
@@ -79,9 +91,12 @@
     <Compile Include="OpertionExtend\CouponUserRelationOper.cs" />
     <Compile Include="OpertionExtend\ElectronicCardOper.cs" />
     <Compile Include="OpertionExtend\ElectronicTypeOper.cs" />
+    <Compile Include="OpertionExtend\MemberCouponRelationOper.cs" />
     <Compile Include="OpertionExtend\MemberShipCardOper.cs" />
+    <Compile Include="OpertionExtend\MemberShipLevelOper.cs" />
     <Compile Include="OpertionExtend\MemberShipTypeOper.cs" />
     <Compile Include="OpertionExtend\TUserOper.cs" />
+    <Compile Include="Opertion\ActiveOper.cs" />
     <Compile Include="Opertion\AUserOper.cs" />
     <Compile Include="Opertion\ConsumptionOper.cs" />
     <Compile Include="Opertion\CouponCardRelationOper.cs" />
@@ -89,6 +104,7 @@
     <Compile Include="Opertion\CouponUserRelationOper.cs" />
     <Compile Include="Opertion\ElectronicCardOper.cs" />
     <Compile Include="Opertion\ElectronicTypeOper.cs" />
+    <Compile Include="Opertion\MemberCouponRelationOper.cs" />
     <Compile Include="Opertion\MemberShipCardOper.cs" />
     <Compile Include="Opertion\MemberShipLevelOper.cs" />
     <Compile Include="Opertion\MemberShipTypeOper.cs" />
@@ -100,12 +116,6 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
-    <Compile Include="Sql_Linq\Member_SqlLinq.cs" />
-    <Compile Include="TestDBLinq.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestDBLinq.dbml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -120,19 +130,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="TestDBLinq.dbml">
-      <Generator>MSLinqToSQLGenerator</Generator>
-      <LastGenOutput>TestDBLinq.designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="TestDBLinq.dbml.layout">
-      <DependentUpon>TestDBLinq.dbml</DependentUpon>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

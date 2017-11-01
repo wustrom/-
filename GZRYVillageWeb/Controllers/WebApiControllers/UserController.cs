@@ -10,12 +10,10 @@ using DbOpertion.Models;
 using DbOpertion.Operation;
 using GZRYVillageWeb.Common.Api.Enum;
 using GZRYVillageWeb.Request.ApiRequest;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
+using GZRYVillageWeb.Response.ApiResponse;
+using System.Web;
 using System.Web.Http;
+using System.Web.SessionState;
 
 namespace GZRYVillageWeb.Controllers
 {
@@ -24,6 +22,8 @@ namespace GZRYVillageWeb.Controllers
     /// </summary>
     public class UserController : ApiController
     {
+        HttpSessionState session = HttpContext.Current.Session;
+
         /// <summary>
         /// 用户登入
         /// </summary>
@@ -32,44 +32,28 @@ namespace GZRYVillageWeb.Controllers
         [HttpPost]
         [ValidateModel]
         [WebApiException]
-        public ResultJsonModel<TUser> Login(UserLoginRequest request)
+        public ResultJsonModel<UserTokenResponse> Login(UserLoginRequest request)
         {
-            ResultJsonModel<TUser> result = new ResultJsonModel<TUser>();
+            ResultJsonModel<UserTokenResponse> result = new ResultJsonModel<UserTokenResponse>();
             #region 用户密码查询
-            if (true)
+            var userToken = Cache_TUser.Instance.MemberUserLogin(request.UserPhone, request.UserPassword);
+            if (userToken == null)
             {
-                string UserName = null, UserPassWord = null;
-                var userModel = Cache_TUser.Instance.MemberUserLogin(UserName, UserPassWord);
-                if (userModel == null)
-                {
-                    result.HttpCode = 301;
-                    result.Message = Enum_Message.UserNameOrPasswordNotRightMessage.Enum_GetString();
-                }
-                else
-                {
-                    result.HttpCode = 200;
-                    result.Message = Enum_Message.LoginSuccessMessage.Enum_GetString();
-                    result.Model1 = userModel;
-                }
+                result.HttpCode = 301;
+                result.Message = Enum_Message.UserNameOrPasswordNotRightMessage.Enum_GetString();
             }
-            #endregion
-            #region 微信查询
-            else if (true)
+            else
             {
-
-            }
-            #endregion
-            #region 用户密码查询
-            else if (true)
-            {
-
+                result.HttpCode = 200;
+                result.Message = Enum_Message.LoginSuccessMessage.Enum_GetString();
+                result.Model1 = new UserTokenResponse { UserToken = userToken };
             }
             #endregion
             return result;
         }
 
         /// <summary>
-        /// 发送邮件
+        /// 发送验证码
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
@@ -125,12 +109,21 @@ namespace GZRYVillageWeb.Controllers
         [HttpPost]
         [ValidateModel]
         [WebApiException]
-        public ResultJsonModel<TUser> MailRegister(MailRegisterRequest request)
+        public ResultJsonModel MailRegister(MailRegisterRequest request)
         {
-            ResultJsonModel<TUser> result = new ResultJsonModel<TUser>();
-            TUser MemUser = new TUser();
-            MemUser.UserPhone = request.Phone;
-            var users = Cache_TUser.Instance.SelectByPhone(request.Phone);
+            ResultJsonModel result = new ResultJsonModel();
+            string CardName;
+            if (session["MemberShipCardName"] != null)
+            {
+                CardName = session["MemberShipCardName"].ToString();
+            }
+            else
+            {
+                result.HttpCode = 300;
+                result.Message = "卡片验证超过时间限制，请重新验证";
+                return result;
+            }
+            var users = Cache_TUser.Instance.SelectRepeat(request.Phone, request.UserName);
             if (users != null)
             {
                 result.HttpCode = 300;
@@ -148,16 +141,17 @@ namespace GZRYVillageWeb.Controllers
                 {
                     if (request.Code == verification)
                     {
-                        TUser customer = new TUser();
-                        customer.UserPhone = request.Phone;
-                        customer.UserPassword = request.PassWord;
-                        if (TUserOper.Instance.Insert(customer))
+                        TUser t_user = new TUser();
+                        t_user.UserName = request.UserName;
+                        t_user.UserNickName = request.UserNickName;
+                        t_user.UserPhone = request.Phone;
+                        t_user.UserPassword = request.PassWord;
+                        t_user.Sex = request.UserSex;
+                        var user = Cache_TUser.Instance.InsertUserInfo(t_user, CardName, request.Active.Value);
+                        if (user != null)
                         {
-                            Cache_TUser.Instance.ClearMemberCode(request.Phone);
-                            var user = Cache_TUser.Instance.SelectByPhone(request.Phone);
                             result.HttpCode = 200;
                             result.Message = "注册成功";
-                            result.Model1 = user;
                         }
                         else
                         {
@@ -181,12 +175,12 @@ namespace GZRYVillageWeb.Controllers
         [HttpPost]
         [ValidateModel]
         [WebApiException]
-        public ResultJsonModel<TUser> ForgotPassword(MailRegisterRequest request)
+        public ResultJsonModel ForgotPassword(ForgotPasswordRequest request)
         {
-            ResultJsonModel<TUser> result = new ResultJsonModel<TUser>();
+            ResultJsonModel result = new ResultJsonModel();
             TUser MemUser = new TUser();
             MemUser.UserPhone = request.Phone;
-            var users = Cache_TUser.Instance.SelectByPhone(request.Phone);
+            var users = Cache_TUser.Instance.SelectRepeat(request.Phone, null);
             if (users == null)
             {
                 result.HttpCode = 300;
@@ -194,39 +188,143 @@ namespace GZRYVillageWeb.Controllers
             }
             else
             {
-                var verification = Cache_TUser.Instance.GetMemberCode(request.Phone);
-                if (verification == null)
+                users.UserPhone = request.Phone;
+                users.UserPassword = request.PassWord;
+                if (TUserOper.Instance.Update(users))
                 {
-                    result.HttpCode = 500;
-                    result.Message = "请重新发送验证码";
+                    Cache_TUser.Instance.ClearMemberCode(request.Phone);
+                    result.HttpCode = 200;
+                    result.Message = "密码重置成功";
                 }
                 else
                 {
-                    if (request.Code == verification)
+                    result.HttpCode = 300;
+                    result.Message = "密码重置失败";
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 重置手机号码
+        /// </summary>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJsonModel ResetPhone(ResetPhoneRequest request)
+        {
+            ResultJsonModel result = new ResultJsonModel();
+            VerificationCodeRequest CodeRequest = new VerificationCodeRequest { Code = request.Code, Phone = request.Phone };
+            var CodeResponse = VerificationCode(CodeRequest);
+            if (CodeResponse.HttpCode == 200)
+            {
+                TUser MemUser = new TUser();
+                MemUser.UserPhone = request.Phone;
+                var users = Cache_TUser.Instance.SelectRepeat(request.Phone, null);
+                if (users == null)
+                {
+                    result.HttpCode = 300;
+                    result.Message = "用户尚未注册";
+                }
+                else
+                {
+                    users.UserPhone = request.NewPhone;
+                    if (TUserOper.Instance.Update(users))
                     {
-                        TUser customer = new TUser();
-                        customer.UserPhone = request.Phone;
-                        customer.UserPassword = request.PassWord;
-                        if (TUserOper.Instance.Update(customer))
-                        {
-                            Cache_TUser.Instance.ClearMemberCode(request.Phone);
-                            var user = Cache_TUser.Instance.SelectByPhone(request.Phone);
-                            result.HttpCode = 200;
-                            result.Message = "密码重置成功";
-                            result.Model1 = user;
-                        }
-                        else
-                        {
-                            result.HttpCode = 300;
-                            result.Message = "密码重置失败";
-                        }
+                        Cache_TUser.Instance.ClearMemberCode(request.Phone);
+                        result.HttpCode = 200;
+                        result.Message = "密码重置成功";
                     }
                     else
                     {
-                        result.HttpCode = 400;
-                        result.Message = "验证码错误";
+                        result.HttpCode = 300;
+                        result.Message = "密码重置失败";
                     }
                 }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 验证验证码
+        /// </summary>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJsonModel VerificationCode(VerificationCodeRequest request)
+        {
+            ResultJsonModel result = new ResultJsonModel();
+            var verification = Cache_TUser.Instance.GetMemberCode(request.Phone);
+            if (verification == null)
+            {
+                result.HttpCode = 500;
+                result.Message = "请重新发送验证码";
+            }
+            else
+            {
+                if (request.Code == verification)
+                {
+                    result.HttpCode = 200;
+                    result.Message = "验证码正确";
+                }
+                else
+                {
+                    result.HttpCode = 400;
+                    result.Message = "验证码错误";
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 验证卡片
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJson VerificCard(MemberCardRequest request)
+        {
+            ResultJson jsonResult = new ResultJson();
+            if (Cache_MemberShipCard.Instance.MemberShip(request.CardName, request.CardPassword, null, null))
+            {
+                session.Add("MemberShipCardName", request.CardName);
+                jsonResult.HttpCode = 200;
+                jsonResult.Message = "验证卡片成功";
+            }
+            else
+            {
+                jsonResult.HttpCode = 300;
+                jsonResult.Message = "验证卡片失败";
+            }
+            return jsonResult;
+        }
+
+        /// <summary>
+        /// 获得用户信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJsonModel<UserInfoResponse> GetUserInfo(UserTokenRequest request)
+        {
+            ResultJsonModel<UserInfoResponse> result = new ResultJsonModel<UserInfoResponse>();
+            Token token = new Token(request.Token);
+            var Tuser = Cache_TUser.Instance.GetUserInfo(token);
+            if (Tuser == null)
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.UserNotExitMessage.ToString();
+            }
+            else
+            {
+                UserInfoResponse response = new UserInfoResponse(Tuser);
+                result.HttpCode = 200;
+                result.Message = Enum_Message.SuccessMessage.ToString();
+                result.Model1 = response;
             }
             return result;
         }

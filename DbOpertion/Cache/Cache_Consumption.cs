@@ -54,7 +54,7 @@ namespace DbOpertion.Cache
         /// <param name="PageSize">页面长度</param>
         /// <param name="desc">排序</param>
         /// <returns></returns>
-        public Tuple<List<Consumption>, int, int> SelectConsumptionList(int ElectronicId, string SearchKey, string Key, int start, int PageSize, DataTablesOrderDir desc)
+        public Tuple<List<ConsumptionInfo>, int, int> SelectConsumptionList(int ElectronicId, string SearchKey, string Key, int start, int PageSize, DataTablesOrderDir desc)
         {
             bool asc;
             if (desc == DataTablesOrderDir.Asc)
@@ -65,10 +65,10 @@ namespace DbOpertion.Cache
             {
                 asc = false;
             }
-            var Consumption_List = ConsumptionOper.Instance.SelectConsumptionListById(ElectronicId, SearchKey, Key, start, PageSize);
-            var All_Count = ConsumptionOper.Instance.SelectConsumptionCount(ElectronicId, null);
-            var count = ConsumptionOper.Instance.SelectConsumptionCount(ElectronicId, SearchKey);
-            return new Tuple<List<Consumption>, int, int>(Consumption_List, All_Count, count);
+            var Consumption_List = ConsumptionOper.Instance.SelectConsumptionListById1(ElectronicId, SearchKey, Key, start, PageSize, asc);
+            var All_Count = ConsumptionOper.Instance.SelectConsumptionCount1(ElectronicId, null);
+            var count = ConsumptionOper.Instance.SelectConsumptionCount1(ElectronicId, SearchKey);
+            return new Tuple<List<ConsumptionInfo>, int, int>(Consumption_List, All_Count, count);
         }
     }
 }

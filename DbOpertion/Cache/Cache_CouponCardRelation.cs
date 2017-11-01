@@ -37,8 +37,8 @@ namespace DbOpertion.Cache
 
             }
             var coupon_ListId = CouponCardRelationOper.Instance.SelectByMemberShipCardId(MemberShipTypeId).Select(p => p.CouponId.Value).ToList();//优惠券ID列表
-            var Coupon_List = CouponOper.Instance.SelectByPageByMemberCard(coupon_ListId, SearchKey, Key, start, pageSize);//找出对应的优惠券
-            var All_Count = CouponOper.Instance.SelectMemberCardCountByID(coupon_ListId,null);
+            var Coupon_List = CouponOper.Instance.SelectByPageByMemberCard(coupon_ListId, SearchKey, Key, start, pageSize, asc);//找出对应的优惠券
+            var All_Count = CouponOper.Instance.SelectMemberCardCountByID(coupon_ListId, null);
             var Count = CouponOper.Instance.SelectMemberCardCountByID(coupon_ListId, SearchKey);
             return new Tuple<List<Coupon>, int, int>(Coupon_List, All_Count, Count);
 
@@ -67,11 +67,11 @@ namespace DbOpertion.Cache
 
             }
             var coupon_ListId = CouponCardRelationOper.Instance.SelectByMemberShipCardId(MemberShipTypeId).Select(p => p.CouponId.Value).ToList();//优惠券ID列表
-            var Coupon_List = CouponOper.Instance.SelectByPageByAllMemberCard(coupon_ListId, SearchKey, Key, start, pageSize);
-            var All_Count = CouponOper.Instance.SelectAllMemberCardCount(coupon_ListId,null);
+            var Coupon_List = CouponOper.Instance.SelectByPageByAllMemberCard(coupon_ListId, SearchKey, Key, start, pageSize, asc);
+            var All_Count = CouponOper.Instance.SelectAllMemberCardCount(coupon_ListId, null);
             var Count = CouponOper.Instance.SelectAllMemberCardCount(coupon_ListId, SearchKey);
             return new Tuple<List<Coupon>, int, int>(Coupon_List, All_Count, Count);
-           
+
         }
         /// <summary>
         /// 根据Id删除对应的优惠券
@@ -99,7 +99,7 @@ namespace DbOpertion.Cache
             {
                 return CouponCardRelationOper.Instance.Insert_Coupon(MemberShipCardId, CouponId);
             }
-            
+
         }
     }
 }

@@ -54,21 +54,6 @@ namespace DbOpertion.Cache
             return MemberShipCardOper.Instance.SelectByPage(searchKey, Key, PageNo, PageSize, order);
         }
 
-       
-        //public int SelectMemberCardCount(string Key, DataTablesOrderDir? desc)
-        //{
-        //    bool order = false;
-        //    if (desc == DataTablesOrderDir.Asc)
-        //    {
-        //        order = false;
-        //    }
-        //    else if (desc == DataTablesOrderDir.Desc)
-        //    {
-        //        order = true;
-        //    }
-        //    return MemberShipCardOper.Instance.SelectCount(Key, order);
-        //}
-      
         /// <summary>
         /// 根据类型ID查找对应的会员卡信息
         /// </summary>
@@ -92,9 +77,9 @@ namespace DbOpertion.Cache
                 asc = false;
 
             }
-            var list = MemberShipCardOper.Instance.SelectMemCardByTypeId(MemberShipTypeId, SearchKey, Key, start, pageSize);
+            var list = MemberShipCardOper.Instance.SelectMemCardByTypeId(MemberShipTypeId, SearchKey, Key, start, pageSize, asc);
             var MemberCard_List = MemberShipCardOper.Instance.SelectByPageByMemberCard(MemberShipTypeId, SearchKey, Key, start, pageSize);
-            var All_Count = MemberShipCardOper.Instance.SelectMemberCardCountByTypeID(MemberShipTypeId,null);
+            var All_Count = MemberShipCardOper.Instance.SelectMemberCardCountByTypeID(MemberShipTypeId, null);
             var Count = MemberShipCardOper.Instance.SelectMemberCardCountByTypeID(MemberShipTypeId, SearchKey);
             return new Tuple<List<MemberShipCard>, int, int>(MemberCard_List, All_Count, Count);
 

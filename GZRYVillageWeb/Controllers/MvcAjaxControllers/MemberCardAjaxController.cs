@@ -31,6 +31,8 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
             card.CardName = request.MemberShipCardName;
             card.CardPassword = request.CardPassword;
             card.MemberShipTypeId = request.MemberShipTypeId;
+            card.ReleaseDate = request.ReleaseDate;
+            card.UserId = request.UserId; ;
             card.IsDelete = request.IsDelete;
             card.IsUser = request.IsUser;
             var insertCard = MemberShipCardOper.Instance.Insert(card);
@@ -118,8 +120,6 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         {
            var List_card = Cache_MemberShipCard.Instance.SelectMemberCardList(param.MemberShipTypeId,param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
             DataTableResponse<MemberShipCard> Parameter_Card = new DataTableResponse<MemberShipCard>();
-           // var All_Card_Count = Cache_MemberShipCard.Instance.SelectMemberCardCountByTypeID(null,param.OrderBy, param.OrderDir);
-           // var Search_Card_Count = Cache_MemberShipCard.Instance.SelectMemberCardCountByTypeID(param.SearchKey, param.OrderBy, param.OrderDir);
             Parameter_Card.draw = param.Draw;
             Parameter_Card.data = List_card.Item1;
             Parameter_Card.recordsTotal = List_card.Item2;

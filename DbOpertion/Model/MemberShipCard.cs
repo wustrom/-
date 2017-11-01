@@ -28,10 +28,6 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
-        public Boolean? Active { get; set; }
-        /// <summary>
-        ///
-        /// </summary>
         public DateTime? ReleaseDate { get; set; }
         /// <summary>
         ///

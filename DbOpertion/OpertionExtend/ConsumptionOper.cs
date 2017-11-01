@@ -7,6 +7,7 @@ using System.Text;
 using Common.LambdaOpertion;
 using Common.Extend;
 using DbOpertion.Models;
+using System.Data.SqlClient;
 
 namespace DbOpertion.Operation
 {
@@ -92,6 +93,7 @@ namespace DbOpertion.Operation
             }
             return query.GetQueryCount();
         }
+    
         /// <summary>
         /// 根据电子储值卡Id查找对应的会员的消费记录
         /// </summary>
@@ -102,35 +104,56 @@ namespace DbOpertion.Operation
         /// <param name="PageSize">页面长度</param>
         /// <param name="desc">排序</param>
         /// <returns></returns>
-        public List<Consumption> SelectConsumptionListById(int ElectronicId, string SearchKey, string Key, int start, int PageSize, bool desc = true)
+        public List<ConsumptionInfo> SelectConsumptionListById1(int ElectronicId, string SearchKey, string Key, int start, int PageSize, bool desc = true)
         {
-            var query = new LambdaQuery<Consumption>();
-            query.Where(p => p.ElectronicId == ElectronicId);
-            if (Key != null)
-            {
-                query.OrderByKey(Key, desc);
-            }
+            List<SqlParameter> parmList = new List<SqlParameter>();
+            string SqlWhereLike = null;
             if (!SearchKey.IsNullOrEmpty())
             {
-                query.Where(p => p.ShopName.Contains(SearchKey) || p.ShopMoney.Contains(SearchKey) || p.ShopType.Contains(SearchKey) || p.ShopTime.Contains(SearchKey));
+                parmList.Add(new SqlParameter("@UserNickName", "%" + SearchKey + "%"));
+                parmList.Add(new SqlParameter("@ShopName", "%" + SearchKey + "%"));
+                parmList.Add(new SqlParameter("@ShopMoney", "%" + SearchKey + "%"));
+                parmList.Add(new SqlParameter("@ShopType", "%" + SearchKey + "%"));
+                parmList.Add(new SqlParameter("@ShopTime", "%" + SearchKey + "%"));
+                SqlWhereLike = @" and (UserNickName like @UserNickName or
+                                         ShopName like @ShopName or ShopMoney like @ShopMoney or
+                                         ShopType like @ShopType or ShopTime like @ShopTime)";
             }
-            return query.GetQueryPageList(start, PageSize);
+            parmList.Add(new SqlParameter("@ElectronicId", ElectronicId));
+            string sql = string.Format(@"select b.UserId,a.ShopName,a.ShopMoney,a.ElectronicId,(case when a.ShopType = '1' then '现金'
+                                       when a.ShopType = '2' then '刷卡' else '其他' end) as ShopType,a.ShopTime,a.IsDelete,b.UserNickName from Consumption a 
+                                         left join AUser b on a.UserId=b.UserId
+                                         where ElectronicId=@ElectronicId " + SqlWhereLike);
+            return SqlOpertion.Instance.GetQueryPage<ConsumptionInfo>(sql, parmList, Key, desc, start, PageSize);
         }
+
         /// <summary>
         /// 根据分页筛选数据
         /// </summary>
         /// <param name="ElectronicId">电子储值卡Id</param>
         /// <param name="SearchKey">搜索关键字</param>
         /// <returns></returns>
-        public int SelectConsumptionCount(int ElectronicId, string SearchKey)
+        public int SelectConsumptionCount1(int ElectronicId, string SearchKey)
         {
-            var query = new LambdaQuery<Consumption>();
-            query.Where(p => p.ElectronicId == ElectronicId);
+            List<SqlParameter> parmList = new List<SqlParameter>();
+            string SqlWhereLike = null;
             if (!SearchKey.IsNullOrEmpty())
             {
-                query.Where(p => p.ShopName.Contains(SearchKey) || p.ShopMoney.Contains(SearchKey) || p.ShopType.Contains(SearchKey) || p.ShopTime.Contains(SearchKey));
+                parmList.Add(new SqlParameter("@UserNickName", "'%" + SearchKey + "%'"));
+                parmList.Add(new SqlParameter("@ShopName", "'%" + SearchKey + "%'"));
+                parmList.Add(new SqlParameter("@ShopMoney", "'%" + SearchKey + "%'"));
+                parmList.Add(new SqlParameter("@ShopType", "'%" + SearchKey + "%'"));
+                parmList.Add(new SqlParameter("@ShopTime", "'%" + SearchKey + "%'"));
+                SqlWhereLike = @" and UserNickName like @UserNickName or
+                                         ShopName like @ShopName or ShopMoney like @ShopMoney or
+                                         ShopType like @ShopType or ShopTime like @ShopTime";
             }
-            return query.GetQueryCount();
+            parmList.Add(new SqlParameter("@ElectronicId", ElectronicId));
+            string sql = string.Format(@"select b.UserId,a.ShopName,a.ShopMoney,a.ElectronicId,(case when a.ShopType = '1' then '现金'
+                                        when a.ShopType = '2' then '刷卡'else '其他' end) as ShopType,a.ShopTime,a.IsDelete,b.UserNickName from Consumption a 
+                                         left join AUser b on a.UserId=b.UserId
+                                         where ElectronicId=@ElectronicId " + SqlWhereLike);
+            return SqlOpertion.Instance.GetQueryCount(sql, parmList);
         }
     }
 }

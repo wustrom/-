@@ -7,11 +7,9 @@ using System.Web.Mvc;
 using Common.LambdaOpertion;
 using Common;
 using System.IO;
-using DAL;
 using System.Data;
 using DbOpertion.Cache;
 using Common.Result;
-using DbOpertion.Sql_Linq;
 using GZRYVillageWeb.Request.MvcRequest.MemberCard;
 using Common.Mvc.Filter;
 
@@ -31,7 +29,6 @@ namespace GZRYVillageWeb.Controllers.MvcPageControllers
         {
               //调用对应的方法绑定下拉列表框
              //ViewBag:后台把数据传输到前台进行绑定
-             Member_SqlLinq s = new Member_SqlLinq();
            // ViewBag.memberType = new SelectList(s.DDLSelectCoupon(), "CouponId", "CouponName");
             return View();
         }

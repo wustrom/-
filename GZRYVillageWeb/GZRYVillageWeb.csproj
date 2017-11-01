@@ -16,7 +16,7 @@
     <RootNamespace>GZRYVillageWeb</RootNamespace>
     <AssemblyName>GZRYVillageWeb</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
-    <UseIISExpress>true</UseIISExpress>
+    <UseIISExpress>false</UseIISExpress>
     <IISExpressSSLPort />
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
@@ -24,6 +24,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -205,6 +206,7 @@
       <HintPath>..\packages\System.ComponentModel.TypeConverter.4.1.0\lib\net45\System.ComponentModel.TypeConverter.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Diagnostics.DiagnosticSource, Version=4.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Diagnostics.DiagnosticSource.4.0.0\lib\portable-net45+win8+wpa81\System.Diagnostics.DiagnosticSource.dll</HintPath>
@@ -222,16 +224,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Xml.Linq" />
     <Reference Include="WebActivator, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivator.1.5.1\lib\net40\WebActivator.dll</HintPath>
       <Private>True</Private>
@@ -320,6 +320,8 @@
     <Content Include="Content\js\list.js" />
     <Content Include="Content\js\Login\Index.js" />
     <Content Include="Content\js\MemberCard\Index.js" />
+    <Content Include="Content\js\MemberCouponRelation\Index.js" />
+    <Content Include="Content\js\MembershipLevel\Index.js" />
     <Content Include="Content\js\modal.js" />
     <Content Include="Content\js\Shade.js" />
     <Content Include="Content\js\theming.js" />
@@ -386,14 +388,16 @@
     <Compile Include="Controllers\MvcAjaxControllers\ElectronicCardAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\LoginAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\MemberCardAjaxController.cs" />
+    <Compile Include="Controllers\MvcAjaxControllers\MemberShipLevelAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\UserAjaxController.cs" />
     <Compile Include="Controllers\MvcPageControllers\CouponController.cs" />
     <Compile Include="Controllers\MvcPageControllers\ElectronicCardController.cs" />
     <Compile Include="Controllers\MvcPageControllers\LoginController.cs" />
     <Compile Include="Controllers\MvcPageControllers\MemberManageController.cs" />
+    <Compile Include="Controllers\MvcPageControllers\MemberShipLevelController.cs" />
     <Compile Include="Controllers\MvcPageControllers\UserController.cs" />
+    <Compile Include="Controllers\WebApiControllers\MyClubController.cs" />
     <Compile Include="Controllers\WebApiControllers\UserController.cs" />
-    <Compile Include="Controllers\WebApiControllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -403,24 +407,40 @@
     <Compile Include="Request\AjaxRequest\DataTable\CardDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\ConsumptionDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\ElectronicCardDataTableRequest.cs" />
+    <Compile Include="Request\AjaxRequest\DataTable\MemberCouponRelationDataTableRequest.cs" />
+    <Compile Include="Request\AjaxRequest\DataTable\MemberShipLevelDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\UserDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\ElectronicType\ElectronicTypeRequest.cs" />
     <Compile Include="Request\AjaxRequest\Login\LoginInRequest.cs" />
+    <Compile Include="Request\AjaxRequest\MembershipLevelIdRequest.cs" />
+    <Compile Include="Request\AjaxRequest\MembershipLevel\LevelAddContainsRequest.cs" />
+    <Compile Include="Request\AjaxRequest\MembershipLevel\LevelUpdateContainsRequest.cs" />
+    <Compile Include="Request\AjaxRequest\MembershipLevel\MemberLevelRequest.cs" />
     <Compile Include="Request\AjaxRequest\UserIdRequest.cs" />
     <Compile Include="Request\AjaxRequest\User\UserReqest.cs" />
+    <Compile Include="Request\ApiRequest\MemberShipCard\MemberCardRequest.cs" />
+    <Compile Include="Request\ApiRequest\MemberShipCard\MemberCardVaildRequest.cs" />
     <Compile Include="Request\ApiRequest\UserIdRequest.cs" />
     <Compile Include="Request\ApiRequest\UserTokenRequest.cs" />
+    <Compile Include="Request\ApiRequest\User\ForgotPasswordRequest.cs" />
     <Compile Include="Request\ApiRequest\User\MailRegisterRequest.cs" />
+    <Compile Include="Request\ApiRequest\User\ResetPhoneRequest.cs" />
     <Compile Include="Request\ApiRequest\User\SendEmailRequest.cs" />
     <Compile Include="Request\ApiRequest\User\UserLoginRequest.cs" />
+    <Compile Include="Request\ApiRequest\User\VerificationCodeRequest.cs" />
     <Compile Include="Request\MvcRequest\ElectronicCard\ElectronicCardType.cs" />
     <Compile Include="Request\MvcRequest\MemberCard\CardIdRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberCard\CouponIdRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberCard\MemberShipCardIdRequest.cs" />
+    <Compile Include="Request\MvcRequest\MemberCouponRelation\MemberCouponRelationRequest.cs" />
+    <Compile Include="Request\MvcRequest\MemberShipLevel\MemberShipLevelRequest.cs" />
     <Compile Include="Request\MvcRequest\User\UserIdRequest.cs" />
     <Compile Include="Response\AjaxResponse\Consumption\ConsumptionResponse.cs" />
     <Compile Include="Response\AjaxResponse\Login\LoginResponse.cs" />
     <Compile Include="Response\AjaxResponse\User\UserResponse.cs" />
+    <Compile Include="Response\ApiResponse\User\UserIdResponse.cs" />
+    <Compile Include="Response\ApiResponse\User\UserInfoResponse.cs" />
+    <Compile Include="Response\ApiResponse\User\UserTokenResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config" />
@@ -457,6 +477,8 @@
     <Content Include="Views\ElectronicCard\Index.cshtml" />
     <Content Include="Views\ElectronicCard\ElectronicCardView.cshtml" />
     <Content Include="Views\ElectronicCard\Consumption.cshtml" />
+    <Content Include="Views\MemberShipLevel\LevelIndex.cshtml" />
+    <Content Include="Views\MemberShipLevel\LevelCouponPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -468,7 +490,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Request\AjaxRequest\Consumption\" />
     <Folder Include="Request\ApiRequest\Login\" />
-    <Folder Include="Response\ApiResponse\User\" />
     <Folder Include="Response\MvcResponse\" />
   </ItemGroup>
   <ItemGroup>
@@ -479,10 +500,6 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{171867ec-fb1d-45f7-98e2-bea35da87664}</Project>
       <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DAL\DAL.csproj">
-      <Project>{9cef8f91-b6dd-45e6-aaab-2dce63bff422}</Project>
-      <Name>DAL</Name>
     </ProjectReference>
     <ProjectReference Include="..\DbOpertion\DbOpertion.csproj">
       <Project>{b2e33292-2722-4ff6-9e53-d63b0393e488}</Project>
@@ -507,7 +524,9 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>26681</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:8061/</IISUrl>
+          <IISUrl>http://localhost:8056</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost:8056/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

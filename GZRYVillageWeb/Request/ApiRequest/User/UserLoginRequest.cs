@@ -21,19 +21,5 @@ namespace GZRYVillageWeb.Request.ApiRequest
         /// 用户密码
         /// </summary>
         public string UserPassword { get; set; }
-
-        /// <summary>
-        /// 登录模式(PassWord,WeChat,Token)
-        /// </summary>
-        [limitString(Limit = "PassWord|WeChat|Token",ErrorMessage ="登入模式选择错误")]
-        public string TransMode { get; set; }
-        /// <summary>
-        /// 用户图片
-        /// </summary>
-        public string UserImage { get; set; }
-        /// <summary>
-        /// 用户性别
-        /// </summary>
-        public string UserSex { get; set; }
     }
 }

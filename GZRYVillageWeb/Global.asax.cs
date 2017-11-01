@@ -20,5 +20,21 @@ namespace GZRYVillageWeb
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
         }
+
+
+        /// <summary>
+        /// 初始化
+        /// </summary>
+        public override void Init()
+        {
+            PostAuthenticateRequest += MvcApplication_PostAuthenticateRequest;
+            base.Init();
+        }
+
+        void MvcApplication_PostAuthenticateRequest(object sender, EventArgs e)
+        {
+            HttpContext.Current.SetSessionStateBehavior(
+                SessionStateBehavior.Required);
+        }
     }
 }

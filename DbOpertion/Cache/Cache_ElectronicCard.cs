@@ -35,7 +35,7 @@ namespace DbOpertion.Cache
                 asc = false;
 
             }
-            var list = ElectronicCardOper.Instance.Get_ElectronicCardByTypeId(ElectronicTypeId, SearchKey, Key, start, pageSize);
+            var list = ElectronicCardOper.Instance.Get_ElectronicCardByTypeId(ElectronicTypeId, SearchKey, Key, start, pageSize, asc);
             var All_Count = ElectronicCardOper.Instance.SelectSearchCount(ElectronicTypeId, null);
             var Count = ElectronicCardOper.Instance.SelectSearchCount(ElectronicTypeId, SearchKey);
             return new Tuple<List<ElectronicCardInfo>, int, int>(list, All_Count, Count);

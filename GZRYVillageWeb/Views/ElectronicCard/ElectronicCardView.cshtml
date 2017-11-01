@@ -6,7 +6,7 @@
 
 @section TitleName{
     <li>电子储值卡管理</li>
-    <li class="active"><a href="../MemberManage/Index">添加新类型卡</a></li>
+    <li class="active"><a href="../ElectronicCard/Index">添加新类型卡</a></li>
     <li class="active">查看该类型已生成的卡片</li>
 }
 
@@ -50,7 +50,7 @@
                         <th data-data="CaerMoney">卡余额</th>
                         <th data-data="IsUser">是否使用</th>
                         <th data-data="ElectronicTypeId" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
-                        <th data-data="ElectronicTypeId" style="border-left:none;" data-orderable="false"></th>
+
                     </tr>
                 </thead>
             </table>
@@ -80,16 +80,9 @@
             },
             {
                 "targets": -1,
-                "width": "86px",
+                "width": "175px",
                 render: function (data, type, full, meta) {
-                    return '<a class="btn btn-sm btn-info" href="/MemberManage/Coupon?ElectronicTypeId=' + data + '">卡二维码</a>';
-                }
-            },
-            {
-                "targets": -2,
-                "width": "74px",
-                render: function (data, type, full, meta) {
-                    return '<a class="btn btn-sm btn-info" href="/ElectronicCard/Consumption?ElectronicId=' + data + '">卡消费记录</a>';
+                    return '<a class="btn btn-sm btn-info" href="/MemberManage/Coupon?ElectronicTypeId=' + data + '">卡二维码</a>' + '<a class="btn btn-sm btn-info" href="/ElectronicCard/Consumption?ElectronicId=' + data + '">卡消费记录</a>';
                 }
             }]
         });
@@ -97,7 +90,7 @@
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
-       
+
     });
 
 </script>

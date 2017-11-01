@@ -15,5 +15,6 @@ namespace GZRYVillageWeb.Request.AjaxRequest.DataTable
         /// 储值卡类型Id
         /// </summary>
         public int ElectronicTypeId { get; set; }
+        public string UserNickName { get; set; }
     }
 }

@@ -29,6 +29,19 @@ namespace DbOpertion.Operation
             return query.GetQueryList(connection, transaction);
         }
 
+
+        /// <summary>
+        /// 根据主键筛选数据
+        /// </summary>
+        /// <param name="KeyId">主键Id</param>
+        /// <returns>是否成功</returns>
+        public Store SelectById(int KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            var query = new LambdaQuery<Store>();
+            query.Where(p => p.StoreId == KeyId);
+            return query.GetQueryList(connection, transaction).FirstOrDefault();
+        }
+
         /// <summary>
         /// 根据分页筛选数据
         /// </summary>

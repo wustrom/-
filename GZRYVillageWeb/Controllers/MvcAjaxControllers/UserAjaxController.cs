@@ -135,5 +135,36 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
             }
             return Json(result, JsonRequestBehavior.AllowGet);
         }
+        /// <summary>
+        /// 添加用户信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [MvcAjaxModelValidate]
+        [MvcAjaxException]
+        public JsonResult Insert_UserInfo(UserReqest request)
+        {
+            TUser user = new TUser();
+            user.UserImage = request.UserImage;
+            user.UserName = request.UserName;
+            user.UserNickName = request.UserNickName;
+            user.UserPhone = request.UserPhone;
+            user.UserEmail = request.UserEmail;
+            user.ConsumptionTime = request.ConsumptionTime;
+            var InsertFlag = Cache_TUser.Instance.InsertUserInfo(user);
+            ResultJsonModel<TUser> result = new ResultJsonModel<TUser>();
+            if (!InsertFlag)
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.DataExitMessage.Enum_GetString();
+            }
+            else
+            {
+                result.HttpCode = 200;
+                result.Message = Enum_Message.DataInsertSuccessMessage.Enum_GetString();
+            }
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -11,6 +11,7 @@
     <AssemblyName>AliyunHelper</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,7 +38,7 @@
       <HintPath>C:\Users\Administrator\Downloads\net\api_sdk\aliyun-net-sdk-dysmsapi\bin\Debug\aliyun-net-sdk-dysmsapi.dll</HintPath>
     </Reference>
     <Reference Include="aliyun-net-sdk-sms">
-      <HintPath>..\..\..\..\GitHub\aliyun-openapi-net-sdk\aliyun-net-sdk-sms\bin\Debug\aliyun-net-sdk-sms.dll</HintPath>
+      <HintPath>dll\aliyun-net-sdk-sms.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />

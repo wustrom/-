@@ -9,8 +9,9 @@
 }
 
 @section js{
-    <script src="~/Content/js/User/Index.js"></script>
+    @*<script src="~/Content/js/User/Index.js"></script>*@
     <script src="~/Content/js/Shade.js"></script>
+    @*<script src="~/Content/js/User/Index.js"></script>*@
     <script src="~/Content/js/User/Index.js"></script>
 }
 
@@ -35,7 +36,7 @@
                     <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
                 </div>
                 <div class="col-lg-2 pull-left">
-                    <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess">
+                    <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
                         <i class="glyphicon glyphicon-plus"></i> 添加数据
                     </button>
                 </div>
@@ -114,11 +115,21 @@
                 }
             }]
         });
+        //添加用户信息
+        $("#Add_User").click(function () {
+            InsertUserInfo();
+        });
         //查询按钮
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
+        $("#insert").click(function () {
+            add();
+        });
+       
+        
     });
+    
 
 </script>
 
@@ -169,6 +180,58 @@
                 </li>
                 <li>
                     <input id="Modify_User" type="button" onclick="" value="修改用户信息" class="submitBtn" />
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<div class="box1">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <form action="" method="post" id="editForm">
+            <ul class="editInfos">
+                <li>
+                    <label>
+                        用户名称：<input type="text" id="UserName" value="" class="ipt" />
+                        <input type="hidden" id="UserName_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        用户昵称：<input type="text" id="UserNickName" value="" class="ipt" />
+                        <input type="hidden" id="UserNickName_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        用户手机：<input type="text" id="UserPhone" value="" class="ipt" />
+                        <input type="hidden" id="UserPhone_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        用户邮箱：<input type="text" id="UserEmail" value="" class="ipt" />
+                        <input type="hidden" id="UserEmail_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        用户头像：<img id="UserImage" />
+                        <input type="hidden" id="UserImage_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        购买次数：<input type="text" id="ConsumptionTime" value="" class="ipt" />
+                        <input type="hidden" id="ConsumptionTime_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <input id="Add_User" type="button" onclick="" value="新增用户信息" class="submitBtn" />
                 </li>
             </ul>
         </form>

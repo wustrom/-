@@ -22,7 +22,7 @@
 
 }
 
-<script type="text/javascript">
+@*<script type="text/javascript">
 
     //页面加载完成后显示
     $(function () {
@@ -72,7 +72,7 @@
         })
     }
 
-</script>
+</script>*@
 
 <section>
     <div class="row">
@@ -158,10 +158,16 @@
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
-        //添加按钮
+        //点击新增类型卡按钮，弹出窗体
         $("#insert").click(function () {
             add();
         });
+        //添加新类型卡
+        $("#Add_MemberCard").click(function () {
+
+            InsertMemberCard();
+        });
+        
     });
 
 </script>
@@ -172,7 +178,7 @@
         <div class="dialogTop">
             <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
         </div>
-        <form action="" method="post" id="AddForm">
+        <form action="" method="post" id="editForm">
             <ul class="editInfos">
                 <li>
                     <label>
@@ -183,23 +189,25 @@
                 <li>
                     <label>
                         卡片图案：
-                        @using (Ajax.BeginForm("AddMessages", "MenuInfo", new AjaxOptions { HttpMethod = "post", OnSuccess = "Successd" }, new { @id = "from1", enctype = "multipart/form-data" }))  //这里最好还是加上 enctype = "multipart/form-data" }
+                        @*@using (Ajax.BeginForm("AddMessages", "MenuInfo", new AjaxOptions { HttpMethod = "post", OnSuccess = "Successd" }, new { @id = "from1", enctype = "multipart/form-data" }))*@  @*//这里最好还是加上 enctype = "multipart/form-data" }
             {
                             <button id="btn_file">点击选择图片</button>
                             <input id="IconUrl" name="IconUrl">
                             <input type="file" id="files" name="files" style="display:none" value="点击选择图片" />
-                        }
+                        }*@
+                        <input type="text" id="MemberShipTypeId" value="" class="ipt" />
+                        <input type="hidden" id="MemberShipTypeId_Hidden" />
                     </label>
                 </li>
-                <li>
+                @*<li>
                     <label>
                         内含优惠券：
-                        @*@Html.DropDownList("CouponName", ViewBag.memberType as SelectList, "--请选择--")*@
-                        <input type="hidden" id="CouponName_Hidden" />
+                        @*@*@*@Html.DropDownList("CouponName", ViewBag.memberType as SelectList, "--请选择--")*@
+                        @*<input type="hidden" id="CouponName_Hidden" />*@
 
 
-                    </label>
-                </li>
+                    @*</label>
+                </li>*@*@*@*@
 
                 <li>
                     <input id="Add_MemberCard" type="button" onclick="" value="添加新类型卡" class="submitBtn" />
@@ -210,14 +218,14 @@
 </div>
 
 
-<script>
+@*<script>
     $(function () {
         $("#btn_file").click(function () {
             $("#files").trigger("click");
         });
     });
 
-</script>
+</script>*@
 
 
 

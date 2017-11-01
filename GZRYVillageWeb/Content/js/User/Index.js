@@ -4,32 +4,80 @@ var NotEditAlert;
 var PassWordAlert;
 var ErrorAlert;
 var SuccessAlert;
-//修改
+
+//$(function () {
+//    //点击添加数据按钮
+//    $("#insert").click(function () {
+//        className = $(this).attr('class');
+//        $('.box1 #dialogBg').fadeIn(300);
+//        $('.box1 #dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+//    })
+//})
+
+//新增用户信息
+function add() {
+    className = $(this).attr('class');
+    $('.box1 #dialogBg').fadeIn(300);
+    $('.box1 #dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+}
+function InsertUserInfo() {
+    var UserName = $('.box1 .editInfos #UserName').val();
+    var UserNickName = $('.box1 .editInfos #UserNickName').val();
+    var UserPhone = $('.box1 .editInfos #UserPhone').val();
+    var UserEmail = $('.box1 .editInfos #UserEmail').val();
+    var UserImage = $('.box1 .editInfos #UserImage').attr('src');
+    var ConsumptionTime = $('.box1 .editInfos #ConsumptionTime').val();
+    jQuery.axpost("UserAjax/Insert_UserInfo", "UserName:'" + UserName +
+                                          "',UserNickName:'" + UserNickName +
+                                          "',UserPhone:'" + UserPhone +
+                                          "',UserEmail:'" + UserEmail +
+                                          "',UserImage:'" + UserImage +
+                                          "',ConsumptionTime:'" + ConsumptionTime + "'"
+        , function (data) {
+            if (SuccessAlert) {
+                SuccessAlert.show();
+            }
+            else {
+                SuccessAlert = jqueryAlert({
+                    'content': '新增用户成功',
+                    'closeTime': 2000,
+
+                });
+            }
+            //添加数据成功后清空文本框内容
+            //$('.editInfos #CardName').val("");
+            //$('.editInfos #MemberShipTypeId').val("");
+            CloseDialog();
+            //调用 search 的点击事件的两种方法
+            $("#search").trigger("click");
+            return;
+        }, ErrorAlert);
+}
+
+//修改用户信息
 function modify(UserId) {
     jQuery.axpost("UserAjax/Get_User_ById", "UserId:'" + UserId + "'", function (data) {
         className = $(this).attr('class');
-        $('#dialogBg').fadeIn(300);
-        $('#dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
-        SetValue('.editInfos #UserName', data.Model1.UserName);
-        SetValue('.editInfos #UserNickName', data.Model1.UserNickName);
-        SetValue('.editInfos #UserPhone', data.Model1.UserPhone);
-        SetValue('.editInfos #UserEmail', data.Model1.UserEmail);
-        SetImgValue('.editInfos #UserImage', data.Model1.UserImage);
-        SetValue('.editInfos #ConsumptionTime', data.Model1.ConsumptionTime);
-        $('.editInfos #Modify_User').attr('onclick', 'modifyUserInfo(' + data.Model1.UserId + ')');
+        $('.box #dialogBg').fadeIn(300);
+        $('.box #dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+        SetValue('.box .editInfos #UserName', data.Model1.UserName);
+        SetValue('.box .editInfos #UserNickName', data.Model1.UserNickName);
+        SetValue('.box .editInfos #UserPhone', data.Model1.UserPhone);
+        SetValue('.box .editInfos #UserEmail', data.Model1.UserEmail);
+        SetImgValue('.box .editInfos #UserImage', data.Model1.UserImage);
+        SetValue('.box .editInfos #ConsumptionTime', data.Model1.ConsumptionTime);
+        $('.box .editInfos #Modify_User').attr('onclick', 'modifyUserInfo(' + data.Model1.UserId + ')');
         return;
     }, ErrorAlert);
 }
-
-
 function modifyUserInfo(UserId) {
-    var UserName = $('.editInfos #UserName').val();
-    var UserNickName = $('.editInfos #UserNickName').val();
-    var UserPhone = $('.editInfos #UserPhone').val();
-    var UserEmail = $('.editInfos #UserEmail').val();
-    var UserImage = $('.editInfos #UserImage').attr('src');
-    var ConsumptionTime = $('.editInfos #ConsumptionTime').val();
-    if (Compare('.editInfos #UserName') && Compare('.editInfos #UserNickName') && Compare('.editInfos #UserPhone') && Compare('.editInfos #UserEmail') && Compare('.editInfos #ConsumptionTime') && CompareImg('.editInfos #UserImage')) {
+    var UserName = $('.box .editInfos #UserName').val();
+    var UserNickName = $('.box .editInfos #UserNickName').val();
+    var UserPhone = $('.box .editInfos #UserPhone').val();
+    var UserEmail = $('.box .editInfos #UserEmail').val();
+    var UserImage = $('.box .editInfos #UserImage').attr('src');
+    var ConsumptionTime = $('.box .editInfos #ConsumptionTime').val();
+    if (Compare('.box .editInfos #UserName') && Compare('.box .editInfos #UserNickName') && Compare('.box .editInfos #UserPhone') && Compare('.box .editInfos #UserEmail') && Compare('.box .editInfos #ConsumptionTime') && CompareImg('.box .editInfos #UserImage')) {
         if (NotEditAlert) {
             NotEditAlert.show();
         }
@@ -67,8 +115,8 @@ function modifyUserInfo(UserId) {
 
 
 function CloseDialog() {
-    $('#dialogBg').fadeOut(300, function () {
-        $('#dialog').addClass('bounceOutUp').fadeOut();
+    $('.box #dialogBg').fadeOut(300, function () {
+        $('.box #dialog').addClass('bounceOutUp').fadeOut();
     });
 }
 

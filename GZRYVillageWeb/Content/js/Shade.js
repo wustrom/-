@@ -3,6 +3,7 @@ function getSrceenWH() {
     w = $(window).width();
     h = $(window).height();
     $('#dialogBg').width(w).height(h);
+   
 }
 
 window.onresize = function () {
@@ -13,17 +14,28 @@ $(window).resize();
 $(function () {
     getSrceenWH();
 
-    //123
     $('.box a').click(function () {
         className = $(this).attr('class');
-        $('#dialogBg').fadeIn(300);
-        $('#dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+        $('.box #dialogBg').fadeIn(300);
+        $('.box #dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+       
     });
-
-    //123
-    $('.claseDialogBtn').click(function () {
-        $('#dialogBg').fadeOut(300, function () {
-            $('#dialog').addClass('bounceOutUp').fadeOut();
+    $('.box .claseDialogBtn').click(function () {
+        $('.box #dialogBg').fadeOut(300, function () {
+            $('.box #dialog').addClass('bounceOutUp').fadeOut();
         });
+      
+    });
+    $('.box1 a').click(function () {
+        className = $(this).attr('class');
+        $('.box1 #dialogBg').fadeIn(300);
+        $('.box1 #dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+
+    });
+    $('.box1 .claseDialogBtn').click(function () {
+        $('.box1 #dialogBg').fadeOut(300, function () {
+            $('.box1 #dialog').addClass('bounceOutUp').fadeOut();
+        });
+
     });
 });

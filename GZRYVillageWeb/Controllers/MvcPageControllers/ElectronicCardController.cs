@@ -36,6 +36,7 @@ namespace GZRYVillageWeb.Controllers.MvcPageControllers
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
+        [UserLogin]
         public ActionResult Consumption(ElectronicCardType request)
         {
             ViewBag.ElectronicId = request.ElectronicId;

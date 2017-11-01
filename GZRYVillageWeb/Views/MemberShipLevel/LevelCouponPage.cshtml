@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Title = "LevelCouponPage";
+    Layout = "~/Views/Shared/LeftPartPage.cshtml";
+}
+@section TitleName{
+    <li>会员等级管理</li>
+    <li class="active"><a href="../MemberShipLevel/LevelIndex">各类会员等级</a></li>
+    <li class="active">等级优惠信息</li>
+}
+
+
+@section js{
+    <script src="~/Content/js/Shade.js"></script>
+    <script src="~/Content/js/MemberCouponRelation/Index.js"></script>
+}
+
+@section css{
+    <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/DataTable.css" rel="stylesheet" />
+    <link href="~/Content/css/Shade.css" rel="stylesheet" />
+
+}
+
+<input type="hidden" id="Hidden_MembershipLevelId" value="@ViewBag.MembershipLevelId" />
+<input type="hidden" id="Hidden_Search" />
+<section>
+    <div class="row">
+        <div style="width:100%">
+            <div class="form-group col-lg-12">
+                <div class="col-lg-2 pull-right">
+                    <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 搜 索</button>
+                    <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
+                </div>
+                <div class="col-lg-2 pull-left">
+                    <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
+                        <i class="glyphicon glyphicon-plus"></i> 添加数据
+                    </button>
+                </div>
+            </div>
+            <table id="MembershipLevel" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
+                <thead>
+                    <tr>
+                        <th data-data="CouponContainsId" data-visible="false">优惠信息Id</th>
+                        <th data-orderable="false">
+                            <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
+                                <input type="checkbox" id="checkbox-all" />
+                                <label for="checkbox-all"></label>
+                            </div>
+                        </th>
+                        <th data-orderable="false">序号</th>
+                        <th data-data="CouponContains" align="center">等级优惠内容</th>
+                        <th data-data="CouponContainsId" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function () {
+        var userTable = $('#MembershipLevel').dataTable({
+            "ajax": {
+                "url": "@Url.Action("Get_MemberCouponRelationById", "MemberShipLevelAjax")",
+                "data": function (data) {
+                    //添加额外的参数传给服务器
+                    data.SearchKey = $("#search-Input").val();
+                    data.MembershipLevelId = $("#Hidden_MembershipLevelId").val();
+                    return JSON.stringify(data);
+                }
+            },
+            "columnDefs": [
+            {
+                "targets": 1,
+                "width": "15px",
+                render: function (data, type, full, meta) {
+                    var num = meta.row + 1;
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + num + '" value="' + num + '" /><label for="checkbox-all-' + num + '"></label></div>';
+                }
+            },
+            {
+                "targets": 2,
+                "width": "50px",
+                render: function (data, type, full, meta) {
+                    var num = meta.row + 1;
+                    return num;
+                }
+            },
+            {
+                "targets": -1,
+                "width": "210px",
+                render: function (data, type, full, meta) {
+                    return '<a class="btn btn-sm btn-info" href="javascript:;" onclick="modify(' + data + ')">修改优惠内容</a>' + '<a class="btn btn-sm btn-info" href="javascript:;" onclick="deleteMemberContains(' + data + ')">删除优惠信息</a>'
+                }
+            }]
+        });
+        //查询按钮
+        $("#search").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //删除优惠信息成功后自动刷新
+        $("#Hidden_Search").click(function () {
+            userTable.api().ajax.reload();
+        });
+        $("#insert").click(function () {
+
+            add();
+        });
+        $("#Add_MemberCouponContains").click(function () {
+            var MembershipLevelId = $("#Hidden_MembershipLevelId").val();
+            InsertMemberCouponRelation(MembershipLevelId);
+        })
+
+    });
+
+</script>
+
+<div class="box1">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <form action="" method="post" id="editForm">
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tr>
+                    <td class="Label">
+                        等级Id：
+                        <input type="hidden" id="MembershipLevelId_Hidden" />
+                    </td>
+                    <td>
+                        <input type="text" id="MembershipLevelId" value="" class="ipt" disabled="disabled"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label Label_TextArea">
+                        优惠内容：
+                        <input type="hidden" id="CouponContains_Hidden" />
+                    </td>
+                    <td>
+                        <textarea id="CouponContains" placeholder="请填写优惠内容" class="ipt"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit">
+                        <input id="Modify_MemberShipLevel" type="button" onclick="" value="修改等级信息" class="submitBtn" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+<div class="box">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <form action="" method="post" id="editForm">
+            <ul class="editInfos">
+                <li>
+                    <label>
+                        优惠内容：<input type="text" id="CouponContains" value="" class="ipt" height="200" />
+                        <input type="hidden" id="CouponContains_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <input id="Add_MemberCouponContains" type="button" onclick="" value="新增优惠信息" class="submitBtn" />
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>

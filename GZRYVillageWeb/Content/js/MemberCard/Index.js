@@ -6,12 +6,44 @@ var DeleteSuccessAlert;
 var AddSuccessAlert;
 var DeleteAlert;
 var InsertAlert;
+var SuccessAlert;
 //新增新类型卡
 function add() {
     className = $(this).attr('class');
     $('#dialogBg').fadeIn(300);
     $('#dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
 }
+function InsertMemberCard() {
+    var CardName = $('.editInfos #CardName').val();
+    var MemberShipTypeId = $('.editInfos #MemberShipTypeId').val();
+    jQuery.axpost("MemberCardAjax/Add_MemberCard", "CardName:'" + CardName + "',MemberShipTypeId:'" + MemberShipTypeId + "'"
+        , function (data) {
+            if (SuccessAlert) {
+                SuccessAlert.show();
+            }
+            else {
+                SuccessAlert = jqueryAlert({
+                    'content': '新增会员卡成功',
+                    'closeTime': 2000,
+
+                });
+            }
+            //添加数据成功后清空文本框内容
+            $('.editInfos #CardName').val("");
+            $('.editInfos #MemberShipTypeId').val("");
+            CloseDialog();
+            //调用 search 的点击事件的两种方法
+            $("#search").trigger("click");
+            return;
+        }, ErrorAlert);
+}
+
+function CloseDialog() {
+    $('#dialogBg').fadeOut(300, function () {
+        $('#dialog').addClass('bounceOutUp').fadeOut();
+    });
+}
+
 //根据ID删除优惠券
 function deleteCoupon(MemberShipTypeId, CouponId) {
     var coupon = CouponId;

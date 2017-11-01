@@ -79,7 +79,7 @@
                 </div>
             </div>
         </li>
-
+        
         <li class="@RenderSection("Li_Message",required:false) panel panel-default dropdown">
             <a data-toggle="collapse" href="#dropdown-Message">
                 <span class="icon fa fa-comment"></span><span class="title">消息管理</span>
@@ -98,7 +98,22 @@
                 </div>
             </div>
         </li>
-
+        <li class="@RenderSection("Li_LevelManger",required:false) panel panel-default dropdown">
+            <a data-toggle="collapse" href="#dropdown-LevelManger">
+                <span class="icon glyphicon glyphicon-pawn"></span><span class="title">会员等级管理</span>
+            </a>
+            <!-- Dropdown level 1 -->
+            <div id="dropdown-LevelManger" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../MemberShipLevel/LevelIndex">各类会员等级</a>
+                        </li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </li>
         <li class="@RenderSection("Li_Electronic",required:false) panel panel-default dropdown">
             <a data-toggle="collapse" href="#dropdown-Electronic">
                 <span class="icon fa fa-credit-card"></span><span class="title">电子储存卡管理</span>
@@ -110,9 +125,7 @@
                         <li>
                             <a href="../ElectronicCard/Index">添加新类型卡</a>
                         </li>
-                        <li>
-                            <a href="../User/Index">已有卡片类型</a>
-                        </li>
+                        
                     </ul>
                 </div>
             </div>

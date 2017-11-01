@@ -28,11 +28,6 @@ $(function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data.HttpCode != 200) {
-                    if (ErrorAlert) {
-                        ErrorAlert.content(data.Message);
-                        ErrorAlert = data;
-                        return ErrorAlert.show();
-                    }
                     ErrorAlert = jqueryAlert({
                         'content': data.Message,
                         'closeTime': 3000,
@@ -43,11 +38,6 @@ $(function () {
                 }
             },
             error: function (e) {
-                if (ErrorAlert) {
-                    ErrorAlert.content('请求处理出错');
-                    ErrorAlert.content = '请求处理出错';
-                    return ErrorAlert.show();
-                }
                 ErrorAlert = jqueryAlert({
                     'content': '请求处理出错',
                     'closeTime': 3000,
@@ -72,11 +62,6 @@ $(function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data.HttpCode != 200) {
-                    if (ErrorAlert) {
-                        ErrorAlert.content(data.Message);
-                        ErrorAlert.content = data.Message;
-                        return ErrorAlert.show();
-                    }
                     ErrorAlert = jqueryAlert({
                         'content': data.Message,
                         'closeTime': 3000,
@@ -117,10 +102,6 @@ $(function () {
             contentType: "application/json; charset=utf-8",
             success: function (data) {
                 if (data.HttpCode != 200) {
-                    if (ErrorAlert) {
-                        ErrorAlert.content = data.Message;
-                        return ErrorAlert.show();
-                    }
                     ErrorAlert = jqueryAlert({
                         'content': data.Message,
                         'closeTime': 3000,
@@ -131,10 +112,6 @@ $(function () {
                 }
             },
             error: function (e) {
-                if (ErrorAlert) {
-                    ErrorAlert.content = '请求处理出错';
-                    return ErrorAlert.show();
-                }
                 ErrorAlert = jqueryAlert({
                     'content': '请求处理出错',
                     'closeTime': 3000,
@@ -142,7 +119,4 @@ $(function () {
             }
         });
     };
-
-
-
 });

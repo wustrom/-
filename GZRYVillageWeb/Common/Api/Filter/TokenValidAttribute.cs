@@ -1,5 +1,6 @@
 ﻿using Common.Enum_My;
 using Common.Result;
+using DbOpertion.Cache;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,23 +33,23 @@ namespace GZRYVillageWeb.Common.Api.Filter
             }
             if (value != null)
             {
-                //Token token = CacheForModel_User.Instance.GetUserToken(value.ToString());
-                //if (token != null)
-                //{
-                //    var usermodel = CacheForModel_User.Instance.GetUserInfo(token.Payload.UserID);
-                //    if (usermodel == null)
-                //    {
-                //        return false;
-                //    }
-                //    else
-                //    {
-                //        return true;
-                //    }
-                //}
-                //else
-                //{
-                //    return false;
-                //}
+                Token token = Cache_TUser.Instance.GetUserToken(value.ToString());
+                if (token != null)
+                {
+                    var usermodel = Cache_TUser.Instance.GetUserInfo(token);
+                    if (usermodel == null)
+                    {
+                        return false;
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
             }
             return true;
         }

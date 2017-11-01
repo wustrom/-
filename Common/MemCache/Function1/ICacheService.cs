@@ -86,6 +86,13 @@
         bool Modify(string key, object destObj);
 
         /// <summary>
+        /// 修改指定key的对象
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        bool Modify(string key, object destObj, int time);
+
+        /// <summary>
         /// 清空缓存
         /// </summary>
         /// <returns></returns>

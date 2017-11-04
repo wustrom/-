@@ -31,12 +31,12 @@ namespace DbOpertion.Cache
             {
                 var user = list.FirstOrDefault();
                 Token token = new Token();
-                token.Payload.exp = DateTime.Now.AddDays(30).ToLongDateString();
+                token.Payload.exp = DateTime.Now.AddDays(30).ToString("yyyy-MM-dd HH:mm:ss.fff");
                 token.Payload.UserID = user.UserId;
                 token.Payload.UserName = user.UserName;
                 var tokenString = token.GetToken();
                 //设置30天的用户Token
-                MemCacheHelper1.Instance.writer.Modify("UserToken_" + user.UserId, tokenString, 30 * 60 * 24);
+                MemCacheHelper1.Instance.writer.Modify("UserToken_" + user.UserId, tokenString, 30 * 60 * 24 - 50);
                 return tokenString;
             }
             else
@@ -74,7 +74,8 @@ namespace DbOpertion.Cache
         public Token GetUserToken(string tokenString)
         {
             Token token = new Token(tokenString);
-            string ExitTokenString = MemCacheHelper1.Instance.reader.Get<string>("UserToken_" + token.Payload.UserID);
+            var ExitToken = MemCacheHelper1.Instance.reader.Get("UserToken_" + token.Payload.UserID);
+            var ExitTokenString = ExitToken == null ? null : ExitToken.ToString();
             if (ExitTokenString == tokenString)
             {
                 return token;
@@ -158,6 +159,24 @@ namespace DbOpertion.Cache
             var flag = TUserOper.Instance.Update(UserInfo);
             return flag;
         }
+
+        /// <summary>
+        /// 更新用户信息
+        /// </summary>
+        /// <param name="UserId">用户Id</param>
+        /// <returns></returns>
+        public string UpdatePassword(TUser UserInfo, string OldPassword, string NewPassword)
+        {
+            string OldPassWordMd5 = MD5Helper.StrToMD5WithKey(OldPassword);
+            string NewPassWordMd5 = MD5Helper.StrToMD5WithKey(NewPassword);
+            if (OldPassWordMd5 == UserInfo.UserPassword)
+            {
+                UserInfo.UserPassword = NewPassWordMd5;
+                return TUserOper.Instance.Update(UserInfo).ToString().ToLower();
+            }
+            return "用户旧密码不正确";
+        }
+
         /// <summary>
         /// 插入用户信息
         /// </summary>

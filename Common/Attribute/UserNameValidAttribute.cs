@@ -22,8 +22,8 @@ namespace Common.Attribute
 
         public override bool IsValid(object value)
         {
-            this.ErrorMessage = "用户名验证失败";
-            if(AllowEmpty)
+            this.ErrorMessage = "用户名不能为空";
+            if (AllowEmpty)
             {
                 return false;
             }
@@ -33,8 +33,9 @@ namespace Common.Attribute
             }
             else
             {
-                if (value.ToString().Length < 6 || value.ToString().Length > 25)
+                if (value.ToString().Length > 25)
                 {
+                    this.ErrorMessage = "用户名不能超过25位";
                     return false;
                 }
                 //电信手机号码正则        
@@ -50,6 +51,7 @@ namespace Common.Attribute
                 Regex eReg = new Regex(Email);
                 if (dReg.IsMatch(value.ToString()) || tReg.IsMatch(value.ToString()) || yReg.IsMatch(value.ToString()) || eReg.IsMatch(value.ToString()))
                 {
+                    this.ErrorMessage = "用户名不能为手机号或邮箱号";
                     return false;
                 }
                 else

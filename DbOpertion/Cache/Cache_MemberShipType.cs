@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace DbOpertion.Cache
 {
-   public partial class Cache_MemberShipType: SingleTon<Cache_MemberShipType>
+    public partial class Cache_MemberShipType : SingleTon<Cache_MemberShipType>
     {
         /// <summary>
         /// 筛选全部会员类型卡
@@ -19,18 +19,10 @@ namespace DbOpertion.Cache
         /// <returns></returns>
         public List<MemberShipType> SelectAll()
         {
-            var List_MemberShipType = MemCacheHelper1.Instance.reader.Get<List<MemberShipType>>("List_MemberShipType");
-            if (List_MemberShipType == null || List_MemberShipType.Count == 0)
+            var List_MemberShipType = MemberShipTypeOper.Instance.SelectAll(null);
+            if (List_MemberShipType == null)
             {
-                List_MemberShipType = MemberShipTypeOper.Instance.SelectAll(null);
-                if (List_MemberShipType == null)
-                {
-                    List_MemberShipType = new List<MemberShipType>();
-                }
-            }
-            else
-            {
-                MemCacheHelper1.Instance.writer.Add("List_MemberShipType", List_MemberShipType);
+                List_MemberShipType = new List<MemberShipType>();
             }
             return List_MemberShipType;
         }
@@ -50,7 +42,7 @@ namespace DbOpertion.Cache
             }
             return MemberShipTypeOper.Instance.SelectByPage(searchKey, Key, PageNo, PageSize, order);
         }
-     
+
         /// <summary>
         /// 筛选会员卡类型数目
         /// </summary>

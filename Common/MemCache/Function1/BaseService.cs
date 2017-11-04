@@ -11,7 +11,6 @@ namespace Common.MemCache.EnyimCache
         static BaseService()
         {
             Client = new MemcachedClient();
-            Client.FlushAll();
         }
     }
 }

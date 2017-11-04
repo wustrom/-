@@ -28,7 +28,7 @@ namespace GZRYVillageWeb.Request.ApiRequest
         /// <summary>
         /// 用户密码
         /// </summary>
-        [PassWordValid(ErrorMessage = "密码少于6位或者出现特异字符必须数字和字母混合")]
+        [PassWordValid]
         public string PassWord { get; set; }
 
         /// <summary>
@@ -49,10 +49,5 @@ namespace GZRYVillageWeb.Request.ApiRequest
         [Required(ErrorMessage = "用户性别不能为空", AllowEmptyStrings = false)]
         public bool UserSex { get; set; }
 
-        /// <summary>
-        /// 是否活跃
-        /// </summary>
-        [BoolValid(ErrorMessage = "请上传是否活跃参数")]
-        public bool? Active { get; set; }
     }
 }

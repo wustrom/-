@@ -351,6 +351,7 @@
     <Content Include="Content\lib\js\jquery-3.2.1.slim.js" />
     <Content Include="Content\lib\js\jquery-3.2.1.slim.min.js" />
     <Content Include="Content\lib\js\jquery.dataTables.min.js" />
+    <Content Include="Content\lib\js\jquery.form.js" />
     <Content Include="Content\lib\js\jquery.matchHeight-min.js" />
     <Content Include="Content\lib\js\jquery.min.js" />
     <Content Include="Content\lib\js\select2.full.min.js" />
@@ -397,6 +398,7 @@
     <Compile Include="Controllers\MvcPageControllers\MemberShipLevelController.cs" />
     <Compile Include="Controllers\MvcPageControllers\UserController.cs" />
     <Compile Include="Controllers\WebApiControllers\MyClubController.cs" />
+    <Compile Include="Controllers\WebApiControllers\StoredCardController.cs" />
     <Compile Include="Controllers\WebApiControllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -418,12 +420,18 @@
     <Compile Include="Request\AjaxRequest\MembershipLevel\MemberLevelRequest.cs" />
     <Compile Include="Request\AjaxRequest\UserIdRequest.cs" />
     <Compile Include="Request\AjaxRequest\User\UserReqest.cs" />
-    <Compile Include="Request\ApiRequest\MemberShipCard\MemberCardRequest.cs" />
-    <Compile Include="Request\ApiRequest\MemberShipCard\MemberCardVaildRequest.cs" />
+    <Compile Include="Request\ApiRequest\MyClub\GetUserQRCodeRequest.cs" />
+    <Compile Include="Request\ApiRequest\MyClub\SetActiveCardRequest.cs" />
+    <Compile Include="Request\ApiRequest\MyClub\GetMyCardListRequest.cs" />
+    <Compile Include="Request\ApiRequest\MyClub\MemberCardRequest.cs" />
+    <Compile Include="Request\ApiRequest\MyClub\MemberCardVaildRequest.cs" />
+    <Compile Include="Request\ApiRequest\StoredCard\ForgotPasswordRequest.cs" />
     <Compile Include="Request\ApiRequest\UserIdRequest.cs" />
     <Compile Include="Request\ApiRequest\UserTokenRequest.cs" />
     <Compile Include="Request\ApiRequest\User\ForgotPasswordRequest.cs" />
     <Compile Include="Request\ApiRequest\User\MailRegisterRequest.cs" />
+    <Compile Include="Request\ApiRequest\User\ModifyPasswordRequest.cs" />
+    <Compile Include="Request\ApiRequest\User\ModifyUserInfoRequest.cs" />
     <Compile Include="Request\ApiRequest\User\ResetPhoneRequest.cs" />
     <Compile Include="Request\ApiRequest\User\SendEmailRequest.cs" />
     <Compile Include="Request\ApiRequest\User\UserLoginRequest.cs" />
@@ -438,6 +446,9 @@
     <Compile Include="Response\AjaxResponse\Consumption\ConsumptionResponse.cs" />
     <Compile Include="Response\AjaxResponse\Login\LoginResponse.cs" />
     <Compile Include="Response\AjaxResponse\User\UserResponse.cs" />
+    <Compile Include="Response\ApiResponse\MyClub\GetLevelListResponse.cs" />
+    <Compile Include="Response\ApiResponse\MyClub\GetMyCardResponse.cs" />
+    <Compile Include="Response\ApiResponse\MyClub\UserLevelResponse.cs" />
     <Compile Include="Response\ApiResponse\User\UserIdResponse.cs" />
     <Compile Include="Response\ApiResponse\User\UserInfoResponse.cs" />
     <Compile Include="Response\ApiResponse\User\UserTokenResponse.cs" />
@@ -479,6 +490,8 @@
     <Content Include="Views\ElectronicCard\Consumption.cshtml" />
     <Content Include="Views\MemberShipLevel\LevelIndex.cshtml" />
     <Content Include="Views\MemberShipLevel\LevelCouponPage.cshtml" />
+    <Content Include="Views\MemberManage\MemberView123.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -489,7 +502,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Request\AjaxRequest\Consumption\" />
-    <Folder Include="Request\ApiRequest\Login\" />
     <Folder Include="Response\MvcResponse\" />
   </ItemGroup>
   <ItemGroup>

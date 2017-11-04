@@ -67,6 +67,10 @@ namespace Common.Enum_My
         /// 当前名称已存在
         /// </summary>
         DataExitNameMessage=13,
+        /// <summary>
+        /// 数据修改成功
+        /// </summary>
+        DataChangeSuccessMessage = 20,
     }
 
     public static partial class GetString
@@ -109,7 +113,7 @@ namespace Common.Enum_My
                     result = "数据修改失败";
                     break;
                 case Enum_Message.PasswordInvalidMessage:
-                    result = "密码验证失败";
+                    result = "密码少于6位或者出现特异字符必须数字和字母混合";
                     break;
                 case Enum_Message.UserNameOrPasswordNotRightMessage:
                     result = "用户名或密码错误";
@@ -122,6 +126,9 @@ namespace Common.Enum_My
                     break;
                 case Enum_Message.DataExitNameMessage:
                     result = "当前名称已存在";
+                    break;
+                case Enum_Message.DataChangeSuccessMessage:
+                    result = "数据修改成功";
                     break;
                 default:
                     result = "";

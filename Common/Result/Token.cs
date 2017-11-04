@@ -58,6 +58,10 @@ namespace Common.Result
         /// <param name="tokenString">Token</param>
         public bool Validate(string tokenString)
         {
+            if (tokenString == null)
+            {
+                return false;
+            }
             string[] Token_Part = tokenString.Split('.');
             if (Token_Part.Count() != 3)
             {

@@ -1,0 +1,49 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section HeadCss{
+    <style type="text/css">
+        form {
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px 0;
+            width: 400px;
+            background: #EEE;
+        }
+    </style>
+}
+@section HeadScript{
+    <script src="~/Content/lib/js/jquery.form.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#btn_show").bind("click", function () {
+                $("#form_upload").show();
+                var options = {
+                    success: function (responseText, statusText, xhr, $form) {
+                        var picPath = responseText.pic;
+                        if (picPath == "") {
+                            alert(responseText.error);
+                        }
+                        else {
+                            $("#form_upload").hide();
+                            $("#result").attr("src", picPath).show();
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.log(textStatus);
+                        console.log(errorThrown);
+                    }
+                };
+
+                $("#form_upload").ajaxForm(options);
+            });
+        });
+    </script>
+}
+<input type="button" id="btn_show" value="上传图片" /><br />
+<form id="form_upload" style="padding:20px; display:none;" action="upload" method="post" enctype="multipart/form-data">
+    <input name="upImg" style="width:350px;height:25px;" size="38" type="file" /><input type="submit" value="上传" />
+</form>
+<img alt="" style="display:none;" id="result" src="" />

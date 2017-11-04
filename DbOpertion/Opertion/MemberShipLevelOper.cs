@@ -115,9 +115,17 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.LevelMax == membershiplevel.LevelMax);
             }
+            if (!membershiplevel.NeedThing.IsNullOrEmpty())
+            {
+                update.Set(p => p.NeedThing == membershiplevel.NeedThing);
+            }
             if (!membershiplevel.IsDelete.IsNullOrEmpty())
             {
                 update.Set(p => p.IsDelete == membershiplevel.IsDelete);
+            }
+            if (!membershiplevel.NextLevelId.IsNullOrEmpty())
+            {
+                update.Set(p => p.NextLevelId == membershiplevel.NextLevelId);
             }
             return update.GetUpdateResult(connection, transaction);
         }
@@ -142,9 +150,17 @@ namespace DbOpertion.Operation
             {
                 insert.Insert(p => p.LevelMax == membershiplevel.LevelMax);
             }
+            if (!membershiplevel.NeedThing.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.NeedThing == membershiplevel.NeedThing);
+            }
             if (!membershiplevel.IsDelete.IsNullOrEmpty())
             {
                 insert.Insert(p => p.IsDelete == membershiplevel.IsDelete);
+            }
+            if (!membershiplevel.NextLevelId.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.NextLevelId == membershiplevel.NextLevelId);
             }
             return insert.GetInsertResult(connection, transaction);
         }

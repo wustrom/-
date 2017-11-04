@@ -53,5 +53,18 @@ namespace DbOpertion.Operation
             query.Where(p => p.CardName == CardName && p.UserId == null);
             return query.GetQueryList(connection, transaction).FirstOrDefault();
         }
+
+        /// <summary>
+        /// 根据卡名筛选未使用的卡片
+        /// </summary>
+        /// <param name="UserID">用户Id</param>
+        /// <param name="CardName">卡名</param>
+        /// <returns></returns>
+        public List<MemberShipCard> SelectCardByUserId(int UserID, IDbConnection connection, IDbTransaction transaction)
+        {
+            var query = new LambdaQuery<MemberShipCard>();
+            query.Where(p => p.UserId == UserID);
+            return query.GetQueryList(connection, transaction);
+        }
     }
 }

@@ -17,6 +17,13 @@ namespace DbOpertion.Models
         ///
         /// </summary>
         public String CardImage { get; set; }
+        /// <summary>
+        /// 获取对应主键
+        /// </summary>
+        public string GetBuilderPrimaryKey()
+        {
+            return "MemberShipTypeId";
+        }
 
     }
 }

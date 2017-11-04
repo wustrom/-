@@ -111,9 +111,9 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.CardMoney == electronictype.CardMoney);
             }
-            if (!electronictype.CardName.IsNullOrEmpty())
+            if (!electronictype.CardTypeName.IsNullOrEmpty())
             {
-                update.Set(p => p.CardName == electronictype.CardName);
+                update.Set(p => p.CardTypeName == electronictype.CardTypeName);
             }
             return update.GetUpdateResult(connection, transaction);
         }
@@ -134,9 +134,9 @@ namespace DbOpertion.Operation
             {
                 insert.Insert(p => p.CardMoney == electronictype.CardMoney);
             }
-            if (!electronictype.CardName.IsNullOrEmpty())
+            if (!electronictype.CardTypeName.IsNullOrEmpty())
             {
-                insert.Insert(p => p.CardName == electronictype.CardName);
+                insert.Insert(p => p.CardTypeName == electronictype.CardTypeName);
             }
             return insert.GetInsertResult(connection, transaction);
         }

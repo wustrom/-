@@ -20,7 +20,7 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
-        public String CardName { get; set; }
+        public String CardTypeName { get; set; }
         /// <summary>
         /// 获取对应主键
         /// </summary>

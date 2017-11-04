@@ -38,6 +38,7 @@ namespace DbOpertion.Operation
         public MemberShipType SelectById(int KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             var query = new LambdaQuery<MemberShipType>();
+            query.Where(p => p.MemberShipTypeId == KeyId);
             return query.GetQueryList(connection, transaction).FirstOrDefault();
         }
 
@@ -86,6 +87,7 @@ namespace DbOpertion.Operation
         public bool DeleteById(int KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             var delete = new LambdaDelete<MemberShipType>();
+            delete.Where(p => p.MemberShipTypeId == KeyId);
             return delete.GetDeleteResult(connection, transaction);
         }
 
@@ -99,7 +101,7 @@ namespace DbOpertion.Operation
             var update = new LambdaUpdate<MemberShipType>();
             if (!membershiptype.MemberShipTypeId.IsNullOrEmpty())
             {
-                update.Set(p => p.MemberShipTypeId == membershiptype.MemberShipTypeId);
+                update.Where(p => p.MemberShipTypeId == membershiptype.MemberShipTypeId);
             }
             if (!membershiptype.CardName.IsNullOrEmpty())
             {
@@ -120,10 +122,6 @@ namespace DbOpertion.Operation
         public bool Insert(MemberShipType membershiptype, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             var insert = new LambdaInsert<MemberShipType>();
-            if (!membershiptype.MemberShipTypeId.IsNullOrEmpty())
-            {
-                insert.Insert(p => p.MemberShipTypeId == membershiptype.MemberShipTypeId);
-            }
             if (!membershiptype.CardName.IsNullOrEmpty())
             {
                 insert.Insert(p => p.CardName == membershiptype.CardName);

@@ -113,5 +113,39 @@ namespace GZRYVillageWeb.Controllers.MvcPageControllers
             return View();
         }
 
+
+        /// <summary>
+        /// 类型对应的会员卡页面
+        /// </summary>
+        /// <returns></returns>
+        [UserLogin]
+        public ActionResult MemberView123(MemberShipCardIdRequest request)
+        {
+            ViewBag.MemberShipTypeId = request.MemberShipTypeId;
+            return View();
+        }
+
+
+        [HttpPost]
+        public JsonResult Upload(HttpPostedFileBase upImg)
+        {
+            string fileName = System.IO.Path.GetFileName(upImg.FileName);
+            string filePhysicalPath = Server.MapPath("~/upload/" + fileName);
+            string pic = "", error = "";
+            try
+            {
+                upImg.SaveAs(filePhysicalPath);
+                pic = "/upload/" + fileName;
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+            return Json(new
+            {
+                pic = pic,
+                error = error
+            });
+        }
     }
 }

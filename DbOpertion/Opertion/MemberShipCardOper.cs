@@ -119,6 +119,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.UserId == membershipcard.UserId);
             }
+            if (!membershipcard.CreateDate.IsNullOrEmpty())
+            {
+                update.Set(p => p.CreateDate == membershipcard.CreateDate);
+            }
             if (!membershipcard.ReleaseDate.IsNullOrEmpty())
             {
                 update.Set(p => p.ReleaseDate == membershipcard.ReleaseDate);
@@ -157,6 +161,10 @@ namespace DbOpertion.Operation
             if (!membershipcard.UserId.IsNullOrEmpty())
             {
                 insert.Insert(p => p.UserId == membershipcard.UserId);
+            }
+            if (!membershipcard.CreateDate.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.CreateDate == membershipcard.CreateDate);
             }
             if (!membershipcard.ReleaseDate.IsNullOrEmpty())
             {

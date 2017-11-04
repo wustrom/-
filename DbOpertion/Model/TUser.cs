@@ -40,6 +40,18 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
+        public Int32? LevelScore { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
+        public DateTime? CreateTime { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
+        public Decimal? DiamondsMoney { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
         public Boolean? IsDelete { get; set; }
         /// <summary>
         ///

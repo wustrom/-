@@ -20,7 +20,12 @@ namespace GZRYVillageWeb.Request.ApiRequest
         /// <summary>
         /// 用户密码
         /// </summary>
-        [PassWordValid(ErrorMessage = "密码少于6位或者出现特异字符必须数字和字母混合")]
+        [PassWordValid]
         public string PassWord { get; set; }
+        /// <summary>
+        /// 验证码
+        /// </summary>
+        [Required(ErrorMessage = "验证码不能为空", AllowEmptyStrings = false)]
+        public string Code { get; set; }
     }
 }

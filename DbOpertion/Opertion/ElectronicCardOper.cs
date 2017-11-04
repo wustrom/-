@@ -103,6 +103,10 @@ namespace DbOpertion.Operation
             {
                 update.Where(p => p.ElectronicId == electroniccard.ElectronicId);
             }
+            if (!electroniccard.CardName.IsNullOrEmpty())
+            {
+                update.Set(p => p.CardName == electroniccard.CardName);
+            }
             if (!electroniccard.CardPassword.IsNullOrEmpty())
             {
                 update.Set(p => p.CardPassword == electroniccard.CardPassword);
@@ -138,6 +142,10 @@ namespace DbOpertion.Operation
         public bool Insert(ElectronicCard electroniccard, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             var insert = new LambdaInsert<ElectronicCard>();
+            if (!electroniccard.CardName.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.CardName == electroniccard.CardName);
+            }
             if (!electroniccard.CardPassword.IsNullOrEmpty())
             {
                 insert.Insert(p => p.CardPassword == electroniccard.CardPassword);

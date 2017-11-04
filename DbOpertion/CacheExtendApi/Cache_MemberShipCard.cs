@@ -24,7 +24,7 @@ namespace DbOpertion.Cache
         /// <param name="UserId">用户Id</param>
         /// <param name="CardName">卡名</param>
         /// <returns></returns>
-        public bool Bind_Card(string tokenString, string CardName, string CardPassword,bool Active)
+        public bool Bind_Card(string tokenString, string CardName, string CardPassword, bool Active)
         {
             var sqlHelper = SqlHelper.GetSqlServerHelper("transaction");
             var connection = sqlHelper.GetConnection();
@@ -108,6 +108,43 @@ namespace DbOpertion.Cache
                 }
             }
             return false;
+        }
+
+        /// <summary>
+        /// 筛选用户卡片列表
+        /// </summary>
+        /// <param name="UserID">用户Id</param>
+        /// <param name="IsActive">是否为活跃卡</param>
+        /// <returns></returns>
+        public List<MemberShipCard> SelectCardList(int UserID, bool IsActive)
+        {
+            var CardList = MemberShipCardOper.Instance.SelectCardByUserId(UserID, null, null);
+            var Active = ActiveOper.Instance.SelectByUserId(UserID);
+            if (Active != null)
+            {
+                List<MemberShipCard> ResultCardList;
+                if (IsActive)
+                {
+                    ResultCardList = CardList.Where(p => p.MemberShipCardId == Active.ActiveCardId).ToList();
+                }
+                else
+                {
+                    ResultCardList = CardList.Where(p => p.MemberShipCardId != Active.ActiveCardId).ToList();
+                }
+                return ResultCardList;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// 更新活跃卡片
+        /// </summary>
+        /// <param name="UserID">用户Id</param>
+        /// <param name="CardId">卡片Id</param>
+        /// <returns></returns>
+        public bool UpdateCard(int UserID, int CardId)
+        {
+            return ActiveOper.Instance.UpdateCardByUserId(UserID, CardId);
         }
     }
 }

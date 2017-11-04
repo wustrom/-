@@ -28,6 +28,10 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
+        public DateTime? CreateDate { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
         public DateTime? ReleaseDate { get; set; }
         /// <summary>
         ///

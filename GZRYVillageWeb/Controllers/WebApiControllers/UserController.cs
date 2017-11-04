@@ -4,6 +4,7 @@ using Common.Enum_My;
 using Common.Extend;
 using Common.Filter;
 using Common.Filter.WebApi;
+using Common.Helper;
 using Common.Result;
 using DbOpertion.Cache;
 using DbOpertion.Models;
@@ -11,6 +12,7 @@ using DbOpertion.Operation;
 using GZRYVillageWeb.Common.Api.Enum;
 using GZRYVillageWeb.Request.ApiRequest;
 using GZRYVillageWeb.Response.ApiResponse;
+using System;
 using System.Web;
 using System.Web.Http;
 using System.Web.SessionState;
@@ -147,7 +149,8 @@ namespace GZRYVillageWeb.Controllers
                         t_user.UserPhone = request.Phone;
                         t_user.UserPassword = request.PassWord;
                         t_user.Sex = request.UserSex;
-                        var user = Cache_TUser.Instance.InsertUserInfo(t_user, CardName, request.Active.Value);
+                        t_user.CreateTime = DateTime.Now;
+                        var user = Cache_TUser.Instance.InsertUserInfo(t_user, CardName, true);
                         if (user != null)
                         {
                             result.HttpCode = 200;
@@ -181,6 +184,14 @@ namespace GZRYVillageWeb.Controllers
             TUser MemUser = new TUser();
             MemUser.UserPhone = request.Phone;
             var users = Cache_TUser.Instance.SelectRepeat(request.Phone, null);
+            VerificationCodeRequest CodeRequest = new VerificationCodeRequest { Code = request.Code, Phone = request.Phone };
+            var CodeResonse = VerificationCode(CodeRequest);
+            if (CodeResonse.HttpCode != 200)
+            {
+                result.HttpCode = 300;
+                result.Message = CodeResonse.Message;
+                return result;
+            }
             if (users == null)
             {
                 result.HttpCode = 300;
@@ -188,8 +199,8 @@ namespace GZRYVillageWeb.Controllers
             }
             else
             {
+                users.UserPassword = MD5Helper.StrToMD5WithKey(request.PassWord);
                 users.UserPhone = request.Phone;
-                users.UserPassword = request.PassWord;
                 if (TUserOper.Instance.Update(users))
                 {
                     Cache_TUser.Instance.ClearMemberCode(request.Phone);
@@ -228,7 +239,6 @@ namespace GZRYVillageWeb.Controllers
                 }
                 else
                 {
-                    users.UserPhone = request.NewPhone;
                     if (TUserOper.Instance.Update(users))
                     {
                         Cache_TUser.Instance.ClearMemberCode(request.Phone);
@@ -241,6 +251,11 @@ namespace GZRYVillageWeb.Controllers
                         result.Message = "密码重置失败";
                     }
                 }
+            }
+            else
+            {
+                result.HttpCode = CodeResponse.HttpCode;
+                result.Message = CodeResponse.Message;
             }
             return result;
         }
@@ -312,19 +327,89 @@ namespace GZRYVillageWeb.Controllers
         public ResultJsonModel<UserInfoResponse> GetUserInfo(UserTokenRequest request)
         {
             ResultJsonModel<UserInfoResponse> result = new ResultJsonModel<UserInfoResponse>();
-            Token token = new Token(request.Token);
+            Token token = new Token(request.UserToken);
             var Tuser = Cache_TUser.Instance.GetUserInfo(token);
             if (Tuser == null)
             {
                 result.HttpCode = 300;
-                result.Message = Enum_Message.UserNotExitMessage.ToString();
+                result.Message = Enum_Message.UserNotExitMessage.Enum_GetString();
             }
             else
             {
                 UserInfoResponse response = new UserInfoResponse(Tuser);
                 result.HttpCode = 200;
-                result.Message = Enum_Message.SuccessMessage.ToString();
+                result.Message = Enum_Message.SuccessMessage.Enum_GetString();
                 result.Model1 = response;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 修改用户信息
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJsonModel ModifyUserInfo(ModifyUserInfoRequest request)
+        {
+            ResultJsonModel result = new ResultJsonModel();
+            Token token = new Token(request.UserToken);
+            TUser Tuser = new TUser();
+            Tuser.UserId = token.Payload.UserID;
+            Tuser.Sex = request.UserSex;
+            Tuser.UserNickName = request.UserNickName;
+            if (!Cache_TUser.Instance.UpdateUserInfo(Tuser))
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.DataNotSuccessMessage.Enum_GetString();
+            }
+            else
+            {
+                result.HttpCode = 200;
+                result.Message = Enum_Message.SuccessMessage.Enum_GetString();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 更改用户密码
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJsonModel ModifyPassword(ModifyPasswordRequest request)
+        {
+            ResultJsonModel result = new ResultJsonModel();
+            Token token = new Token(request.UserToken);
+            var Tuser = Cache_TUser.Instance.GetUserInfo(token);
+            if (Tuser == null)
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.UserNotExitMessage.Enum_GetString();
+            }
+            else
+            {
+                var Update_Result = Cache_TUser.Instance.UpdatePassword(Tuser, request.OldPassword, request.NewPassword);
+                if (Update_Result == "true")
+                {
+                    result.HttpCode = 200;
+                    result.Message = Enum_Message.SuccessMessage.Enum_GetString();
+                }
+                else if (Update_Result == "false")
+                {
+                    result.HttpCode = 300;
+                    result.Message = Enum_Message.DataNotSuccessMessage.Enum_GetString();
+                }
+                else
+                {
+                    result.HttpCode = 300;
+                    result.Message = Update_Result;
+                }
+
             }
             return result;
         }

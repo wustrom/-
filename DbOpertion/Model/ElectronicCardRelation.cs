@@ -20,6 +20,10 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
+        public DateTime? CreatTime { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
         public Boolean? IsDelete { get; set; }
         /// <summary>
         /// 获取对应主键

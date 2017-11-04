@@ -111,6 +111,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.UserId == electroniccardrelation.UserId);
             }
+            if (!electroniccardrelation.CreatTime.IsNullOrEmpty())
+            {
+                update.Set(p => p.CreatTime == electroniccardrelation.CreatTime);
+            }
             if (!electroniccardrelation.IsDelete.IsNullOrEmpty())
             {
                 update.Set(p => p.IsDelete == electroniccardrelation.IsDelete);
@@ -133,6 +137,10 @@ namespace DbOpertion.Operation
             if (!electroniccardrelation.UserId.IsNullOrEmpty())
             {
                 insert.Insert(p => p.UserId == electroniccardrelation.UserId);
+            }
+            if (!electroniccardrelation.CreatTime.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.CreatTime == electroniccardrelation.CreatTime);
             }
             if (!electroniccardrelation.IsDelete.IsNullOrEmpty())
             {

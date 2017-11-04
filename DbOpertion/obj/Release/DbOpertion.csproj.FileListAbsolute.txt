@@ -1,2 +1,0 @@
-E:\code\鸿鹄\WebApi\古早日月村\DbOpertion\obj\Release\DbOpertion.csprojResolveAssemblyReference.cache
-D:\Code\古早日月村\DbOpertion\obj\Release\DbOpertion.csprojResolveAssemblyReference.cache

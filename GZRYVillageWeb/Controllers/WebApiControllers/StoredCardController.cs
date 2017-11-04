@@ -47,6 +47,17 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
             return result;
         }
 
+        /// <summary>
+        /// 获得电子储值卡列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJson GetElecCardList(UserTokenRequest request)
+        {
+
+        }
 
     }
 }

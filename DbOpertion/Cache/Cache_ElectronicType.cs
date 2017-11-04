@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DbOpertion.Cache
 {
-   public partial class Cache_ElectronicType:SingleTon<Cache_ElectronicType>
+    public partial class Cache_ElectronicType : SingleTon<Cache_ElectronicType>
     {
         /// <summary>
         /// 筛选全部电子储值卡信息
@@ -28,7 +28,7 @@ namespace DbOpertion.Cache
             }
             return ElectronicTypeOper.Instance.SelectByPage(searchKey, Key, PageNo, PageSize, order);
         }
-      
+
         /// <summary>
         /// 筛选全部会员类型卡数目
         /// </summary>
@@ -53,10 +53,10 @@ namespace DbOpertion.Cache
         public bool Insert_ElectronicType(ElectronicType EleType)
         {
             ResultJson jsonresult = new ResultJson();
-            var list_Name =ElectronicTypeOper.Instance.SelectElectronicTypeByName(EleType.CardName);
+            var list_Name = ElectronicTypeOper.Instance.SelectElectronicTypeByName(null);
             if (list_Name.Count > 0)
             {
-              
+
                 return false;
             }
             else
@@ -64,7 +64,7 @@ namespace DbOpertion.Cache
                 var flag = ElectronicTypeOper.Instance.Insert(EleType);
                 return flag;
             }
-           
+
         }
     }
 }

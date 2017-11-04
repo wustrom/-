@@ -25,7 +25,7 @@ namespace DbOpertion.Operation
             var query = new LambdaQuery<ElectronicType>();
             if (!SearchKey.IsNullOrEmpty())
             {
-                query.Where(p => p.CardName.Contains(SearchKey) || p.CardMoney.Contains(SearchKey));
+                query.Where(p =>  p.CardMoney.Contains(SearchKey));
             }
             if (Key != null)
             {
@@ -45,7 +45,7 @@ namespace DbOpertion.Operation
             var query = new LambdaQuery<ElectronicType>();
             if (!SearchKey.IsNullOrEmpty())
             {
-                query.Where(p => p.CardName.Contains(SearchKey) || p.CardMoney.Contains(SearchKey));
+                query.Where(p => p.CardMoney.Contains(SearchKey));
 
             }
             if (Key != null)
@@ -64,7 +64,6 @@ namespace DbOpertion.Operation
         public List<ElectronicType> SelectElectronicTypeByName(string CardName)
         {
             var query = new LambdaQuery<ElectronicType>();
-            query.Where(p => p.CardName == CardName);
             return query.GetQueryList();
         }
     }

@@ -99,7 +99,6 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Insert_ElectronicType(ElectronicTypeRequest request)
         {
             ElectronicType ElcCardtype = new ElectronicType();
-            ElcCardtype.CardName = request.CardName;
             ElcCardtype.CardImage = request.CardImage;
             ElcCardtype.CardMoney = request.CardMoney;
             var InsertFlag = Cache_ElectronicType.Instance.Insert_ElectronicType(ElcCardtype);

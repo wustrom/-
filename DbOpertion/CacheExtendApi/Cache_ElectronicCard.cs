@@ -56,5 +56,15 @@ namespace DbOpertion.Cache
             return ElectronicCardOper.Instance.VaildCard(CardName, CardPassword, connection, transaction);
         }
 
+
+        public Tuple<List<ElectronicCardRelation>, List<ElectronicCard>, List<ElectronicType>> GetElectronicList(string UserToken)
+        {
+            Token token = new Token(UserToken);
+            List<ElectronicCardRelation> ListCardRelation = ElectronicCardRelationOper.Instance.SelectByUserId(token.Payload.UserID);
+            var ListCardId = ListCardRelation.Select(p => p.ElectronicCardId.Value).ToList();
+            var ListElecCard = ElectronicCardOper.Instance.SelectUserCard(ListCardId);
+            var ListElecType = ElectronicTypeOper.Instance.SelectAll(null);
+            return new Tuple<List<ElectronicCardRelation>, List<ElectronicCard>, List<ElectronicType>>(item1: ListCardRelation, item2: ListElecCard, item3: ListElecType);
+        }
     }
 }

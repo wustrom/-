@@ -50,11 +50,11 @@ namespace DbOpertion.Operation
         /// <param name="connection">连接</param>
         /// <param name="transaction">事务</param>
         /// <returns></returns>
-        public ElectronicCard SelectUserCard(List<int> CardList, IDbConnection connection = null, IDbTransaction transaction = null)
+        public List<ElectronicCard> SelectUserCard(List<int> CardList, IDbConnection connection = null, IDbTransaction transaction = null)
         {
             var query = new LambdaQuery<ElectronicCard>();
             query.Where(p => p.ElectronicId.ContainsIn(CardList));
-            return query.GetQueryList(connection, transaction).FirstOrDefault();
+            return query.GetQueryList(connection, transaction);
         }
 
 

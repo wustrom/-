@@ -56,7 +56,8 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
         [WebApiException]
         public ResultJson GetElecCardList(UserTokenRequest request)
         {
-
+            var CardResult = Cache_ElectronicCard.Instance.GetElectronicList(request.UserToken);
+            return null;
         }
 
     }

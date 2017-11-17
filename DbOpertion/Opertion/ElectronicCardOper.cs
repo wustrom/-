@@ -119,17 +119,17 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.ElectronicTypeId == electroniccard.ElectronicTypeId);
             }
-            if (!electroniccard.IsUser.IsNullOrEmpty())
+            if (!electroniccard.CardCreateDate.IsNullOrEmpty())
             {
-                update.Set(p => p.IsUser == electroniccard.IsUser);
+                update.Set(p => p.CardCreateDate == electroniccard.CardCreateDate);
+            }
+            if (!electroniccard.CardExpirationDay.IsNullOrEmpty())
+            {
+                update.Set(p => p.CardExpirationDay == electroniccard.CardExpirationDay);
             }
             if (!electroniccard.IsDelete.IsNullOrEmpty())
             {
                 update.Set(p => p.IsDelete == electroniccard.IsDelete);
-            }
-            if (!electroniccard.UserId.IsNullOrEmpty())
-            {
-                update.Set(p => p.UserId == electroniccard.UserId);
             }
             return update.GetUpdateResult(connection, transaction);
         }
@@ -158,17 +158,17 @@ namespace DbOpertion.Operation
             {
                 insert.Insert(p => p.ElectronicTypeId == electroniccard.ElectronicTypeId);
             }
-            if (!electroniccard.IsUser.IsNullOrEmpty())
+            if (!electroniccard.CardCreateDate.IsNullOrEmpty())
             {
-                insert.Insert(p => p.IsUser == electroniccard.IsUser);
+                insert.Insert(p => p.CardCreateDate == electroniccard.CardCreateDate);
+            }
+            if (!electroniccard.CardExpirationDay.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.CardExpirationDay == electroniccard.CardExpirationDay);
             }
             if (!electroniccard.IsDelete.IsNullOrEmpty())
             {
                 insert.Insert(p => p.IsDelete == electroniccard.IsDelete);
-            }
-            if (!electroniccard.UserId.IsNullOrEmpty())
-            {
-                insert.Insert(p => p.UserId == electroniccard.UserId);
             }
             return insert.GetInsertResult(connection, transaction);
         }

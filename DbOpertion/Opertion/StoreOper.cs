@@ -123,6 +123,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.IsDelete == store.IsDelete);
             }
+            if (!store.StoreName.IsNullOrEmpty())
+            {
+                update.Set(p => p.StoreName == store.StoreName);
+            }
             return update.GetUpdateResult(connection, transaction);
         }
 
@@ -153,6 +157,10 @@ namespace DbOpertion.Operation
             if (!store.IsDelete.IsNullOrEmpty())
             {
                 insert.Insert(p => p.IsDelete == store.IsDelete);
+            }
+            if (!store.StoreName.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.StoreName == store.StoreName);
             }
             return insert.GetInsertResult(connection, transaction);
         }

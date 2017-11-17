@@ -8,14 +8,21 @@ var SuccessAlert;
 function modify(MembershipLevelId) {
     jQuery.axpost("MemberShipLevelAjax/Get_MembershipLevel_ById", "MembershipLevelId:'" + MembershipLevelId + "'", function (data) {
         className = $(this).attr('class');
-        $('#dialogBg').fadeIn(500);
-        $('#dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
-       SetValue('.editInfos #LevelName', data.Model1.LevelName);
-       SetValue('.editInfos #LevelMin', data.Model1.LevelMin);
-       SetValue('.editInfos #LevelMax', data.Model1.LevelMax);
-       $('.editInfos #Modify_MemberShipLevel').attr('onclick', 'modifyLevelInfo(' + data.Model1.MembershipLevelId + ')');
+        $('.box #dialogBg').fadeIn(500);
+        $('.box #dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
+        SetValue('.box .editInfos #LevelName', data.Model1.LevelName);
+        SetValue('.box .editInfos #LevelMin', data.Model1.LevelMin);
+        SetValue('.box .editInfos #LevelMax', data.Model1.LevelMax);
+        $('.box .editInfos #Modify_MemberShipLevel').attr('onclick', 'modifyLevelInfo(' + data.Model1.MembershipLevelId + ')');
         return;
     }, ErrorAlert);
+}
+
+//修改
+function LevelCouponInfo(MembershipLevelId) {
+    className = $(this).attr('class');
+    $('.box1 #dialogBg').fadeIn(500);
+    $('.box1 #dialog').removeAttr('class').addClass('animated ' + className + '').fadeIn();
 }
 
 function modifyLevelInfo(MembershipLevelId) {

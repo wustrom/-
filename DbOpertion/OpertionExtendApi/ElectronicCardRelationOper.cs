@@ -52,6 +52,7 @@ namespace DbOpertion.Operation
         /// <returns>是否成功</returns>
         public bool SetUserRelation(int UserID, int ElectronicCardId, IDbConnection connection = null, IDbTransaction transaction = null)
         {
+            
             var date = DateTime.Now;
             var insert = new LambdaInsert<ElectronicCardRelation>();
             insert.Insert(p => p.UserId == UserID && p.ElectronicCardId == ElectronicCardId && p.CreatTime == date);

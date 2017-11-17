@@ -28,15 +28,15 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
-        public Boolean? IsUser { get; set; }
+        public DateTime? CardCreateDate { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
+        public DateTime? CardExpirationDay { get; set; }
         /// <summary>
         ///
         /// </summary>
         public Boolean? IsDelete { get; set; }
-        /// <summary>
-        ///
-        /// </summary>
-        public Int32? UserId { get; set; }
         /// <summary>
         /// 获取对应主键
         /// </summary>

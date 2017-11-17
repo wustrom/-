@@ -58,20 +58,6 @@ namespace DbOpertion.Operation
         }
 
         /// <summary>
-        /// 全部数据条数
-        /// </summary>
-        ///  <param name="Key">主键</param>
-        ///  <param name="SearchKey">搜索主键</param>
-        ///  <param name="desc">排序</param>
-        /// <returns>对象列表</returns>
-        //public int SelectAllCount(int UserId)
-        //{
-        //    var query = new LambdaQuery<CouponUserRelation>();
-        //    query.Where(p => p.UserId == UserId);
-        //    return query.GetQueryCount();
-        //}
-
-        /// <summary>
         /// 筛选后的数据条数
         /// </summary>
         ///  <param name="Key">主键</param>

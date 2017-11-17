@@ -47,6 +47,21 @@ namespace Common.LambdaOpertion
         }
 
         /// <summary>
+        /// 获得列表
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="Sql"></param>
+        /// <param name="List_Para"></param>
+        /// <returns></returns>
+        public List<T> GetQueryList<T>(string Sql, List<SqlParameter> List_Para) where T : class, new()
+        {
+            string sql = string.Format(@"select * from (" + Sql + ")t");
+            var sqlHelper = SqlHelper.GetSqlServerHelper(Linq);
+            return sqlHelper.ExecuteReader(sql, List_Para.ToArray()).ConvertToList<T>();
+        }
+
+
+        /// <summary>
         /// Sql语句分页
         /// </summary>
         /// <typeparam name="T"></typeparam>

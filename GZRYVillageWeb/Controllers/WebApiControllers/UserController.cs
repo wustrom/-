@@ -413,5 +413,33 @@ namespace GZRYVillageWeb.Controllers
             }
             return result;
         }
+
+        /// <summary>
+        /// 用户二维码
+        /// </summary>
+        /// <param name="request">请求</param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJsonModel<string> QRCode(UserTokenRequest request)
+        {
+            ResultJsonModel<string> result = new ResultJsonModel<string>();
+            if (request != null)
+            {
+                Token token = new Token(request.UserToken);
+                var str = "UserId:" + token.Payload.UserID + ";ElecCard:5000;Time:" + DateTime.Now.ToString() + ";";
+                result.HttpCode = 200;
+                result.Message = Enum_Message.SuccessMessage.Enum_GetString();
+                //result.Model1 = "UserId:121;Card:211;Token:37B25378CD102A5C";
+                result.Model1 = EncryptionHelper.Instance.DESEncrypt(str);
+            }
+            else
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.NoMoreDataMessage.Enum_GetString();
+            }
+            return result;
+        }
     }
 }

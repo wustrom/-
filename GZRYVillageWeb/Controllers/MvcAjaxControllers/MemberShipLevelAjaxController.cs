@@ -48,7 +48,7 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Get_MemberCouponRelationById(MemberCouponRelationDataTableRequest param)
         {
             var List_MemberCouponRelationById = Cache_MemberCouponRelation.Instance.SelectMemberCouponRelationList(param.MembershipLevelId, param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
-            DataTableResponse<MemberCouponRelation> Parameter_MemberCouponRelation = new DataTableResponse<MemberCouponRelation>();
+            DataTableResponse<MemberLevelRelation> Parameter_MemberCouponRelation = new DataTableResponse<MemberLevelRelation>();
             Parameter_MemberCouponRelation.draw = param.Draw;
             Parameter_MemberCouponRelation.data = List_MemberCouponRelationById.Item1;
             Parameter_MemberCouponRelation.recordsTotal = List_MemberCouponRelationById.Item2;
@@ -126,7 +126,7 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Get_MemberCouponRelationInfo(MemberCouponRelationRequest request)
         {
             var MemRelation = Cache_MemberCouponRelation.Instance.GetMemberCouponRelationInfo(request.CouponContainsId);
-            ResultJsonModel<MemberCouponRelation> result = new ResultJsonModel<MemberCouponRelation>();
+            ResultJsonModel<MemberLevelRelation> result = new ResultJsonModel<MemberLevelRelation>();
             if (MemRelation == null)
             {
                 result.HttpCode = 300;
@@ -150,11 +150,11 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         [MvcAjaxException]
         public JsonResult Update_MemberCouponRelationInfo(LevelUpdateContainsRequest request)
         {
-            MemberCouponRelation MemRelation = new MemberCouponRelation();
+            MemberLevelRelation MemRelation = new MemberLevelRelation();
             MemRelation.CouponContains = request.CouponContains;
             MemRelation.CouponContainsId = request.CouponContainsId;
             var update = Cache_MemberCouponRelation.Instance.update_MemberCouponRelationInfo(MemRelation);
-            ResultJsonModel<MemberCouponRelation> result = new ResultJsonModel<MemberCouponRelation>();
+            ResultJsonModel<MemberLevelRelation> result = new ResultJsonModel<MemberLevelRelation>();
             if (!update)
             {
                 result.HttpCode = 300;
@@ -203,11 +203,11 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         [MvcAjaxException]
         public JsonResult Insert_MemberCouponRelation(LevelAddContainsRequest request)
         {
-            MemberCouponRelation MemRelation = new MemberCouponRelation();
+            MemberLevelRelation MemRelation = new MemberLevelRelation();
             MemRelation.CouponContains = request.CouponContains;
             MemRelation.MembershipLevelId = request.MembershipLevelId;
             var InsertFlag = Cache_MemberCouponRelation.Instance.Insert_MemberCouponRelation(MemRelation);
-            ResultJsonModel<MemberCouponRelation> result = new ResultJsonModel<MemberCouponRelation>();
+            ResultJsonModel<MemberLevelRelation> result = new ResultJsonModel<MemberLevelRelation>();
             if (!InsertFlag)
             {
                 result.HttpCode = 300;
@@ -218,7 +218,6 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
                 result.HttpCode = 200;
                 result.Message = Enum_Message.SuccessMessage.Enum_GetString();
             }
-
             return Json(result, JsonRequestBehavior.AllowGet);
 
         }

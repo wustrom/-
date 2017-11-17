@@ -16,7 +16,9 @@ namespace Common.Filter.WebApi
         {
             ResultJson resultJson = new ResultJson();
             resultJson.HttpCode = 600;
-            resultJson.Message = actionExecutedContext.Exception.Message;
+            //信息
+            //resultJson.Message = actionExecutedContext.Exception.Message;
+            resultJson.Message = "程序出现错误，请联系管理员！";
             actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(System.Net.HttpStatusCode.OK, resultJson);
             base.OnException(actionExecutedContext);
         }

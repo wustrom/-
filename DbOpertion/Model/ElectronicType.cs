@@ -22,6 +22,10 @@ namespace DbOpertion.Models
         /// </summary>
         public String CardTypeName { get; set; }
         /// <summary>
+        ///
+        /// </summary>
+        public Int32? CardExpirationMonth { get; set; }
+        /// <summary>
         /// 获取对应主键
         /// </summary>
         public string GetBuilderPrimaryKey()

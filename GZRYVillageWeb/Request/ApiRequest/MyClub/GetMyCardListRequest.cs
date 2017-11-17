@@ -16,5 +16,10 @@ namespace GZRYVillageWeb.Request.ApiRequest
         /// </summary>
         [BoolValid]
         public bool Active { get; set; }
+
+        /// <summary>
+        /// 路由
+        /// </summary>
+        public string Host { get; set; }
     }
 }

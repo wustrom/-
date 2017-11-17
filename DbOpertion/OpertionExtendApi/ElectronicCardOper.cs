@@ -57,6 +57,35 @@ namespace DbOpertion.Operation
             return query.GetQueryList(connection, transaction);
         }
 
+        /// <summary>
+        /// 激活卡片
+        /// </summary>
+        /// <param name="CardName">卡名</param>
+        /// <param name="CardPassword">卡密码</param>
+        /// <param name="connection">连接</param>
+        /// <param name="transaction">事务</param>
+        /// <returns></returns>
+        public bool ActivateCard(string CardName, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            var query = new LambdaQuery<ElectronicCard>();
+            query.Where(p => p.CardName == CardName);
+            var Card = query.GetQueryList(connection, transaction).FirstOrDefault();
+            if (Card != null)
+            {
+                var queryType = new LambdaQuery<ElectronicType>();
+                queryType.Where(p => p.ElectronicTypeId == Card.ElectronicTypeId);
+                var CardType = queryType.GetQueryList(connection, transaction).FirstOrDefault();
+                if (CardType != null)
+                {
+                    Card.CardExpirationDay = DateTime.Now.AddMonths(CardType.CardExpirationMonth.Value).Date.AddHours(23).AddMinutes(59).AddMilliseconds(59);
+                    if (Insert(Card, connection, transaction))
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
 
     }
 }

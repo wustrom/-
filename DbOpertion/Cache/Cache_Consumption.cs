@@ -22,6 +22,7 @@ namespace DbOpertion.Cache
         /// <returns></returns>
         public List<Consumption> Consuption_List(int UserId, string searchKey, string Key, int Start, int PageSize, DataTablesOrderDir? desc)
         {
+            
             return ConsumptionOper.Instance.SelectPageByUserId(UserId, searchKey, Key, Start, PageSize);
         }
 
@@ -44,6 +45,7 @@ namespace DbOpertion.Cache
             }
             return ConsumptionOper.Instance.SelectByUserIdCount(UserId, SearchKey, Key, order);
         }
+
         /// <summary>
         /// 根据电子储值卡Id查找对应用户的消费记录
         /// </summary>
@@ -70,5 +72,7 @@ namespace DbOpertion.Cache
             var count = ConsumptionOper.Instance.SelectConsumptionCount1(ElectronicId, SearchKey);
             return new Tuple<List<ConsumptionInfo>, int, int>(Consumption_List, All_Count, count);
         }
+
+
     }
 }

@@ -127,6 +127,12 @@
             add();
         });
        
+        $("#search-Input").keydown(function () {
+            if (event.keyCode == "13") {//keyCode=13是回车键
+                alert(123);
+            }
+        });
+        //--------回车提交事件完毕---------------------//
         
     });
     

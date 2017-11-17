@@ -23,9 +23,9 @@ namespace DbOpertion.Operation
         /// <param name="PageSize">页面长度</param>
         /// <param name="desc">排序</param>
         /// <returns></returns>
-        public List<MemberCouponRelation> SelectMemberCouponRelationList(int MembershipLevelId, string SearchKey, string Key, int start, int PageSize, bool desc = true)
+        public List<MemberLevelRelation> SelectMemberCouponRelationList(int MembershipLevelId, string SearchKey, string Key, int start, int PageSize, bool desc = true)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             query.Where(p => p.MembershipLevelId == MembershipLevelId);
             if (Key != null)
             {
@@ -46,7 +46,7 @@ namespace DbOpertion.Operation
         /// <returns></returns>
         public int SelectMemCouponRelationListCount(int MembershipLevelId, string SearchKey)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             query.Where(p => p.MembershipLevelId == MembershipLevelId);
             if (!SearchKey.IsNullOrEmpty())
             {
@@ -59,9 +59,9 @@ namespace DbOpertion.Operation
         /// </summary>
         /// <param name="MembershipLevelId"></param>
         /// <returns></returns>
-        public List<MemberCouponRelation> SelectById(int CouponContainsId)
+        public List<MemberLevelRelation> SelectById(int CouponContainsId)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             query.Where(p => p.CouponContainsId == CouponContainsId);
             return query.GetQueryList();
         }
@@ -72,7 +72,7 @@ namespace DbOpertion.Operation
         /// <returns></returns>
         public bool Delete_MemberCouponRelatioById(int CouponContainsId)
         {
-            var delete = new LambdaDelete<MemberCouponRelation>();
+            var delete = new LambdaDelete<MemberLevelRelation>();
             delete.Where(p => p.CouponContainsId == CouponContainsId);
             return delete.GetDeleteResult();
 
@@ -82,9 +82,9 @@ namespace DbOpertion.Operation
         /// </summary>
         /// <param name="CouponContains"></param>
         /// <returns></returns>
-        public List<MemberCouponRelation> Chenk_MemberCouponRelation(string CouponContains)
+        public List<MemberLevelRelation> Chenk_MemberCouponRelation(string CouponContains)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             query.Where(p => p.CouponContains == CouponContains);
             return query.GetQueryList();
         }

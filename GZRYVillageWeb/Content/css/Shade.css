@@ -1,7 +1,7 @@
 ﻿@CHARSET "UTF-8";
 
 body {
-    font: .85em/1.4 "微软雅黑","Microsoft Yahei",'Arial','san-serif';
+    /*font: .85em/1.4 "微软雅黑","Microsoft Yahei",'Arial','san-serif';*/
     color: #666;
     margin: 0;
     padding: 0;
@@ -32,10 +32,6 @@ ul, p {
 h1, h2, h3, h4, h5, h6 {
     margin: 0;
     font-weight: 100;
-}
-
-ul, li {
-    list-style: none;
 }
 
 a {
@@ -371,7 +367,7 @@ header {
 }
 
 .dialogTop {
-    width: 90%;
+    width: 94%;
     margin: 0 auto;
     border-bottom: 1px dotted #ccc;
     letter-spacing: 1px;
@@ -448,33 +444,62 @@ header {
     margin: 8px auto 8px auto;
 }
 
-#editForm table tr td {
-    padding-top: 5px;
-    padding-bottom: 5px;
+    #editForm table tr td {
+        padding-top: 5px;
+        padding-bottom: 5px;
+    }
+
+    #editForm table .Label {
+        float: right;
+        display: inline-block;
+        max-width: 100%;
+        font-weight: 700;
+        padding-top: 11px;
+        padding-right: 5px;
+    }
+
+    #editForm table .Label_TextArea {
+        padding-top: 5px;
+    }
+
+    #editForm table textarea {
+        resize: none;
+        width: 143px;
+    }
+
+    #editForm table .submit {
+        text-align: center;
+    }
+
+        #editForm table .submit .submitBtn {
+            margin-top: -5px;
+        }
+
+.animated .editInfos ul,.animated .editInfos li {
+    list-style: none;
 }
 
-#editForm table .Label {
-    float: right;
-    display: inline-block;
-    max-width: 100%;
-    font-weight: 700;
-    padding-top: 11px;
-    padding-right: 5px;
+.box_Editor #dialog .submitBtn {
+    margin-bottom: 10px;
 }
 
-#editForm table .Label_TextArea {
-    padding-top: 5px;
+.row .form-group .col-lg-2 {
+    min-width: 266px;
 }
 
-#editForm table textarea {
-    resize: none;
-    width: 143px;
+.box_Editor #dialog {
+    width: 820px;
+    left: 35%;
+    top: 40%;
 }
 
-#editForm table .submit {
-    text-align: center;
+.box_Editor .Editor_Content {
+    text-align: left;
+    margin-left: 3%;
+    margin-right: 3%;
 }
 
-#editForm table .submit .submitBtn {
-    margin-top: -5px;
+#divDemo .w-e-text {
+    color: white;
+    background: black;
 }

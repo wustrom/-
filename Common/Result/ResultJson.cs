@@ -141,7 +141,7 @@ namespace Common.Result
         public string Message { get; set; }
     }
 
-    public class ResultJsonModel<T1> 
+    public class ResultJsonModel<T1>
     {
         /// <summary>
         /// 编码
@@ -157,7 +157,7 @@ namespace Common.Result
         public T1 Model1 { get; set; }
     }
 
-    public class ResultJsonModel<T1, T2> 
+    public class ResultJsonModel<T1, T2>
     {
         /// <summary>
         /// 编码
@@ -227,5 +227,73 @@ namespace Common.Result
         /// 模型4
         /// </summary>
         public T4 Model4 { get; set; }
+    }
+
+    public class ResultJsonModel<T1, T2, T3, T4, T5>
+    {
+        /// <summary>
+        /// 编码
+        /// </summary>
+        public int HttpCode { get; set; }
+        /// <summary>
+        /// 信息
+        /// </summary>
+        public string Message { get; set; }
+        /// <summary>
+        /// 模型1
+        /// </summary>
+        public T1 Model1 { get; set; }
+        /// <summary>
+        /// 模型2
+        /// </summary>
+        public T2 Model2 { get; set; }
+        /// <summary>
+        /// 模型3
+        /// </summary>
+        public T3 Model3 { get; set; }
+        /// <summary>
+        /// 模型4
+        /// </summary>
+        public T4 Model4 { get; set; }
+        /// <summary>
+        /// 模型5
+        /// </summary>
+        public T5 Model5 { get; set; }
+    }
+
+    public class ResultJsonModel<T1, T2, T3, T4, T5,T6>
+    {
+        /// <summary>
+        /// 编码
+        /// </summary>
+        public int HttpCode { get; set; }
+        /// <summary>
+        /// 信息
+        /// </summary>
+        public string Message { get; set; }
+        /// <summary>
+        /// 模型1
+        /// </summary>
+        public T1 Model1 { get; set; }
+        /// <summary>
+        /// 模型2
+        /// </summary>
+        public T2 Model2 { get; set; }
+        /// <summary>
+        /// 模型3
+        /// </summary>
+        public T3 Model3 { get; set; }
+        /// <summary>
+        /// 模型4
+        /// </summary>
+        public T4 Model4 { get; set; }
+        /// <summary>
+        /// 模型5
+        /// </summary>
+        public T5 Model5 { get; set; }
+        /// <summary>
+        /// 模型6
+        /// </summary>
+        public T6 Model6 { get; set; }
     }
 }

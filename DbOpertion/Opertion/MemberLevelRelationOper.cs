@@ -11,7 +11,7 @@ using DbOpertion.Models;
 
 namespace DbOpertion.Operation
 {
-    public partial class MemberCouponRelationOper : SingleTon<MemberCouponRelationOper>
+    public partial class MemberLevelRelationOper : SingleTon<MemberLevelRelationOper>
     {
         /// <summary>
         /// 筛选全部数据
@@ -19,9 +19,9 @@ namespace DbOpertion.Operation
         ///  <param name="Key">主键</param>
         ///  <param name="desc">排序</param>
         /// <returns>对象列表</returns>
-        public List<MemberCouponRelation> SelectAll(string Key, bool desc = true, IDbConnection connection = null, IDbTransaction transaction = null)
+        public List<MemberLevelRelation> SelectAll(string Key, bool desc = true, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             if (Key != null)
             {
                 query.OrderByKey(Key, desc);
@@ -35,9 +35,9 @@ namespace DbOpertion.Operation
         /// </summary>
         /// <param name="KeyId">主键Id</param>
         /// <returns>是否成功</returns>
-        public MemberCouponRelation SelectById(int KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
+        public MemberLevelRelation SelectById(int KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             query.Where(p => p.CouponContainsId == KeyId);
             return query.GetQueryList(connection, transaction).FirstOrDefault();
         }
@@ -50,9 +50,9 @@ namespace DbOpertion.Operation
         ///  <param name="PageSize">页面长度</param>
         ///  <param name="desc">排序</param>
         /// <returns>对象列表</returns>
-        public List<MemberCouponRelation> SelectByPage(string Key, int start, int PageSize, bool desc = true, IDbConnection connection = null, IDbTransaction transaction = null)
+        public List<MemberLevelRelation> SelectByPage(string Key, int start, int PageSize, bool desc = true, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             if (Key != null)
             {
                 query.OrderByKey(Key, desc);
@@ -70,7 +70,7 @@ namespace DbOpertion.Operation
         /// <returns>对象列表</returns>
         public int SelectCount(string Key, bool desc = true, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var query = new LambdaQuery<MemberCouponRelation>();
+            var query = new LambdaQuery<MemberLevelRelation>();
             if (Key != null)
             {
                 query.OrderByKey(Key, desc);
@@ -86,7 +86,7 @@ namespace DbOpertion.Operation
         /// <returns>是否成功</returns>
         public bool DeleteById(int KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var delete = new LambdaDelete<MemberCouponRelation>();
+            var delete = new LambdaDelete<MemberLevelRelation>();
             delete.Where(p => p.CouponContainsId == KeyId);
             return delete.GetDeleteResult(connection, transaction);
         }
@@ -94,22 +94,22 @@ namespace DbOpertion.Operation
         /// <summary>
         /// 根据模型更新
         /// </summary>
-        /// <param name="membercouponrelation">模型</param>
+        /// <param name="memberlevelrelation">模型</param>
         /// <returns>是否成功</returns>
-        public bool Update(MemberCouponRelation membercouponrelation, IDbConnection connection = null, IDbTransaction transaction = null)
+        public bool Update(MemberLevelRelation memberlevelrelation, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var update = new LambdaUpdate<MemberCouponRelation>();
-            if (!membercouponrelation.CouponContainsId.IsNullOrEmpty())
+            var update = new LambdaUpdate<MemberLevelRelation>();
+            if (!memberlevelrelation.CouponContainsId.IsNullOrEmpty())
             {
-                update.Where(p => p.CouponContainsId == membercouponrelation.CouponContainsId);
+                update.Where(p => p.CouponContainsId == memberlevelrelation.CouponContainsId);
             }
-            if (!membercouponrelation.MembershipLevelId.IsNullOrEmpty())
+            if (!memberlevelrelation.MembershipLevelId.IsNullOrEmpty())
             {
-                update.Set(p => p.MembershipLevelId == membercouponrelation.MembershipLevelId);
+                update.Set(p => p.MembershipLevelId == memberlevelrelation.MembershipLevelId);
             }
-            if (!membercouponrelation.CouponContains.IsNullOrEmpty())
+            if (!memberlevelrelation.CouponContains.IsNullOrEmpty())
             {
-                update.Set(p => p.CouponContains == membercouponrelation.CouponContains);
+                update.Set(p => p.CouponContains == memberlevelrelation.CouponContains);
             }
             return update.GetUpdateResult(connection, transaction);
         }
@@ -117,18 +117,18 @@ namespace DbOpertion.Operation
         /// <summary>
         /// 根据模型更新
         /// </summary>
-        /// <param name="membercouponrelation">模型</param>
+        /// <param name="memberlevelrelation">模型</param>
         /// <returns>是否成功</returns>
-        public bool Insert(MemberCouponRelation membercouponrelation, IDbConnection connection = null, IDbTransaction transaction = null)
+        public bool Insert(MemberLevelRelation memberlevelrelation, IDbConnection connection = null, IDbTransaction transaction = null)
         {
-            var insert = new LambdaInsert<MemberCouponRelation>();
-            if (!membercouponrelation.MembershipLevelId.IsNullOrEmpty())
+            var insert = new LambdaInsert<MemberLevelRelation>();
+            if (!memberlevelrelation.MembershipLevelId.IsNullOrEmpty())
             {
-                insert.Insert(p => p.MembershipLevelId == membercouponrelation.MembershipLevelId);
+                insert.Insert(p => p.MembershipLevelId == memberlevelrelation.MembershipLevelId);
             }
-            if (!membercouponrelation.CouponContains.IsNullOrEmpty())
+            if (!memberlevelrelation.CouponContains.IsNullOrEmpty())
             {
-                insert.Insert(p => p.CouponContains == membercouponrelation.CouponContains);
+                insert.Insert(p => p.CouponContains == memberlevelrelation.CouponContains);
             }
             return insert.GetInsertResult(connection, transaction);
         }

@@ -39,13 +39,13 @@ namespace Common.Attribute.Constant
             {
                 return true;
             }
+            if (value == null)
+            {
+                return false;
+            }
             if (AllowZero && value.ToString() == "0")
             {
                 return true;
-            }
-            if (value == null || value.ToString() == "0")
-            {
-                return false;
             }
             else
             {

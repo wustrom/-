@@ -96,8 +96,8 @@ namespace DbOpertion.Cache
                         CouponUserRelation userRelation = new CouponUserRelation();
                         userRelation.CouponDescribe = coupon.CouponDescribe;
                         userRelation.CouponName = coupon.CouponName;
-                        userRelation.ExpirationDate = DateTime.Now.AddDays(coupon.ExpirationDay.Value);
-                        userRelation.ReleaseDate = card.ReleaseDate;
+                        userRelation.ExpirationDate = DateTime.Now.AddDays(coupon.ExpirationDay.Value).Date.AddHours(23).AddMinutes(59).AddMilliseconds(59);
+                        userRelation.ReleaseDate = DateTime.Now;
                         userRelation.UserId = UserID;
                         if (!CouponUserRelationOper.Instance.Insert(userRelation, connection, transaction))
                         {

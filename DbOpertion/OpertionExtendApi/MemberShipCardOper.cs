@@ -37,7 +37,7 @@ namespace DbOpertion.Operation
         {
             var query = new LambdaUpdate<MemberShipCard>();
             query.Where(p => p.CardName == CardName);
-            query.Set(p => p.UserId == UserID);
+            query.Set(p => p.UserId == UserID && p.ReleaseDate == DateTime.Now);
             return query.GetUpdateResult(connection, transaction);
         }
 

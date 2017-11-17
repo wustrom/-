@@ -115,6 +115,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.CardTypeName == electronictype.CardTypeName);
             }
+            if (!electronictype.CardExpirationMonth.IsNullOrEmpty())
+            {
+                update.Set(p => p.CardExpirationMonth == electronictype.CardExpirationMonth);
+            }
             return update.GetUpdateResult(connection, transaction);
         }
 
@@ -137,6 +141,10 @@ namespace DbOpertion.Operation
             if (!electronictype.CardTypeName.IsNullOrEmpty())
             {
                 insert.Insert(p => p.CardTypeName == electronictype.CardTypeName);
+            }
+            if (!electronictype.CardExpirationMonth.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.CardExpirationMonth == electronictype.CardExpirationMonth);
             }
             return insert.GetInsertResult(connection, transaction);
         }

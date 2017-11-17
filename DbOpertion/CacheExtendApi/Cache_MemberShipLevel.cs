@@ -59,11 +59,11 @@ namespace DbOpertion.Cache
         /// 筛选等级信息
         /// </summary>
         /// <returns></returns>
-        public Tuple<List<MemberShipLevel>, List<MemberCouponRelation>> SelectLevelListInfo()
+        public Tuple<List<MemberShipLevel>, List<MemberLevelRelation>> SelectLevelListInfo()
         {
             var LevelInfo_List = MemberShipLevelOper.Instance.SelectAll(null, false);
-            var MemberRelation_List = MemberCouponRelationOper.Instance.SelectAll(null, false);
-            return new Tuple<List<MemberShipLevel>, List<MemberCouponRelation>>(item1: LevelInfo_List, item2: MemberRelation_List);
+            var MemberRelation_List = MemberLevelRelationOper.Instance.SelectAll(null, false);
+            return new Tuple<List<MemberShipLevel>, List<MemberLevelRelation>>(item1: LevelInfo_List, item2: MemberRelation_List);
         }
     }
 }

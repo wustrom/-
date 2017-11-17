@@ -32,7 +32,7 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
-        public String IsUsed { get; set; }
+        public Boolean? IsUsed { get; set; }
         /// <summary>
         ///
         /// </summary>

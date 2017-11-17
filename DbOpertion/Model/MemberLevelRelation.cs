@@ -3,7 +3,7 @@ using System;
 namespace DbOpertion.Models
 {
     [Serializable]
-    public class MemberCouponRelation
+    public class MemberLevelRelation
     {
         /// <summary>
         ///

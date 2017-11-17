@@ -13,13 +13,14 @@
 @section js{
     <script src="~/Content/js/Shade.js"></script>
     <script src="~/Content/js/MembershipLevel/Index.js"></script>
+    <script src="~/Content/js/wangEditor.min.js"></script>
+    <script src="~/Content/js/MembershipLevel/LevelCouponPage.js"></script>
 }
 
 @section css{
     <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/css/DataTable.css" rel="stylesheet" />
     <link href="~/Content/css/Shade.css" rel="stylesheet" />
-
 }
 
 <section>
@@ -62,7 +63,6 @@
                 "data": function (data) {
                     //添加额外的参数传给服务器
                     data.SearchKey = $("#search-Input").val();
-                   
                     return JSON.stringify(data);
                 }
             },
@@ -79,11 +79,9 @@
                 "targets": -1,
                 "width": "235px",
                 render: function (data, type, full, meta) {
-                    return '<a class="btn btn-sm btn-info" href="/MemberShipLevel/LevelCouponPage?MembershipLevelId=' + data + '">等级优惠信息</a>' + '<a class="btn btn-sm btn-info" href="javascript:;" onclick="modify(' + data + ')">修改等级所需条件</a>';
-                
-            },
-               
-    
+                    return '<a class="btn btn-sm btn-info" onclick="LevelCouponInfo(' + data + ')">等级优惠信息</a>' + '<a class="btn btn-sm btn-info" href="javascript:;" onclick="modify(' + data + ')">修改等级所需条件</a>';
+
+                }
             }]
         });
         //查询按钮
@@ -105,22 +103,19 @@
             <ul class="editInfos">
                 <li>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    @*<label>*@
-                    等级名称:&nbsp;<input type="text" id="LevelName" value="" class="ipt" />
-                       <input type="hidden" id="LevelName_Hidden" />
-                    @*</label>*@
+
+                    等级名称:<input type="text" id="LevelName" value="" class="ipt" />
+                    <input type="hidden" id="LevelName_Hidden" />
                 </li>
                 <li>
-                    @*<label>*@
-                    &nbsp;&nbsp;&nbsp;该等级所需条件:<input type="text" id="LevelMin" value="" class="ipt" />
-                        <input type="hidden" id="LevelMin_Hidden" />
-                    @*</label>*@
+                    &nbsp;&nbsp;该等级所需条件:
+                    <input type="text" id="LevelMin" value="" class="ipt" />
+                    <input type="hidden" id="LevelMin_Hidden" />
                 </li>
                 <li>
-                    @*<label>*@
-                        下一等级所需条件:<input type="text" id="LevelMax" value="" class="ipt" />
-                        <input type="hidden" id="LevelMax_Hidden" />
-                    @*</label>*@
+                    下一等级所需条件:<input type="text" id="LevelMax" value="" class="ipt" />
+                    <input type="hidden" id="LevelMax_Hidden" />
+
                 </li>
 
                 <li>
@@ -128,8 +123,23 @@
                     <input id="Modify_MemberShipLevel" type="button" onclick="" value="修改等级信息" class="submitBtn" />
                 </li>
             </ul>
-           
+
         </form>
+    </div>
+</div>
+
+<div class="box1 box_Editor">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <div class="Editor_Content">
+            <div id="divDemo"><p>欢迎使用<b>wangEditor 富文本编辑器</b>，请输入内容...</p></div>
+        </div>
+        <div style="text-align:center;vertical-align:middle;">
+            <input id="Modify_MemberShipLevel" type="button" onclick="" value="修改等级信息" class="submitBtn" />
+        </div>
     </div>
 </div>
 

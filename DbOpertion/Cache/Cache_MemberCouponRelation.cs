@@ -22,7 +22,7 @@ namespace DbOpertion.Cache
         /// <param name="PageSize">页面长度</param>
         /// <param name="desc">排序</param>
         /// <returns></returns>
-        public Tuple<List<MemberCouponRelation>, int, int> SelectMemberCouponRelationList(int MembershipLevelId, string SearchKey, string Key, int start, int PageSize, DataTablesOrderDir desc)
+        public Tuple<List<MemberLevelRelation>, int, int> SelectMemberCouponRelationList(int MembershipLevelId, string SearchKey, string Key, int start, int PageSize, DataTablesOrderDir desc)
         {
             bool asc;
             if (desc == DataTablesOrderDir.Asc)
@@ -37,17 +37,17 @@ namespace DbOpertion.Cache
             var list = MemberCouponRelationOper.Instance.SelectMemberCouponRelationList(MembershipLevelId, SearchKey, Key, start, PageSize, asc);
             var All_Count = MemberCouponRelationOper.Instance.SelectMemCouponRelationListCount(MembershipLevelId, null);
             var Count = MemberCouponRelationOper.Instance.SelectMemCouponRelationListCount(MembershipLevelId, SearchKey);
-            return new Tuple<List<MemberCouponRelation>, int, int>(list, All_Count, Count);
+            return new Tuple<List<MemberLevelRelation>, int, int>(list, All_Count, Count);
         }
         /// <summary>
         /// 根据后台的等级Id查找等级优惠内容
         /// </summary>
         /// <param name="MembershipLevelId">等级Id</param>
         /// <returns></returns>
-        public MemberCouponRelation GetMemberCouponRelationInfo(int CouponContainsId)
+        public MemberLevelRelation GetMemberCouponRelationInfo(int CouponContainsId)
         {
             var list_MemberCouponRelation = MemberCouponRelationOper.Instance.SelectById(CouponContainsId);
-            MemberCouponRelation MemRelation;
+            MemberLevelRelation MemRelation;
             if (list_MemberCouponRelation != null && list_MemberCouponRelation.Count != 0)
             {
                 MemRelation = list_MemberCouponRelation.FirstOrDefault();
@@ -63,9 +63,9 @@ namespace DbOpertion.Cache
         /// </summary>
         /// <param name="MemRelation"></param>
         /// <returns></returns>
-        public bool update_MemberCouponRelationInfo(MemberCouponRelation MemRelation)
+        public bool update_MemberCouponRelationInfo(MemberLevelRelation MemRelation)
         {
-            var update = MemberCouponRelationOper.Instance.Update(MemRelation);
+            var update = MemberLevelRelationOper.Instance.Update(MemRelation);
             return update;
         }
         /// <summary>
@@ -82,7 +82,7 @@ namespace DbOpertion.Cache
         /// </summary>
         /// <param name="MemRelation"></param>
         /// <returns></returns>
-        public bool Insert_MemberCouponRelation(MemberCouponRelation MemRelation)
+        public bool Insert_MemberCouponRelation(MemberLevelRelation MemRelation)
         {
             var list = MemberCouponRelationOper.Instance.Chenk_MemberCouponRelation(MemRelation.CouponContains);
             if (list.Count > 0)
@@ -91,7 +91,7 @@ namespace DbOpertion.Cache
             }
             else
             {
-                return MemberCouponRelationOper.Instance.Insert(MemRelation);
+                return MemberLevelRelationOper.Instance.Insert(MemRelation);
             }
 
         }

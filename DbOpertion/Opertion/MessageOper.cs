@@ -111,6 +111,14 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.MessageContains == message.MessageContains);
             }
+            if (!message.MessageImage.IsNullOrEmpty())
+            {
+                update.Set(p => p.MessageImage == message.MessageImage);
+            }
+            if (!message.MessageDescribe.IsNullOrEmpty())
+            {
+                update.Set(p => p.MessageDescribe == message.MessageDescribe);
+            }
             return update.GetUpdateResult(connection, transaction);
         }
 
@@ -129,6 +137,14 @@ namespace DbOpertion.Operation
             if (!message.MessageContains.IsNullOrEmpty())
             {
                 insert.Insert(p => p.MessageContains == message.MessageContains);
+            }
+            if (!message.MessageImage.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.MessageImage == message.MessageImage);
+            }
+            if (!message.MessageDescribe.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.MessageDescribe == message.MessageDescribe);
             }
             return insert.GetInsertResult(connection, transaction);
         }

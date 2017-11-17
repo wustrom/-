@@ -1,14 +1,14 @@
 ﻿using System;
 using Enyim.Caching.Memcached;
 using System.Collections.Generic;
+using System.Configuration;
 
 namespace Common.MemCache.EnyimCache
 {
-
-
     public class CacheReaderService : BaseService, ICacheReaderService
     {
-        private string AppKey = "GZRYVillage";
+        private static object AppMd5Key = ConfigurationManager.AppSettings["AppMd5Key"];
+        private static string AppKey = AppMd5Key == null ? "None" : AppMd5Key.ToString();
         public int TimeOut
         {
             get;

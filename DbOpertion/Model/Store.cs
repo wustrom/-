@@ -30,6 +30,10 @@ namespace DbOpertion.Models
         /// </summary>
         public Boolean? IsDelete { get; set; }
         /// <summary>
+        ///
+        /// </summary>
+        public String StoreName { get; set; }
+        /// <summary>
         /// 获取对应主键
         /// </summary>
         public string GetBuilderPrimaryKey()

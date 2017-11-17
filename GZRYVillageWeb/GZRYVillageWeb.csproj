@@ -322,10 +322,12 @@
     <Content Include="Content\js\MemberCard\Index.js" />
     <Content Include="Content\js\MemberCouponRelation\Index.js" />
     <Content Include="Content\js\MembershipLevel\Index.js" />
+    <Content Include="Content\js\MembershipLevel\LevelCouponPage.js" />
     <Content Include="Content\js\modal.js" />
     <Content Include="Content\js\Shade.js" />
     <Content Include="Content\js\theming.js" />
     <Content Include="Content\js\User\Index.js" />
+    <Content Include="Content\js\wangEditor.min.js" />
     <Content Include="Content\lib\css\alert.css" />
     <Content Include="Content\lib\css\animate.min.css" />
     <Content Include="Content\lib\css\bootstrap-switch.min.css" />
@@ -346,6 +348,7 @@
     <Content Include="Content\lib\js\Chart.min.js" />
     <Content Include="Content\lib\js\dataTables.bootstrap.min.js" />
     <None Include="Content\lib\js\jquery-3.2.1.intellisense.js" />
+    <Content Include="Content\lib\js\jquery-1.10.2.min.js" />
     <Content Include="Content\lib\js\jquery-3.2.1.js" />
     <Content Include="Content\lib\js\jquery-3.2.1.min.js" />
     <Content Include="Content\lib\js\jquery-3.2.1.slim.js" />
@@ -396,7 +399,11 @@
     <Compile Include="Controllers\MvcPageControllers\LoginController.cs" />
     <Compile Include="Controllers\MvcPageControllers\MemberManageController.cs" />
     <Compile Include="Controllers\MvcPageControllers\MemberShipLevelController.cs" />
+    <Compile Include="Controllers\MvcPageControllers\QRCodeController.cs" />
     <Compile Include="Controllers\MvcPageControllers\UserController.cs" />
+    <Compile Include="Controllers\WebApiControllers\PushController.cs" />
+    <Compile Include="Controllers\WebApiControllers\TitleController.cs" />
+    <Compile Include="Controllers\WebApiControllers\MessageController.cs" />
     <Compile Include="Controllers\WebApiControllers\MyClubController.cs" />
     <Compile Include="Controllers\WebApiControllers\StoredCardController.cs" />
     <Compile Include="Controllers\WebApiControllers\UserController.cs" />
@@ -420,14 +427,20 @@
     <Compile Include="Request\AjaxRequest\MembershipLevel\MemberLevelRequest.cs" />
     <Compile Include="Request\AjaxRequest\UserIdRequest.cs" />
     <Compile Include="Request\AjaxRequest\User\UserReqest.cs" />
+    <Compile Include="Request\ApiRequest\Message\GetMessageHtmlByIdRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\GetUserQRCodeRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\SetActiveCardRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\GetMyCardListRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\MemberCardRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\MemberCardVaildRequest.cs" />
+    <Compile Include="Request\ApiRequest\StoredCard\ElecCardIdRequest.cs" />
+    <Compile Include="Request\ApiRequest\StoredCard\ElecRequest.cs" />
+    <Compile Include="Request\ApiRequest\StoredCard\ElecRelationRequest.cs" />
     <Compile Include="Request\ApiRequest\StoredCard\ForgotPasswordRequest.cs" />
+    <Compile Include="Request\ApiRequest\TokenAndHostRequest.cs" />
     <Compile Include="Request\ApiRequest\UserIdRequest.cs" />
     <Compile Include="Request\ApiRequest\UserTokenRequest.cs" />
+    <Compile Include="Request\ApiRequest\TokenAndPageRequest.cs" />
     <Compile Include="Request\ApiRequest\User\ForgotPasswordRequest.cs" />
     <Compile Include="Request\ApiRequest\User\MailRegisterRequest.cs" />
     <Compile Include="Request\ApiRequest\User\ModifyPasswordRequest.cs" />
@@ -443,12 +456,17 @@
     <Compile Include="Request\MvcRequest\MemberCouponRelation\MemberCouponRelationRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberShipLevel\MemberShipLevelRequest.cs" />
     <Compile Include="Request\MvcRequest\User\UserIdRequest.cs" />
+    <Compile Include="Request\ApiRequest\HostRequest.cs" />
     <Compile Include="Response\AjaxResponse\Consumption\ConsumptionResponse.cs" />
     <Compile Include="Response\AjaxResponse\Login\LoginResponse.cs" />
     <Compile Include="Response\AjaxResponse\User\UserResponse.cs" />
+    <Compile Include="Response\ApiResponse\Messgae\GetElecCardListResponse.cs" />
+    <Compile Include="Response\ApiResponse\MyClub\GetMyCouponResponse.cs" />
+    <Compile Include="Response\ApiResponse\MyClub\GetElecCardListResponse.cs" />
     <Compile Include="Response\ApiResponse\MyClub\GetLevelListResponse.cs" />
     <Compile Include="Response\ApiResponse\MyClub\GetMyCardResponse.cs" />
     <Compile Include="Response\ApiResponse\MyClub\UserLevelResponse.cs" />
+    <Compile Include="Response\ApiResponse\StoredCard\GetConsumptionRecordsResponse.cs" />
     <Compile Include="Response\ApiResponse\User\UserIdResponse.cs" />
     <Compile Include="Response\ApiResponse\User\UserInfoResponse.cs" />
     <Compile Include="Response\ApiResponse\User\UserTokenResponse.cs" />
@@ -503,6 +521,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Request\AjaxRequest\Consumption\" />
     <Folder Include="Response\MvcResponse\" />
+    <Folder Include="Views\QRCode\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AliyunHelper\AliyunHelper.csproj">

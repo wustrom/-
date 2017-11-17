@@ -107,6 +107,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.UserId == couponuserrelation.UserId);
             }
+            if (!couponuserrelation.CouponId.IsNullOrEmpty())
+            {
+                update.Set(p => p.CouponId == couponuserrelation.CouponId);
+            }
             if (!couponuserrelation.CouponName.IsNullOrEmpty())
             {
                 update.Set(p => p.CouponName == couponuserrelation.CouponName);
@@ -145,6 +149,10 @@ namespace DbOpertion.Operation
             if (!couponuserrelation.UserId.IsNullOrEmpty())
             {
                 insert.Insert(p => p.UserId == couponuserrelation.UserId);
+            }
+            if (!couponuserrelation.CouponId.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.CouponId == couponuserrelation.CouponId);
             }
             if (!couponuserrelation.CouponName.IsNullOrEmpty())
             {

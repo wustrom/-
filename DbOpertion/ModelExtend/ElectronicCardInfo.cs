@@ -32,7 +32,6 @@ namespace DbOpertion.Models
         /// 用户名
         /// </summary>
         public string UserNickName { get; set; }
-        public string UserName { get; set; }
         /// <summary>
         /// 手机号
         /// </summary>
@@ -42,5 +41,17 @@ namespace DbOpertion.Models
         /// </summary>
         public string UserEmail { get; set; }
         public int ElectronicId { get; set; }
+        /// <summary>
+        /// 会员卡名
+        /// </summary>
+        public string CardName { get; set; }
+        /// <summary>
+        /// 激活日期
+        /// </summary>
+        public DateTime CardCreateDate { get; set; }
+        /// <summary>
+        /// 过期时间
+        /// </summary>
+        public DateTime CardExpirationDay { get; set; }
     }
 }

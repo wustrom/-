@@ -16,6 +16,10 @@ namespace DbOpertion.Models
         /// <summary>
         ///
         /// </summary>
+        public Int32? CouponId { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
         public String CouponName { get; set; }
         /// <summary>
         ///

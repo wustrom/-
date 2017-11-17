@@ -49,8 +49,6 @@ $(function () {
         var checked = $("#checkbox-all")[0].checked;
         if (checked == true) {
             $("tbody tr :checkbox").each(function () {
-                debugger;
-                var a = $(this)[0];
                 $(this)[0].checked = true;
             });
         }
@@ -62,3 +60,9 @@ $(function () {
     });
 })
 
+function repalceKey(str) {
+    str = str.replace(/'/g, "Single_quotation&marks");
+    str = str.replace(/\"/g, 'Double_quotation&marks');
+    str = str.replace(/\\/g, 'BackSlash&marks');
+    return str;
+}

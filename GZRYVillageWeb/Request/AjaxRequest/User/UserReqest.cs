@@ -46,7 +46,6 @@ namespace GZRYVillageWeb.Request.AjaxRequest
         /// <summary>
         /// 用户图片
         /// </summary>
-        [Required(AllowEmptyStrings = false, ErrorMessage = "用户图片不能为空")]
         public string UserImage { get; set; }
 
         /// <summary>
@@ -54,5 +53,10 @@ namespace GZRYVillageWeb.Request.AjaxRequest
         /// </summary>
         [IntValid(AllowZero = true, ErrorMessage = "消费次数请输入数字", NotAllowNegative = true)]
         public int ConsumptionTime { get; set; }
+        /// <summary>
+        /// 用户性别
+        /// </summary>
+        [Required(AllowEmptyStrings = true, ErrorMessage = "请选择性别")]
+        public bool Sex { get; set; }
     }
 }

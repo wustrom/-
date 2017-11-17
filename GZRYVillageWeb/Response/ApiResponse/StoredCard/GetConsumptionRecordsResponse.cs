@@ -27,7 +27,7 @@ namespace GZRYVillageWeb.Response.ApiResponse
         /// <summary>
         /// 获得电子储值卡列表请求
         /// </summary>
-        public GetConsumptionRecordsResponse(PayRecordInfo Info)
+        public GetConsumptionRecordsResponse(PayRecordInformation Info)
         {
             //商铺名称
             this.ShopName = Info.StoreName;

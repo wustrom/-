@@ -1,0 +1,157 @@
+﻿
+@{
+    ViewBag.Title = "Coupon";
+    Layout = "~/Views/Shared/LeftPartPage.cshtml";
+}
+
+@section TitleName{
+    <li>优惠券管理</li>
+    <li class="active"><a href="../Coupon/Index">优惠券详情</a></li>
+}
+
+@section js{
+    <script src="~/Content/js/Shade.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Content/js/DateTime/jquery.ui.datepicker-zh-CN.js"></script>
+    <script src="~/Content/js/Coupon/GrantCoupon.js"></script>
+}
+
+@section css{
+    <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/DataTable.css" rel="stylesheet" />
+    <link href="~/Content/css/User/Index.css" rel="stylesheet" />
+    <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <link href="~/Content/css/SearchTime.css" rel="stylesheet" />
+    <link href="~/Content/css/DateTime/jquery-ui.css" rel="stylesheet" />
+
+}
+
+@section Li_Coupon
+{
+    active
+}
+
+<input type="hidden" id="Hidden_CouponId" value="@ViewBag.CouponId" />
+<input  type="hidden" id="Hidden_Search"/>
+<section>
+    <div class="row">
+        <div style="width:100%">
+            <div class="form-group col-lg-12">
+                <div class="col-lg-2 pull-right">
+                    <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 搜 索</button>
+                    <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
+                </div>
+                <div class="col-lg-2 pull-left">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSuccess" id="DeleteAll">
+                        <i class="glyphicon glyphicon-minus"></i> 删除数据
+                    </button>
+                </div>
+                <div class="MoreInfo">
+                    <a href="#">
+                        更多搜索条件
+                    </a>
+                </div>
+            </div>
+            <div class="form-group col-lg-12" style="display:none;" id="SearchTime">
+                <div class="pull-left TimePart">
+                    <button id="search2" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i>有效期</button>
+                    <input type="text" placeholder="结束日期" name="CreateEndDate" id="CreateEndDate" class="form-control pull-right DateTime ">
+                    <input type="text" placeholder="开始日期" name="CreateStartDate" id="CreateStartDate" class="form-control pull-right DateTime">
+
+                </div>
+                <div class="pull-left TimePart">
+                    <button id="search3" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i>发放日期</button>
+                    <input type="text" placeholder="结束日期" name="ReleaseEndDate" id="ReleaseEndDate" class="form-control pull-right DateTime">
+                    <input type="text" placeholder="开始日期" name="ReleaseStartDate" id="ReleaseStartDate" class="form-control pull-right DateTime">
+                </div>
+            </div>
+            <table id="User" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
+                <thead>
+                    <tr>
+                        <th data-data="CouponUserRelationId" data-visible="false">优惠卷用户关系Id</th>
+                        <th data-data="CouponUserRelationId" data-orderable="false">
+                            <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
+                                <input type="checkbox" id="checkbox-all" />
+                                <label for="checkbox-all"></label>
+                            </div>
+                        </th>
+                        <th data-data="CouponName">优惠卷名称</th>
+                        <th data-data="UserNickName">所属会员</th>
+                        <th data-data="ExpirationDate">有效期</th>
+                        <th data-data="ReleaseDate">发放日期</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+
+
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        //获取时间
+        $("input[name='CreateStartDate'],input[name='CreateEndDate'],input[name='ReleaseStartDate'],input[name='ReleaseEndDate']").datetimepicker();
+        var userTable = $('#User').dataTable({
+            "ajax": {
+                "url": "@Url.Action("Get_CouponUserRelationInfoList", "CouponAjax")",
+                "data": function (data) {
+                    //添加额外的参数传给服务器
+                    data.SearchKey = $("#search-Input").val();
+                    data.CouponId = $("#Hidden_CouponId").val();
+                    data.ReleaseDate1 = $("#ReleaseStartDate").val();
+                    data.ReleaseDate2 = $("#ReleaseEndDate").val();
+                    data.CreateDate1 = $("#CreateStartDate").val();
+                    data.CreateDate2 = $("#CreateEndDate").val();
+                    return JSON.stringify(data);
+                }
+            },
+            "columnDefs": [
+            {
+                "targets": 1,
+                "width": "15px",
+                render: function (data, type, full, meta) {
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + data + '" value="' + data + '" /><label for="checkbox-all-' + data + '"></label></div>';
+                }
+            },
+            {
+                "targets": -1,
+                "width": "140px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
+
+                }
+            },
+            {
+                "targets": -2,
+                "width": "140px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
+
+                }
+
+            }]
+        });
+        //查询按钮
+        $("#search").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //时间查询按钮
+        $("#search2").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //时间查询按钮
+        $("#search3").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //多选删除数据后重新刷新页面
+        $("#Hidden_Search").click(function () {
+            userTable.api().ajax.reload();
+        })
+    });
+
+</script>

@@ -7,6 +7,7 @@ using System.Text;
 using Common.LambdaOpertion;
 using Common.Extend;
 using DbOpertion.Models;
+using System.Data;
 
 namespace DbOpertion.Operation
 {
@@ -77,6 +78,19 @@ namespace DbOpertion.Operation
                 query.Where(p => p.CouponDescribe.Contains(SearchKey) || p.CouponName.Contains(SearchKey) || p.ExpirationDate.Contains(SearchKey));
             }
             return query.GetQueryCount();
+        }
+        /// <summary>
+        /// 根据Id多选删除数据
+        /// </summary>
+        /// <param name="KeyId"></param>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public bool DeleteByIds(List<int> KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            var delete = new LambdaDelete<CouponUserRelation>();
+            delete.Where(p => p.CouponUserRelationId.ContainsIn(KeyId));
+            return delete.GetDeleteResult();
         }
 
     }

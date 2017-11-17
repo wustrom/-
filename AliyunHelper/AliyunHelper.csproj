@@ -32,7 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="aliyun-net-sdk-core">
-      <HintPath>..\..\..\..\GitHub\aliyun-openapi-net-sdk\aliyun-net-sdk-sms\bin\Debug\aliyun-net-sdk-core.dll</HintPath>
+      <HintPath>dll\aliyun-net-sdk-core.dll</HintPath>
     </Reference>
     <Reference Include="aliyun-net-sdk-dysmsapi">
       <HintPath>C:\Users\Administrator\Downloads\net\api_sdk\aliyun-net-sdk-dysmsapi\bin\Debug\aliyun-net-sdk-dysmsapi.dll</HintPath>

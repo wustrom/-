@@ -1,0 +1,36 @@
+﻿  .form-group .DateTime {
+        width: 144px;
+        margin: 5px 5px 5px 0px;
+    }
+
+    .form-group .TimePart {
+        margin-right: 5px;
+    }
+
+    .form-group .MoreInfo {
+        position: absolute;
+        right: 35px;
+        top: 40px;
+        font-size: 7px;
+    }
+
+    .form-group .MoreInfo a {
+        text-decoration: none;
+    }
+
+    .form-group .MoreInfo a:hover {
+        color: #FABE28;
+    }
+
+    .form-group #DateTimeDiv .Search-Input {
+        width: 144px;
+    }
+    .form-group #DateTimeDiv #CreateEndDate
+    {
+        margin-top:5px;
+        margin-left:-100px;
+    }
+    .form-group #DateTimeDiv #CreateStartDate
+    {
+       margin-right:-7px;
+    }

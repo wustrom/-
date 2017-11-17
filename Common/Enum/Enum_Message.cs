@@ -68,6 +68,22 @@ namespace Common.Enum_My
         /// </summary>
         DataExitNameMessage=13,
         /// <summary>
+        /// 当前用户名或手机号,邮箱已存在
+        /// </summary>
+        DataExitPhoneOrNameMessage = 14,
+        /// <summary>
+        /// 该会员卡目前没有绑定人
+        /// </summary>
+        DataNotExitUserNickName=15,
+        /// <summary>
+        /// 上传图片格式不正确
+        /// </summary>
+        DataNotSuccessUploadImage = 16,
+        /// <summary>
+        /// 该会员卡目前绑定人：
+        /// </summary>
+        DataSuccessNowUserNickName=17,
+        /// <summary>
         /// 数据修改成功
         /// </summary>
         DataChangeSuccessMessage = 20,
@@ -126,6 +142,18 @@ namespace Common.Enum_My
                     break;
                 case Enum_Message.DataExitNameMessage:
                     result = "当前名称已存在";
+                    break;
+                case Enum_Message.DataExitPhoneOrNameMessage:
+                    result = "当前用户名,手机号或邮箱已存在";
+                    break;
+                case Enum_Message.DataNotExitUserNickName:
+                    result = "该会员卡目前没有绑定人";
+                    break;
+                case Enum_Message.DataNotSuccessUploadImage:
+                    result = "上传图片格式不正确";
+                    break;
+                case Enum_Message.DataSuccessNowUserNickName:
+                    result = "该会员卡目前绑定人：";
                     break;
                 case Enum_Message.DataChangeSuccessMessage:
                     result = "数据修改成功";

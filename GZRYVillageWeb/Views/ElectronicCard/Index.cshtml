@@ -4,23 +4,31 @@
     Layout = "~/Views/Shared/LeftPartPage.cshtml";
 }
 @section TitleName{
-    <li>电子储存卡管理</li>
-    <li class="active">添加新类型卡</li>
+    <li>电子储值卡管理</li>
+    <li class="active">卡片详情</li>
 }
 
 
 @section js{
     <script src="~/Content/js/Shade.js"></script>
-    <script src="~/Content/js/ElectronicType/Index.js"></script>
+    <script src="~/Content/js/ElectronicType/ElectronicTypeCard.js"></script>
+    <script src="~/Content/lib/js/jquery.form.js"></script>
 }
 
 @section css{
     <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/css/DataTable.css" rel="stylesheet" />
     <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <link href="~/Content/css/ElectronicType/Index.css" rel="stylesheet" />
+
 
 }
-@*<input type="hidden" id="Hidden_ElectronicTypeId" value="@ViewBag.ElectronicTypeId" />*@
+
+@section Li_Electronic
+{
+    active
+}
+<input type="hidden" id="Hidden_Search" />
 <section>
     <div class="row">
         <div style="width:100%">
@@ -31,23 +39,27 @@
                 </div>
                 <div class="col-lg-2 pull-left">
                     <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
-                        <i class="glyphicon glyphicon-plus"></i> 添加新类型卡
+                        <i class="glyphicon glyphicon-plus"></i> 添加数据
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSuccess" id="DeleteAll">
+                        <i class="glyphicon glyphicon-minus"></i> 删除数据
                     </button>
                 </div>
-            </div>
+                </div>
             <table id="ElectronicCard" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
                 <thead>
                     <tr>
-                        <th data-data="ElectronicTypeId" data-visible="false">电子卡Id</th>
-                        <th data-orderable="false">
+                        <th data-data="ElectronicTypeId" data-visible="false">电子储值卡类型Id</th>
+                        <th data-data="ElectronicTypeId" data-orderable="false">
                             <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
                                 <input type="checkbox" id="checkbox-all" />
                                 <label for="checkbox-all"></label>
                             </div>
                         </th>
-                        <th data-data="CardName">卡片名称</th>
+                        <th data-data="CardTypeName">卡片名称</th>
                         <th data-data="CardImage">卡片图案</th>
                         <th data-data="CardMoney">储值金额</th>
+                        <th data-data="CardExpirationMonth">过期时间(月数)</th>
                         <th data-data="ElectronicTypeId" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
                         <th data-data="ElectronicTypeId" style="border-left:none;" data-orderable="false"></th>
                     </tr>
@@ -72,39 +84,49 @@
                 "targets": 1,
                 "width": "15px",
                 render: function (data, type, full, meta) {
-                    var num = meta.row + 1;
-                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + num + '" value="' + num + '" /><label for="checkbox-all-' + num + '"></label></div>';
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + data + '" value="' + data + '" /><label for="checkbox-all-' + data + '"></label></div>';
                 }
             },
             {
                 "targets": -1,
                 "width": "86px",
                 render: function (data, type, full, meta) {
-                    return '<a class="btn btn-sm btn-info" href="/MemberManage/Coupon?ElectronicTypeId=' + data + '">批量生成卡密</a>';
-                }
-            },
-            {
+                    return '<a class="btn btn-sm btn-info" onclick="InsertExcel(' + data + ')">批量生成卡密</a>';
+                   
+                    }
+                    },
+                    {
                 "targets": -2,
                 "width": "74px",
-                render: function (data, type, full, meta) {
+                        render: function (data, type, full, meta) {
                     return '<a class="btn btn-sm btn-info" href="/ElectronicCard/ElectronicCardView?ElectronicTypeId=' + data + '">查看该类型已生成卡片</a>';
-                }
-            }]
-        });
-        //查询按钮
-        $("#search").click(function () {
-            userTable.api().ajax.reload();
-        });
-        //点击新增类型卡按钮，弹出窗体
-        $("#insert").click(function () {
-            add();
-        });
-        //添加按钮
-        $("#Modify_ElectronicCard").click(function () {
-          
-            InsertElectronicType();
-        });
-    });
+                    }
+                    },
+                    {
+                        "targets": 3,
+                        render: function (data, type, full, meta) {
+                            return '<img style="height:35px;" src="' + data + '"></img>';
+                        }
+                    }]
+                    });
+                        //查询按钮
+                        $("#search").click(function () {
+                            userTable.api().ajax.reload();
+                        });
+                        //点击新增类型卡按钮，弹出窗体
+                        $("#insert").click(function () {
+                            add();
+                        });
+                        //添加按钮
+                        $("#Add_ElectronicCard").click(function () {
+
+                            InsertElectronicType();
+                        });
+                         //多选删除数据后重新刷新页面
+                        $("#Hidden_Search").click(function () {
+                            userTable.api().ajax.reload();
+                        })
+                    });
 
 </script>
 
@@ -115,18 +137,12 @@
         <div class="dialogTop">
             <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
         </div>
-        <form action="" method="post" id="editForm">
+        <div id="editForm">
             <ul class="editInfos">
                 <li>
                     <label>
-                        卡片名称：<input type="text" id="CardName" value="" class="ipt" />
-                        <input type="hidden" id="CardName_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        卡片图案：<input type="text" id="CardImage" value="" class="ipt" />
-                        <input type="hidden" id="CardImage_Hidden" />
+                        卡片名称：<input type="text" id="CardTypeName" value="" class="ipt" />
+                        <input type="hidden" id="CardTypeName_Hidden" />
                     </label>
                 </li>
                 <li>
@@ -135,11 +151,54 @@
                         <input type="hidden" id="CardMoney_Hidden" />
                     </label>
                 </li>
-               
                 <li>
-                    <input id="Modify_ElectronicCard" type="button" onclick="" value="添加新类型卡" class="submitBtn" />
+                    <label>
+                        过期时间：<input type="text" id="CardExpirationMonth" value="" class="ipt" />
+                        <input type="hidden" id="CardExpirationMonth_Hidden" />
+                    </label>
+                </li>
+                <li class="Image_Li">
+                    <label class="Img_Label">
+                        卡片图案：
+                        <input type="hidden" id="MemberShipTypeId_Hidden" />
+                    </label>
+                    <button type="button" id="btn_show" class="btn btn-primary Uplod_Img">上传图片</button>
+
+                    <form id="form_upload" style="padding:20px; display:none;" action="upload" method="post" enctype="multipart/form-data">
+                        <input id="upImg" name="upImg" style="width:350px;height:25px;" size="38" type="file" /><input id="Sumbit_Img" type="submit" value="上传" />
+                    </form>
+                    <img alt="" style="display:none;" id="result" src="" />
+                </li>
+                <li>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="Add_ElectronicCard" type="button" onclick="" value="添加新类型卡" class="submitBtn" />
                 </li>
             </ul>
-        </form>
+        </div>
     </div>
-   </div>
+</div>
+<div class="box1">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <div id="editForm">
+            <ul class="editInfos">
+
+                <li class="Excel_Li">
+                    <label class="Excel_Label">
+                        所选文件：
+                        <input type="hidden" id="MemberShipTypeId_Hidden" />
+                    </label>
+                    <button type="button" id="btn_showExcel" class="btn btn-primary Uplod_Img">选择文件</button>
+
+                    <form id="form_uploadExcel" style="padding:20px; display:none;" action="UploadExcel" method="post" enctype="multipart/form-data">
+                        <input id="upExcel" name="upExcel" style="width:350px;height:25px;" size="38" type="file" /><input id="Sumbit_Excel" type="submit" value="上传" />
+                        <input id="ElectronicTypeId" name="ElectronicTypeId" value="" />
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

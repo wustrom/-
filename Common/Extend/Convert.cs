@@ -259,5 +259,25 @@ namespace Common.Extend
                 }
             });
         }
+
+        /// <summary>  
+        /// 利用反射和泛型  
+        /// </summary>  
+        /// <param name="dt"></param>  
+        /// <returns></returns>  
+        public static List<int> ConvertToList(this string str)
+        {
+            var array = str.Split(',');
+            List<int> list_int = new List<int>();
+            foreach (var item in array)
+            {
+                int result = 0;
+                if (int.TryParse(item, out result))
+                {
+                    list_int.Add(result);
+                }
+            }
+            return list_int;
+        }
     }
 }

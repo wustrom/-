@@ -11,6 +11,9 @@ using Common.Result;
 using Common.Enum_My;
 using System.Diagnostics;
 using GZRYVillageWeb.Request.AjaxRequest;
+using GZRYVillageWeb.Response.AjaxResponse;
+using Common.Helper;
+using Common.Extend;
 
 namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
 {
@@ -29,13 +32,19 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Get_User_List(DataTableRequest param)
         {
             var List_user = Cache_TUser.Instance.SelectMemberUser(param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
-            DataTableResponse<TUser> Parameter_Tuser = new DataTableResponse<TUser>();
-            var All_User_Count = Cache_TUser.Instance.SelectMemberUserCount(null,param.OrderBy, param.OrderDir);
+            List<TUserResponse> List_Response = new List<TUserResponse>();
+            foreach (var item in List_user)
+            {
+                TUserResponse response = new TUserResponse(item);
+                List_Response.Add(response);
+            }
+            DataTableResponse<TUserResponse> Parameter_Tuser = new DataTableResponse<TUserResponse>();
+            var All_User_Count = Cache_TUser.Instance.SelectMemberUserCount(null, param.OrderBy, param.OrderDir);
             var Search_User_Count = Cache_TUser.Instance.SelectMemberUserCount(param.SearchKey, param.OrderBy, param.OrderDir);
             Parameter_Tuser.draw = param.Draw;
             Parameter_Tuser.recordsTotal = All_User_Count;
             Parameter_Tuser.recordsFiltered = Search_User_Count;
-            Parameter_Tuser.data = List_user;
+            Parameter_Tuser.data = List_Response;
             return Json(Parameter_Tuser.GetObject(), JsonRequestBehavior.AllowGet);
         }
 
@@ -73,10 +82,10 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         [MvcAjaxException]
         public JsonResult Get_Consumption_List(UserDataTableRequest param)
         {
-            var Consuption_List = Cache_Consumption.Instance.Consuption_List(param.UserId, param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
-            DataTableResponse<Consumption> Parameter_Consumption = new DataTableResponse<Consumption>();
-            var All_Consuption_Count = Cache_Consumption.Instance.SelectConsuptionCount(param.UserId,null, param.OrderBy, param.OrderDir);
-            var Search_Consuption_Count = Cache_Consumption.Instance.SelectConsuptionCount(param.UserId, param.SearchKey, param.OrderBy, param.OrderDir);
+            var Consuption_List = Cache_PayRecord.Instance.Consuption_List(param.UserId, param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
+            DataTableResponse<PayRecord> Parameter_Consumption = new DataTableResponse<PayRecord>();
+            var All_Consuption_Count = Cache_PayRecord.Instance.SelectConsuptionCount(param.UserId, null, param.OrderBy, param.OrderDir);
+            var Search_Consuption_Count = Cache_PayRecord.Instance.SelectConsuptionCount(param.UserId, param.SearchKey, param.OrderBy, param.OrderDir);
             Parameter_Consumption.draw = param.Draw;
             Parameter_Consumption.recordsTotal = All_Consuption_Count;
             Parameter_Consumption.recordsFiltered = Search_Consuption_Count;
@@ -105,7 +114,7 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         }
 
         /// <summary>
-        /// 获得用户信息
+        /// 修改用户信息
         /// </summary>
         /// <returns></returns>
         [HttpPost]
@@ -115,11 +124,11 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         {
             TUser UserInfo = new TUser();
             UserInfo.UserId = request.UserId;
-            UserInfo.UserImage = request.UserImage;
             UserInfo.UserName = request.UserName;
             UserInfo.UserNickName = request.UserNickName;
             UserInfo.UserPhone = request.UserPhone;
             UserInfo.UserEmail = request.UserEmail;
+            UserInfo.Sex = request.Sex;
             UserInfo.ConsumptionTime = request.ConsumptionTime;
             var UpdateFlag = Cache_TUser.Instance.UpdateUserInfo(UserInfo);
             ResultJsonModel<TUser> result = new ResultJsonModel<TUser>();
@@ -146,25 +155,60 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Insert_UserInfo(UserReqest request)
         {
             TUser user = new TUser();
-            user.UserImage = request.UserImage;
             user.UserName = request.UserName;
             user.UserNickName = request.UserNickName;
             user.UserPhone = request.UserPhone;
             user.UserEmail = request.UserEmail;
+            string PassWord = "123456";
+            string PassWordMd5 = MD5Helper.StrToMD5WithKey(PassWord);
+            user.UserPassword = PassWordMd5;
             user.ConsumptionTime = request.ConsumptionTime;
+            user.Sex = request.Sex;
+            user.CreateTime = DateTime.Now;
             var InsertFlag = Cache_TUser.Instance.InsertUserInfo(user);
             ResultJsonModel<TUser> result = new ResultJsonModel<TUser>();
-            if (!InsertFlag)
+            if (InsertFlag == "false")
             {
                 result.HttpCode = 300;
                 result.Message = Enum_Message.DataExitMessage.Enum_GetString();
             }
-            else
+            else if (InsertFlag == "true")
             {
                 result.HttpCode = 200;
                 result.Message = Enum_Message.DataInsertSuccessMessage.Enum_GetString();
             }
+            else
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.DataExitPhoneOrNameMessage.Enum_GetString();
+            }
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 根据Id多选删除数据
+        /// </summary>
+        /// <param name="request">用户信息表</param>
+        /// <returns></returns>
+        [HttpPost]
+        [MvcAjaxModelValidate]
+        [MvcAjaxException]
+        public JsonResult Delete_UserByIds(DeleteByIdsRequest request)
+        {
+            ResultJson jsonresult = new ResultJson();
+            var List_UserId = request.KeyIds.ConvertToList();
+            var result = Cache_TUser.Instance.DeleteUserByIds(List_UserId);
+            if (result)
+            {
+                jsonresult.HttpCode = 200;
+                jsonresult.Message = "所选数据已成功删除";
+            }
+            else
+            {
+                jsonresult.HttpCode = 300;
+                jsonresult.Message = "由于一些未知原因，删除失败";
+            }
+            return Json(jsonresult, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

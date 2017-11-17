@@ -56,9 +56,27 @@ namespace DbOpertion.Cache
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        public bool InsertUserInfo(TUser user)
+        public string InsertUserInfo(TUser user)
         {
-            return TUserOper.Instance.Insert(user);
+            var check = TUserOper.Instance.SelectUserInfoByNameOrPhone(user.UserName, user.UserPhone, user.UserEmail);
+            if (check.Count > 0)
+            {
+                return "";
+            }
+            else
+            {
+                return TUserOper.Instance.Insert(user).ToString().ToLower();
+            }
+        }
+        /// <summary>
+        /// 根据Id多选删除数据
+        /// </summary>
+        /// <param name="UserIds"></param>
+        /// <returns></returns>
+        public bool DeleteUserByIds(List<int> UserIds)
+        {
+            var flag = TUserOper.Instance.DeleteByIds(UserIds);
+            return flag;
         }
     }
 }

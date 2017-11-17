@@ -6,24 +6,34 @@
 
 @section TitleName{
     <li>会员卡管理</li>
-    <li class="active"><a href="../MemberManage/Index">添加新类型卡</a></li>
-    <li class="active">查看已生成卡片</li>
+    <li class="active"><a href="../MemberManage/Index">会员卡详情</a></li>
 }
 
 
 @section js{
     <script src="~/Content/js/Shade.js"></script>
-    <script src="~/Content/js/MemberCard/Index.js"></script>
+    <script src="~/Content/js/MemberCard/MemberCard.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="~/Content/js/DateTime/jquery.ui.datepicker-zh-CN.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-zh-CN.js"></script>
 }
 
 @section css{
+    <link href="~/Content/css/DateTime/jquery-ui.css" rel="stylesheet" />
     <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/css/DataTable.css" rel="stylesheet" />
     <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <link href="~/Content/css/SearchTime.css" rel="stylesheet" />
+}
 
+@section Li_MemberCard
+{
+    active
 }
 
 <input type="hidden" id="Hidden_MemberShipCard" value="@ViewBag.MemberShipTypeId" />
+<input type="hidden" id="Hidden_Search" />
 <section>
     <div class="row">
         <div style="width:100%">
@@ -32,27 +42,49 @@
                     <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 搜 索</button>
                     <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
                 </div>
-                <div class="col-lg-2 pull-left">
+                <div class="pull-left">
                     <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
                         <i class="glyphicon glyphicon-plus"></i> 添加数据
                     </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSuccess" id="DeleteAll">
+                        <i class="glyphicon glyphicon-minus"></i> 删除数据
+                    </button>
+                </div>
+                <div class="MoreInfo">
+                    <a href="#" >
+                        更多搜索条件
+                    </a>
+
+                </div>
+            </div>
+            <div class="form-group col-lg-12" style="display:none;" id="SearchTime">
+                <div class="pull-left TimePart">
+                    <button id="search2" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i>生成日期</button>
+                    <input type="text" placeholder="结束日期" name="CreateEndDate" id="CreateEndDate" class="form-control pull-right DateTime " >
+                    <input type="text" placeholder="开始日期" name="CreateStartDate" id="CreateStartDate" class="form-control pull-right DateTime" >
+
+                </div>
+                <div class="pull-left TimePart">
+                    <button id="search3" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i>激活日期</button>
+                    <input type="text" placeholder="结束日期" name="ReleaseEndDate" id="ReleaseEndDate" class="form-control pull-right DateTime">
+                    <input type="text" placeholder="开始日期" name="ReleaseStartDate" id="ReleaseStartDate" class="form-control pull-right DateTime">
                 </div>
             </div>
             <table id="User" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
                 <thead>
                     <tr>
                         <th data-data="MemberShipCardId" data-visible="false">会员卡Id</th>
-                        <th data-orderable="false">
+                        <th data-data="MemberShipCardId" data-orderable="false">
                             <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
                                 <input type="checkbox" id="checkbox-all" />
                                 <label for="checkbox-all"></label>
                             </div>
                         </th>
-                        <th data-data="CardName">会员卡类型名</th>
-                        <th data-data="MemberShipTypeId">卡片图案</th>
+                        <th data-data="CardName">会员卡名</th>
+                        <th data-data="UserNickName">绑定人</th>
+                        <th data-data="CreateDate">生成日期</th>
+                        <th data-data="ReleaseDate">激活日期</th>
                         <th data-data="IsUser">是否被使用</th>
-                        @*<th data-data="IsDelete">是否有效</th>*@
-                   
                     </tr>
                 </thead>
             </table>
@@ -62,6 +94,8 @@
 
 <script type="text/javascript">
     $(function () {
+        //获取时间
+        $("input[name='CreateStartDate'],input[name='CreateEndDate'],input[name='ReleaseStartDate'],input[name='ReleaseEndDate']").datetimepicker();
         var userTable = $('#User').dataTable({
             "ajax": {
                 "url": "@Url.Action("Get_Card_List", "MemberCardAjax")",
@@ -69,6 +103,10 @@
                     //添加额外的参数传给服务器
                     data.SearchKey = $("#search-Input").val();
                     data.MemberShipTypeId = $("#Hidden_MemberShipCard").val();
+                    data.ReleaseDate1 = $("#ReleaseStartDate").val();
+                    data.ReleaseDate2 = $("#ReleaseEndDate").val();
+                    data.CreateDate1 = $("#CreateStartDate").val();
+                    data.CreateDate2 = $("#CreateEndDate").val();
                     return JSON.stringify(data);
                 }
             },
@@ -79,29 +117,93 @@
                 "targets": 1,
                 "width": "15px",
                 render: function (data, type, full, meta) {
-                    var num = meta.row + 1;
-                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + num + '" value="' + num + '" /><label for="checkbox-all-' + num + '"></label></div>';
-                }             
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + data + '" value="' + data + '" /><label for="checkbox-all-' + data + '"></label></div>';
+                }
+            },
+            {
+                "targets": 4,
+                "width": "200px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
+                }
+            }, 
+            {
+                "targets": 5,
+                "width": "200px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
+                }
             }]
         });
         //查询按钮
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
-        //添加按钮
+        //查询按钮
+        $("#search2").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //查询按钮
+        $("#search3").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //点击添加按钮弹出窗体
         $("#insert").click(function () {
-            add();
+            InsertMemberCard();
         });
+        $("#Insert_MemberCard").click(function () {
+            var MemberShipTypeId = $("#Hidden_MemberShipCard").val();
+            Insert_MemberCard(MemberShipTypeId);
+        });
+        $("#Hidden_Search").click(function () {
+            userTable.api().ajax.reload();
+        })
+
     });
 
 </script>
-<script>
-    $(function () {
-        $("#btn_file").click(function () {
-            $("#files").trigger("click");
-        });
-    });
 
-</script>
+<div class="box">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <form action="" method="post" id="editForm">
 
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tr>
+                    <td class="Label">
+                        卡名称：
+                        <input type="hidden" id="CardName_Hidden" />
+                    </td>
+                    <td>
+                        <input type="text" id="CardName" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        卡密：
+                        <input type="hidden" id="CardPassword_Hidden" />
+                    </td>
+                    <td>
 
+                        <input type="password" id="CardPassword" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit">
+                        <input id="Insert_MemberCard" type="button" onclick="" value="添加会员卡" class="submitBtn" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewBag.Title = "GrantCoupon";
+    Layout = "~/Views/Shared/LeftPartPage.cshtml";
+}
+@section TitleName{
+ <li>优惠券管理</li>
+<li class="active"><a href="../Coupon/Index">优惠券详情</a></li>
+}
+
+@section js{
+    <script src="~/Content/js/Shade.js"></script>
+    <script src="~/Content/js/Coupon/Coupon.js"></script>
+    <script src="~/Content/js/Coupon/GrantCoupon.js"></script>
+}
+
+@section css{
+    <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/DataTable.css" rel="stylesheet" />
+    <link href="~/Content/css/Shade.css" rel="stylesheet" />
+}
+
+@section Li_Coupon
+{
+    active
+}
+
+<input type="hidden" id="Hidden_CouponId" value="@ViewBag.CouponId" />
+<section>
+    <div class="row">
+        <div style="width:100%">
+            <div class="form-group col-lg-12">
+                <div class="col-lg-2 pull-right">
+                    <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 搜 索</button>
+                    <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
+                </div>
+                <div class="col-lg-2 pull-left">
+                    <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
+                        <i class="glyphicon glyphicon-plus"></i> 发放优惠券
+                    </button>
+                </div>
+            </div>
+            <table id="User" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
+                <thead>
+                    <tr>
+                        <th data-data="UserId" data-visible="false">用户Id</th>
+                        <th data-data="UserId" data-orderable="false">
+                            <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
+                                <input type="checkbox" id="checkbox-all" />
+                                <label for="checkbox-all"></label>
+                            </div>
+                        </th>
+                        <th data-data="UserName">用户名称</th>
+                        <th data-data="UserNickName">用户昵称</th>
+                        <th data-data="UserPhone">用户手机</th>
+                        <th data-data="UserEmail">用户邮箱</th>
+                        <th data-data="Sex">性别</th>
+                        <th data-data="ConsumptionTime">购买次数</th>
+                        <th data-data="CreateTime">创建时间</th>
+                        </thead>
+                </table>
+</div>
+    </div>
+</section>
+
+<script type="text/javascript">
+    $(function () {
+        var userTable = $('#User').dataTable({
+            "ajax": {
+                "url": "@Url.Action("Get_User_List", "UserAjax")",
+                "data": function (data) {
+                    //添加额外的参数传给服务器
+                    data.SearchKey = $("#search-Input").val();
+                    data.CouponId = $("#Hidden_CouponId").val(); 
+                    return JSON.stringify(data);
+                }
+            },
+            "columnDefs": [
+            {
+                "targets": 1,
+                "width": "15px",
+                render: function (data, type, full, meta) {
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + data + '" value="' + data + '" /><label for="checkbox-all-' + data + '"></label></div>';
+                }
+            },
+            {
+                "targets": -1,
+                "width": "140px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
+                }
+            }]
+        });
+        //查询按钮
+        $("#search").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //发放优惠券
+        $("#insert").click(function () {
+            var CouponId = $("#Hidden_CouponId").val();
+            InsertCoupon(CouponId);
+        });
+       
+    });
+</script>
+

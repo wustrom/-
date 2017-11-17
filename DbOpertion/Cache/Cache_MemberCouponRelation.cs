@@ -34,9 +34,9 @@ namespace DbOpertion.Cache
                 asc = false;
 
             }
-            var list = MemberCouponRelationOper.Instance.SelectMemberCouponRelationList(MembershipLevelId, SearchKey, Key, start, PageSize, asc);
-            var All_Count = MemberCouponRelationOper.Instance.SelectMemCouponRelationListCount(MembershipLevelId, null);
-            var Count = MemberCouponRelationOper.Instance.SelectMemCouponRelationListCount(MembershipLevelId, SearchKey);
+            var list = MemberLevelRelationOper.Instance.SelectMemberCouponRelationList(MembershipLevelId, SearchKey, Key, start, PageSize, asc);
+            var All_Count = MemberLevelRelationOper.Instance.SelectMemCouponRelationListCount(MembershipLevelId, null);
+            var Count = MemberLevelRelationOper.Instance.SelectMemCouponRelationListCount(MembershipLevelId, SearchKey);
             return new Tuple<List<MemberLevelRelation>, int, int>(list, All_Count, Count);
         }
         /// <summary>
@@ -44,9 +44,9 @@ namespace DbOpertion.Cache
         /// </summary>
         /// <param name="MembershipLevelId">等级Id</param>
         /// <returns></returns>
-        public MemberLevelRelation GetMemberCouponRelationInfo(int CouponContainsId)
+        public MemberLevelRelation GetMemberCouponRelationInfo(int MembershipLevelId)
         {
-            var list_MemberCouponRelation = MemberCouponRelationOper.Instance.SelectById(CouponContainsId);
+            var list_MemberCouponRelation = MemberLevelRelationOper.Instance.SelectById(MembershipLevelId);
             MemberLevelRelation MemRelation;
             if (list_MemberCouponRelation != null && list_MemberCouponRelation.Count != 0)
             {
@@ -61,30 +61,30 @@ namespace DbOpertion.Cache
         /// <summary>
         /// 更新等级优惠内容信息
         /// </summary>
-        /// <param name="MemRelation"></param>
+        /// <param name="MemRelation">会员卡与其对应的优惠内容的关系表信息</param>
         /// <returns></returns>
         public bool update_MemberCouponRelationInfo(MemberLevelRelation MemRelation)
         {
-            var update = MemberLevelRelationOper.Instance.Update(MemRelation);
+            var update = MemberLevelRelationOper.Instance.UpdateCouponContains(MemRelation);
             return update;
         }
         /// <summary>
         /// 根据Id删除优惠信息
         /// </summary>
-        /// <param name="CouponContainsId"></param>
+        /// <param name="CouponContainsId">优惠内容Id</param>
         /// <returns></returns>
         public bool delete_MemberCouponRelationById(int CouponContainsId)
         {
-            return MemberCouponRelationOper.Instance.Delete_MemberCouponRelatioById(CouponContainsId);
+            return MemberLevelRelationOper.Instance.Delete_MemberCouponRelatioById(CouponContainsId);
         }
         /// <summary>
         /// 添加优惠信息
         /// </summary>
-        /// <param name="MemRelation"></param>
+        /// <param name="MemRelation">会员卡与其对应的优惠内容的关系表信息</param>
         /// <returns></returns>
         public bool Insert_MemberCouponRelation(MemberLevelRelation MemRelation)
         {
-            var list = MemberCouponRelationOper.Instance.Chenk_MemberCouponRelation(MemRelation.CouponContains);
+            var list = MemberLevelRelationOper.Instance.Check_MemberCouponRelation(MemRelation.CouponContains);
             if (list.Count > 0)
             {
                 return false;

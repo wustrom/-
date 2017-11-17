@@ -41,7 +41,7 @@ namespace DbOpertion.Cache
         /// </summary>
         /// <param name="UserId">用户Id</param>
         /// <returns></returns>
-        public List<PayRecordInfo> SelcctConsumptionByUserId(int CardId)
+        public List<PayRecordInformation> SelcctConsumptionByUserId(int CardId)
         {
             return ConsumptionOper.Instance.SelectByUserAndCardId(CardId);
         }

@@ -67,7 +67,7 @@ namespace DbOpertion.Operation
         ///  <param name="UserId">用户Id</param>
         ///  <param name="CardId">卡片Id</param>
         /// <returns>对象列表</returns>
-        public List<PayRecordInfo> SelectByUserAndCardId(int CardId)
+        public List<PayRecordInformation> SelectByUserAndCardId(int CardId)
         {
             List<SqlParameter> parmList = new List<SqlParameter>();
             parmList.Add(new SqlParameter("@ElectronicTypeId", CardId));
@@ -77,7 +77,7 @@ namespace DbOpertion.Operation
                                          LEFT JOIN TUser c on b.UserId = c.UserId
                                          LEFT JOIN Store d on d.StoreId= b.StoreID
                                          WHERE a.ElectronicId = @ElectronicId;");
-            return SqlOpertion.Instance.GetQueryList<PayRecordInfo>(sql, parmList);
+            return SqlOpertion.Instance.GetQueryList<PayRecordInformation>(sql, parmList);
         }
     }
 }

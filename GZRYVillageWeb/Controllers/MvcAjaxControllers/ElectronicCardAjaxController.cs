@@ -1,8 +1,11 @@
 ﻿using Common.Enum_My;
+using Common.Extend;
 using Common.Filter.MvcAjax;
+using Common.Helper;
 using Common.Result;
 using DbOpertion.Cache;
 using DbOpertion.Models;
+using GZRYVillageWeb.Request.AjaxRequest;
 using GZRYVillageWeb.Request.AjaxRequest.DataTable;
 using GZRYVillageWeb.Request.AjaxRequest.ElectronicType;
 using GZRYVillageWeb.Response.AjaxResponse;
@@ -15,17 +18,12 @@ using System.Web.Mvc;
 namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
 {
     /// <summary>
-    /// 电子储值卡控制器
+    /// 电子储值卡Ajax控制器
     /// </summary>
     public class ElectronicCardAjaxController : Controller
     {
-        // GET: ElectronicCardAjax
-        public ActionResult Index()
-        {
-            return View();
-        }
         /// <summary>
-        /// 显示电子储值卡列表
+        /// 显示电子储值卡类型列表
         /// </summary>
         /// <param name="param"></param>
         /// <returns></returns>
@@ -55,7 +53,7 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Get_Card_List(ElectronicCardDataTableRequest param)
         {
             var List_card = Cache_ElectronicCard.Instance.SelectElectronicCardList(param.ElectronicTypeId, param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
-            DataTableResponse<ElectronicCardInfo> Parameter_Card = new DataTableResponse<ElectronicCardInfo>();
+            DataTableResponse<ElectronicCard> Parameter_Card = new DataTableResponse<ElectronicCard>();
             Parameter_Card.draw = param.Draw;
             Parameter_Card.data = List_card.Item1;
             Parameter_Card.recordsTotal = List_card.Item2;
@@ -72,26 +70,18 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         [MvcAjaxException]
         public JsonResult Get_Consumption_List(ConsumptionDataTableRequest param)
         {
-            var List_Consumption = Cache_Consumption.Instance.SelectConsumptionList(param.ElectronicId, param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
-            //List<ConsumptionResponse> List_Response = new List<ConsumptionResponse>();
-            //foreach (var item in List_Consumption.Item1)
-            //{
-            //    ConsumptionResponse response = new ConsumptionResponse(item);
-            //    List_Response.Add(response);
-            //}
-            //DataTableResponse<ConsumptionResponse> Parameter_Consumption = new DataTableResponse<ConsumptionResponse>();
-           DataTableResponse<ConsumptionInfo> Parameter_Consumption = new DataTableResponse<ConsumptionInfo>();
+            var List_Consumption = Cache_PayRecord.Instance.SelectConsumptionList(param.ElectronicId, param.SearchKey, param.OrderBy, param.Start, param.Length, param.OrderDir);
+            DataTableResponse<PayRecordInfo> Parameter_Consumption = new DataTableResponse<PayRecordInfo>();
             Parameter_Consumption.draw = param.Draw;
-            //Parameter_Consumption.data = List_Response;
             Parameter_Consumption.data = List_Consumption.Item1;
             Parameter_Consumption.recordsTotal = List_Consumption.Item2;
             Parameter_Consumption.recordsFiltered = List_Consumption.Item3;
             return Json(Parameter_Consumption.GetObject(), JsonRequestBehavior.AllowGet);
         }
         /// <summary>
-        /// 新增电子储值卡
+        /// 新增电子储值类型卡
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="request">电子储值类型卡信息</param>
         /// <returns></returns>
         [HttpPost]
         [MvcAjaxModelValidate]
@@ -99,8 +89,10 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
         public JsonResult Insert_ElectronicType(ElectronicTypeRequest request)
         {
             ElectronicType ElcCardtype = new ElectronicType();
+            ElcCardtype.CardTypeName = request.CardTypeName;
             ElcCardtype.CardImage = request.CardImage;
             ElcCardtype.CardMoney = request.CardMoney;
+            ElcCardtype.CardExpirationMonth = request.CardExpirationMonth;
             var InsertFlag = Cache_ElectronicType.Instance.Insert_ElectronicType(ElcCardtype);
             ResultJsonModel<ElectronicType> result = new ResultJsonModel<ElectronicType>();
             if (!InsertFlag)
@@ -115,6 +107,141 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
             }
 
             return Json(result, JsonRequestBehavior.AllowGet);
+
+        }
+        /// <summary>
+        /// 添加电子储值卡
+        /// </summary>
+        /// <param name="request">电子储值卡信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        [MvcAjaxModelValidate]
+        [MvcAjaxException]
+        public JsonResult Insert_ElectronicCard(ElectronicCardRequest request)
+        {
+            ElectronicCard card = new ElectronicCard();
+            var TypeCardMoney = Cache_ElectronicType.Instance.GetCardMoneyById(request.ElectronicTypeId);
+            card.CaerMoney = TypeCardMoney.CardMoney;
+            card.CardName = request.CardName;
+            string PassWord = MD5Helper.StrToMD5WithKey(request.CardPassWord);
+            card.CardPassword = PassWord;
+            card.ElectronicTypeId = request.ElectronicTypeId;
+            var Insert_Card = Cache_ElectronicCard.Instance.Insert_ElectronicCard(card);
+            ResultJsonModel<ElectronicCard> result = new ResultJsonModel<ElectronicCard>();
+            if (Insert_Card == false)
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.DataExitMessage.Enum_GetString();
+            }
+            else
+            {
+                result.HttpCode = 200;
+                result.Message = Enum_Message.DataInsertSuccessMessage.Enum_GetString();
+            }
+
+            return Json(result, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 根据卡片类型Id和卡片Id查询对应的绑定人
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [MvcAjaxModelValidate]
+        [MvcAjaxException]
+        public JsonResult Get_UserNickName(ElectronicCardUserRequest request)
+        {
+
+            var card = Cache_ElectronicCard.Instance.GetByUserNickName(request.ElectronicTypeId,request.ElectronicId);
+            ResultJson jsonresult = new ResultJson();
+            if (card != null)
+            {
+                jsonresult.HttpCode = 200;
+                jsonresult.Message = "该会员卡目前绑定人："+card.FirstOrDefault().UserNickName;
+            }
+            else
+            {
+                jsonresult.HttpCode = 300;
+                jsonresult.Message = "该会员卡目前没有绑定人";
+            }
+            return Json(jsonresult, JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 根据Id删除电子储值卡
+        /// </summary>
+        /// <param name="request">电子储值卡信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        [MvcAjaxModelValidate]
+        [MvcAjaxException]
+        public JsonResult Delete_ElectronicCardById(ElectronicCardUserRequest request)
+        {
+            ResultJson jsonresult = new ResultJson();
+            var result = Cache_ElectronicCard.Instance.DeleteElectronicCardById(request.ElectronicId);
+            if (result)
+            {
+                jsonresult.HttpCode = 200;
+                jsonresult.Message = "电子储值卡成功删除";
+            }
+            else
+            {
+                jsonresult.HttpCode = 300;
+                jsonresult.Message = "由于一些未知原因，删除失败";
+            }
+            return Json(jsonresult, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 根据Id多选删除数据
+        /// </summary>
+        /// <param name="request">id信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        [MvcAjaxModelValidate]
+        [MvcAjaxException]
+        public JsonResult Delete_ElectronicTypeCardByIds(DeleteByIdsRequest request)
+        {
+            ResultJson jsonresult = new ResultJson();
+            var List_ElectronicTypeIds = request.KeyIds.ConvertToList();
+            var result = Cache_ElectronicType.Instance.DeleteElectronicTypeCardByIds(List_ElectronicTypeIds);
+            if (result)
+            {
+                jsonresult.HttpCode = 200;
+                jsonresult.Message = "所选数据已成功删除";
+            }
+            else
+            {
+                jsonresult.HttpCode = 300;
+                jsonresult.Message = "由于一些未知原因，删除失败";
+            }
+            return Json(jsonresult, JsonRequestBehavior.AllowGet);
+
+        }
+
+        /// <summary>
+        /// 根据Id多选删除数据
+        /// </summary>
+        /// <param name="request">id信息</param>
+        /// <returns></returns>
+        [HttpPost]
+        [MvcAjaxModelValidate]
+        [MvcAjaxException]
+        public JsonResult Delete_ElectronicCardByIds(DeleteByIdsRequest request)
+        {
+            ResultJson jsonresult = new ResultJson();
+            var List_ElectronicCardIds = request.KeyIds.ConvertToList();
+            var result = Cache_ElectronicCard.Instance.Delete_ElectronicCardByIds(List_ElectronicCardIds);
+            if (result)
+            {
+                jsonresult.HttpCode = 200;
+                jsonresult.Message = "所选数据已成功删除";
+            }
+            else
+            {
+                jsonresult.HttpCode = 300;
+                jsonresult.Message = "由于一些未知原因，删除失败";
+            }
+            return Json(jsonresult, JsonRequestBehavior.AllowGet);
 
         }
     }

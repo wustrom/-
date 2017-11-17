@@ -6,14 +6,13 @@
 
 @section TitleName{
     <li>电子储值卡管理</li>
-    <li class="active"><a href="../ElectronicCard/Index">添加新类型卡</a></li>
-    <li class="active">查看该类型已生成的卡片</li>
+    <li class="active"><a href="../ElectronicCard/Index">卡片详情</a></li>
 }
 
 
 @section js{
     <script src="~/Content/js/Shade.js"></script>
-    <script src="~/Content/js/MemberCard/Index.js"></script>
+    <script src="~/Content/js/ElectronicType/ElectronicCardView.js"></script>
 }
 
 @section css{
@@ -23,7 +22,12 @@
 
 }
 
+@section Li_Electronic
+{
+    active
+}
 <input type="hidden" id="Hidden_ElectronicTypeId" value="@ViewBag.ElectronicTypeId" />
+<input type="hidden" id="Hidden_Search" />
 <section>
     <div class="row">
         <div style="width:100%">
@@ -33,23 +37,29 @@
                     <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
                 </div>
                 <div class="col-lg-2 pull-left">
+                    <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
+                        <i class="glyphicon glyphicon-plus"></i> 添加数据
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSuccess" id="DeleteAll">
+                        <i class="glyphicon glyphicon-minus"></i> 删除数据
+                    </button>
                 </div>
             </div>
             <table id="ElectronicCard" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
                 <thead>
                     <tr>
                         <th data-data="ElectronicId" data-visible="false">电子储值卡Id</th>
-                        <th data-orderable="false">
+                        <th data-data="ElectronicId" data-orderable="false">
                             <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
                                 <input type="checkbox" id="checkbox-all" />
                                 <label for="checkbox-all"></label>
                             </div>
                         </th>
-                        <th data-data="ElectronicTypeId">卡类型</th>
-                        <th data-data="UserNickName">绑定人</th>
+                        <th data-data="CardName">会员卡名</th>
                         <th data-data="CaerMoney">卡余额</th>
-                        <th data-data="IsUser">是否使用</th>
-                        <th data-data="ElectronicTypeId" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
+                        <th data-data="CardCreateDate">激活日期</th>
+                        <th data-data="CardExpirationDay">过期时间</th>
+                        <th data-data="ElectronicId" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
 
                     </tr>
                 </thead>
@@ -74,15 +84,32 @@
                 "targets": 1,
                 "width": "15px",
                 render: function (data, type, full, meta) {
-                    var num = meta.row + 1;
-                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + num + '" value="' + num + '" /><label for="checkbox-all-' + num + '"></label></div>';
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + data + '" value="' + data + '" /><label for="checkbox-all-' + data + '"></label></div>';
                 }
             },
             {
                 "targets": -1,
-                "width": "175px",
+                "width": "315px",
+
                 render: function (data, type, full, meta) {
-                    return '<a class="btn btn-sm btn-info" href="/MemberManage/Coupon?ElectronicTypeId=' + data + '">卡二维码</a>' + '<a class="btn btn-sm btn-info" href="/ElectronicCard/Consumption?ElectronicId=' + data + '">卡消费记录</a>';
+                    var ElectronicTypeId = $("#Hidden_ElectronicTypeId").val(); ' + ElectronicTypeId + ';
+                    return '<a class="btn btn-sm btn-info" href="/MemberManage/Coupon?ElectronicTypeId=' + data + '">卡二维码</a>' + '<a class="btn btn-sm btn-info" href="/ElectronicCard/Consumption?ElectronicId=' + data + '">卡消费记录</a>' + '<a class="btn btn-sm btn-info" href="javascript:;" onclick="ShowUserNickName(' + data + ',' + ElectronicTypeId + ')" >绑定人</a>' + '<a class="btn btn-sm btn-info" href="javascript:;" onclick="deleteElectronicCard('+data+')">删除</a>';
+                }
+            },
+            {
+                "targets": -2,
+                "width": "140px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
+                }
+            },
+            {
+                "targets": -3,
+                "width": "140px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
                 }
             }]
         });
@@ -90,7 +117,100 @@
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
-
+        //删除后重新刷新页面
+        $("#Hidden_Search").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //显示出添加窗体
+        $("#insert").click(function () {
+            AddElectronicCard();
+        });
+        //添加按钮
+        $("#Insert_ElectronicCard").click(function () {
+            var ElectronicTypeId = $("#Hidden_ElectronicTypeId").val();
+            Insert_ElectronicCard(ElectronicTypeId);
+        });
+        //确定按钮
+        $("#Certain").click(function () {
+            CloseDialogByUserNickName();
+        });
+        
     });
 
 </script>
+
+<div class="box">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <form action="" method="post" id="editForm">
+
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tr>
+                    <td class="Label">
+                        卡名称：
+                        <input type="hidden" id="CardName_Hidden" />
+                    </td>
+                    <td>
+                        <input type="text" id="CardName" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        卡密：
+                        <input type="hidden" id="CardPassword_Hidden" />
+                    </td>
+                    <td>
+
+                        <input type="password" id="CardPassword" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit">
+                        <input id="Insert_ElectronicCard" type="button" onclick="" value="添加会员卡" class="submitBtn" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="box1">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <form action="" method="post" id="editForm">
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tr>
+                    <td class="Label">
+                        绑定人：
+                        <input type="hidden" id="UserNickName_Hidden" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserNickName" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit">
+                        <input id="Certain" type="button" onclick="" value="确定" class="submitBtn" />
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+

@@ -275,7 +275,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\css\DataTable.css" />
+    <Content Include="Content\css\DateTime\admin.css" />
+    <Content Include="Content\css\DateTime\jquery-ui.css" />
+    <Content Include="Content\css\ElectronicType\Index.css" />
+    <Content Include="Content\css\MemberCard\Index.css" />
+    <Content Include="Content\css\Message\Message.css" />
+    <Content Include="Content\css\SearchTime.css" />
     <Content Include="Content\img\title.png" />
+    <Content Include="Content\js\Coupon\Coupon.js" />
+    <Content Include="Content\js\Coupon\GrantCoupon.js" />
     <Content Include="Content\js\DataTable.js" />
     <Content Include="Content\css\Login\Index.css" />
     <Content Include="Content\css\Shade.css" />
@@ -315,14 +323,19 @@
     <Content Include="Content\js\button.js" />
     <Content Include="Content\js\card.js" />
     <Content Include="Content\js\chartjs.js" />
+    <Content Include="Content\js\DateTime\jquery-1.11.0.min.js" />
+    <Content Include="Content\js\DateTime\jquery-ui-1.10.4.custom.min.js" />
+    <Content Include="Content\js\DateTime\jquery-ui-timepicker-addon.js" />
+    <Content Include="Content\js\DateTime\jquery-ui-timepicker-zh-CN.js" />
+    <Content Include="Content\js\DateTime\jquery.ui.datepicker-zh-CN.js" />
     <Content Include="Content\js\ElectronicType\Index.js" />
     <Content Include="Content\js\index.js" />
     <Content Include="Content\js\list.js" />
     <Content Include="Content\js\Login\Index.js" />
     <Content Include="Content\js\MemberCard\Index.js" />
-    <Content Include="Content\js\MemberCouponRelation\Index.js" />
     <Content Include="Content\js\MembershipLevel\Index.js" />
     <Content Include="Content\js\MembershipLevel\LevelCouponPage.js" />
+    <Content Include="Content\js\Message\Index.js" />
     <Content Include="Content\js\modal.js" />
     <Content Include="Content\js\Shade.js" />
     <Content Include="Content\js\theming.js" />
@@ -393,12 +406,14 @@
     <Compile Include="Controllers\MvcAjaxControllers\LoginAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\MemberCardAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\MemberShipLevelAjaxController.cs" />
+    <Compile Include="Controllers\MvcAjaxControllers\MessageAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\UserAjaxController.cs" />
     <Compile Include="Controllers\MvcPageControllers\CouponController.cs" />
     <Compile Include="Controllers\MvcPageControllers\ElectronicCardController.cs" />
     <Compile Include="Controllers\MvcPageControllers\LoginController.cs" />
     <Compile Include="Controllers\MvcPageControllers\MemberManageController.cs" />
     <Compile Include="Controllers\MvcPageControllers\MemberShipLevelController.cs" />
+    <Compile Include="Controllers\MvcPageControllers\MessageController.cs" />
     <Compile Include="Controllers\MvcPageControllers\QRCodeController.cs" />
     <Compile Include="Controllers\MvcPageControllers\UserController.cs" />
     <Compile Include="Controllers\WebApiControllers\PushController.cs" />
@@ -413,18 +428,31 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Request\AjaxRequest\CardIdRequest.cs" />
     <Compile Include="Request\AjaxRequest\Card\AddCardRequest.cs" />
+    <Compile Include="Request\AjaxRequest\Card\DeleteMemberTypeCardsRequest.cs" />
+    <Compile Include="Request\AjaxRequest\Card\InsertMemberCard.cs" />
+    <Compile Include="Request\AjaxRequest\Card\MemberShipTypeRequest.cs" />
+    <Compile Include="Request\AjaxRequest\CouponIdRequest.cs" />
+    <Compile Include="Request\AjaxRequest\CouponUserRelation\CouponUserRelationRequest.cs" />
+    <Compile Include="Request\AjaxRequest\Coupon\CouponRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\CardDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\ConsumptionDataTableRequest.cs" />
+    <Compile Include="Request\AjaxRequest\DataTable\CouponDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\ElectronicCardDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\MemberCouponRelationDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\MemberShipLevelDataTableRequest.cs" />
+    <Compile Include="Request\AjaxRequest\DataTable\MessageDataTableRequest.cs" />
     <Compile Include="Request\AjaxRequest\DataTable\UserDataTableRequest.cs" />
+    <Compile Include="Request\AjaxRequest\DeleteByIdsRequest.cs" />
+    <Compile Include="Request\AjaxRequest\ElectronicType\ElectronicCardRequest.cs" />
+    <Compile Include="Request\AjaxRequest\ElectronicType\ElectronicCardUserRequest.cs" />
     <Compile Include="Request\AjaxRequest\ElectronicType\ElectronicTypeRequest.cs" />
     <Compile Include="Request\AjaxRequest\Login\LoginInRequest.cs" />
     <Compile Include="Request\AjaxRequest\MembershipLevelIdRequest.cs" />
     <Compile Include="Request\AjaxRequest\MembershipLevel\LevelAddContainsRequest.cs" />
     <Compile Include="Request\AjaxRequest\MembershipLevel\LevelUpdateContainsRequest.cs" />
     <Compile Include="Request\AjaxRequest\MembershipLevel\MemberLevelRequest.cs" />
+    <Compile Include="Request\AjaxRequest\Message\MessageRequest.cs" />
+    <Compile Include="Request\AjaxRequest\Message\UpdateMessageContainsRequest.cs" />
     <Compile Include="Request\AjaxRequest\UserIdRequest.cs" />
     <Compile Include="Request\AjaxRequest\User\UserReqest.cs" />
     <Compile Include="Request\ApiRequest\Message\GetMessageHtmlByIdRequest.cs" />
@@ -449,16 +477,20 @@
     <Compile Include="Request\ApiRequest\User\SendEmailRequest.cs" />
     <Compile Include="Request\ApiRequest\User\UserLoginRequest.cs" />
     <Compile Include="Request\ApiRequest\User\VerificationCodeRequest.cs" />
+    <Compile Include="Request\MvcRequest\Coupon\CouponCardRequest.cs" />
     <Compile Include="Request\MvcRequest\ElectronicCard\ElectronicCardType.cs" />
+    <Compile Include="Request\MvcRequest\ElectronicCard\ElectronicCardUserRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberCard\CardIdRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberCard\CouponIdRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberCard\MemberShipCardIdRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberCouponRelation\MemberCouponRelationRequest.cs" />
     <Compile Include="Request\MvcRequest\MemberShipLevel\MemberShipLevelRequest.cs" />
+    <Compile Include="Request\MvcRequest\Message\MessageIdRequest.cs" />
     <Compile Include="Request\MvcRequest\User\UserIdRequest.cs" />
     <Compile Include="Request\ApiRequest\HostRequest.cs" />
     <Compile Include="Response\AjaxResponse\Consumption\ConsumptionResponse.cs" />
     <Compile Include="Response\AjaxResponse\Login\LoginResponse.cs" />
+    <Compile Include="Response\AjaxResponse\User\TUserResponse.cs" />
     <Compile Include="Response\AjaxResponse\User\UserResponse.cs" />
     <Compile Include="Response\ApiResponse\Messgae\GetElecCardListResponse.cs" />
     <Compile Include="Response\ApiResponse\MyClub\GetMyCouponResponse.cs" />
@@ -510,6 +542,9 @@
     <Content Include="Views\MemberShipLevel\LevelCouponPage.cshtml" />
     <Content Include="Views\MemberManage\MemberView123.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Coupon\Coupon.cshtml" />
+    <Content Include="Views\Coupon\GrantCoupon.cshtml" />
+    <Content Include="Views\Message\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -519,7 +554,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Request\AjaxRequest\Consumption\" />
     <Folder Include="Response\MvcResponse\" />
     <Folder Include="Views\QRCode\" />
   </ItemGroup>

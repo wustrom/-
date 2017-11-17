@@ -9,10 +9,13 @@
 }
 
 @section js{
-    @*<script src="~/Content/js/User/Index.js"></script>*@
+
     <script src="~/Content/js/Shade.js"></script>
-    @*<script src="~/Content/js/User/Index.js"></script>*@
     <script src="~/Content/js/User/Index.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="~/Content/js/DateTime/jquery.ui.datepicker-zh-CN.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-zh-CN.js"></script>
 }
 
 @section css{
@@ -20,6 +23,8 @@
     <link href="~/Content/css/DataTable.css" rel="stylesheet" />
     <link href="~/Content/css/User/Index.css" rel="stylesheet" />
     <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <link href="~/Content/css/DateTime/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/css/SearchTime.css" rel="stylesheet" />
 }
 
 @section Li_User
@@ -27,6 +32,7 @@
     active
 }
 
+<input type="hidden" id="Hidden_Search" />
 <section>
     <div class="row">
         <div style="width:100%">
@@ -39,13 +45,23 @@
                     <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
                         <i class="glyphicon glyphicon-plus"></i> 添加数据
                     </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSuccess" id="DeleteAll">
+                        <i class="glyphicon glyphicon-minus"></i> 删除数据
+                    </button>
+                </div>
+                <div class="col-lg-2 pull-right" id="DateTimeDiv">
+                    <button id="search2" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i>创建时间</button>
+                    <input type="text" placeholder="结束日期" name="CreateEndDate" id="CreateEndDate" class="form-control pull-right Search-Input">
+                </div>
+                <div class="col-lg-2 pull-right" id="DateTimeDiv">
+                    <input type="text" placeholder="开始日期" name="CreateStartDate" id="CreateStartDate" class="form-control pull-right Search-Input">
                 </div>
             </div>
             <table id="User" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
                 <thead>
                     <tr>
                         <th data-data="UserId" data-visible="false">用户Id</th>
-                        <th data-orderable="false">
+                        <th data-data="UserId" data-orderable="false">
                             <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
                                 <input type="checkbox" id="checkbox-all" />
                                 <label for="checkbox-all"></label>
@@ -55,8 +71,9 @@
                         <th data-data="UserNickName">用户昵称</th>
                         <th data-data="UserPhone">用户手机</th>
                         <th data-data="UserEmail">用户邮箱</th>
-                        <th data-data="UserImage">用户头像</th>
+                        <th data-data="Sex">性别</th>
                         <th data-data="ConsumptionTime">购买次数</th>
+                        <th data-data="CreateTime">创建时间</th>
                         <th data-data="UserId" style="border-right:none;" data-orderable="false"></th>
                         <th data-data="UserId" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
                         <th data-data="UserId" style="border-left:none;" data-orderable="false"></th>
@@ -69,6 +86,8 @@
 
 <script type="text/javascript">
     $(function () {
+        //获取时间
+        $("input[name='CreateStartDate'],input[name='CreateEndDate']").datetimepicker();
         var userTable = $('#User').dataTable({
             "ajax": {
                 "url": "@Url.Action("Get_User_List", "UserAjax")",
@@ -83,8 +102,8 @@
                 "targets": 1,
                 "width": "15px",
                 render: function (data, type, full, meta) {
-                    var num = meta.row + 1;
-                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + num + '" value="' + num + '" /><label for="checkbox-all-' + num + '"></label></div>';
+                    //var num = meta.row + 1;
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + data + '" value="' + data + '" /><label for="checkbox-all-' + data + '"></label></div>';
                 }
             },
             {
@@ -109,9 +128,11 @@
                 }
             },
             {
-                "targets": 6,
+                "targets": -4,
+                "width": "140px",
                 render: function (data, type, full, meta) {
-                    return '<img style="height:51px;" src="' + data + '"></img>';
+                    var str = FormatDate(data);
+                    return str;
                 }
             }]
         });
@@ -126,17 +147,11 @@
         $("#insert").click(function () {
             add();
         });
-       
-        $("#search-Input").keydown(function () {
-            if (event.keyCode == "13") {//keyCode=13是回车键
-                alert(123);
-            }
+        //删除数据后重新刷新页面
+        $("#Hidden_Search").click(function () {
+            userTable.api().ajax.reload();
         });
-        //--------回车提交事件完毕---------------------//
-        
     });
-    
-
 </script>
 
 <div class="box">
@@ -147,50 +162,87 @@
             <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
         </div>
         <form action="" method="post" id="editForm">
-            <ul class="editInfos">
-                <li>
-                    <label>
-                        用户名称：<input type="text" id="UserName" value="" class="ipt" />
+
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tr>
+                    <td class="Label">
+                        用户名称：
                         <input type="hidden" id="UserName_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户昵称：<input type="text" id="UserNickName" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserName" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        用户昵称：
                         <input type="hidden" id="UserNickName_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户手机：<input type="text" id="UserPhone" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserNickName" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        用户手机：
                         <input type="hidden" id="UserPhone_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户邮箱：<input type="text" id="UserEmail" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserPhone" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        用户邮箱：
                         <input type="hidden" id="UserEmail_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户头像：<img id="UserImage" />
-                        <input type="hidden" id="UserImage_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        购买次数：<input type="text" id="ConsumptionTime" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserEmail" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        性别：
+                        <input type="hidden" id="Sex_Hidden" />
+                    </td>
+                    <td class="radio_td">
+                        <div class="radio3 radio-check radio-success radio-inline">
+                            <input type="radio" id="Sex-Man" name="sex" value="1">
+                            <label for="Sex-Man">
+                                男
+                            </label>
+                        </div>
+                        <div class="radio3 radio-check radio-success radio-inline">
+                            <input type="radio" id="Sex-WoMan" name="sex" value="0">
+                            <label for="Sex-WoMan">
+                                女
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        购买次数：
                         <input type="hidden" id="ConsumptionTime_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <input id="Modify_User" type="button" onclick="" value="修改用户信息" class="submitBtn" />
-                </li>
-            </ul>
+                    </td>
+                    <td>
+                        <input type="text" id="ConsumptionTime" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit">
+                        <input id="Modify_User" type="button" onclick="" value="修改用户信息" class="submitBtn" />
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
 </div>
+
 <div class="box1">
     <div id="dialogBg"></div>
     <div id="dialog" class="animated">
@@ -199,47 +251,82 @@
             <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
         </div>
         <form action="" method="post" id="editForm">
-            <ul class="editInfos">
-                <li>
-                    <label>
-                        用户名称：<input type="text" id="UserName" value="" class="ipt" />
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tr>
+                    <td class="Label">
+                        用户名称：
                         <input type="hidden" id="UserName_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户昵称：<input type="text" id="UserNickName" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserName" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        用户昵称：
                         <input type="hidden" id="UserNickName_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户手机：<input type="text" id="UserPhone" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserNickName" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        用户手机：
                         <input type="hidden" id="UserPhone_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户邮箱：<input type="text" id="UserEmail" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserPhone" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        用户邮箱：
                         <input type="hidden" id="UserEmail_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户头像：<img id="UserImage" />
-                        <input type="hidden" id="UserImage_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        购买次数：<input type="text" id="ConsumptionTime" value="" class="ipt" />
+                    </td>
+                    <td>
+                        <input type="text" id="UserEmail" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        性别：
+                        <input type="hidden" id="Sex_Hidden" />
+                    </td>
+                    <td class="radio_td">
+                        <div class="radio3 radio-check radio-success radio-inline">
+                            <input type="radio" id="Sex-Insert-Man" name="sex-insert" value="1">
+                            <label for="Sex-Insert-Man">
+                                男
+                            </label>
+                        </div>
+                        <div class="radio3 radio-check radio-success radio-inline">
+                            <input type="radio" id="Sex-Insert-WoMan" name="sex-insert" value="0">
+                            <label for="Sex-Insert-WoMan">
+                                女
+                            </label>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="Label">
+                        购买次数：
                         <input type="hidden" id="ConsumptionTime_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <input id="Add_User" type="button" onclick="" value="新增用户信息" class="submitBtn" />
-                </li>
-            </ul>
+                    </td>
+                    <td>
+                        <input type="text" id="ConsumptionTime" value="" class="ipt" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="submit">
+                        <input id="Add_User" type="button" onclick="" value="新增用户信息" class="submitBtn" />
+                    </td>
+                </tr>
+            </table>
         </form>
     </div>
 </div>

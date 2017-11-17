@@ -306,6 +306,10 @@ namespace Common.Helper.LambdaOpertion
 
             if (Par.Contains("=") || Par.Contains("NULL") || Par.Contains(" IS NULL ") || Par.Contains(" IS NOT NULL ") || Par.Contains(" LIKE @"))
             {
+                if (Par.Contains("<DIV>") || Par.Contains("<OL>") || Par.Contains("<UL>") || Par.Contains("<P>") || Par.Contains("</BODY>"))
+                {
+                    return false;
+                }
                 return true;
             }
             else

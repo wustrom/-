@@ -53,12 +53,6 @@
                         <li>
                             <a href="../Coupon/Index">优惠卷类型列表</a>
                         </li>
-                        <li>
-                            <a href="../Coupon/Index">发放优惠卷</a>
-                        </li>
-                        <li>
-                            <a href="../Coupon/Index">已发放优惠卷管理</a>
-                        </li>
                     </ul>
                 </div>
             </div>
@@ -73,13 +67,28 @@
                 <div class="panel-body">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="../MemberManage/Index">添加新类型卡</a>
+                            <a href="../MemberManage/Index">会员卡类型卡管理</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </li>
-        
+        <li class="@RenderSection("Li_Electronic",required:false) panel panel-default dropdown">
+            <a data-toggle="collapse" href="#dropdown-Electronic">
+                <span class="icon fa fa-credit-card"></span><span class="title">电子储存卡管理</span>
+            </a>
+            <!-- Dropdown level 1 -->
+            <div id="dropdown-Electronic" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="../ElectronicCard/Index">储存卡类型卡管理</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </li>
         <li class="@RenderSection("Li_Message",required:false) panel panel-default dropdown">
             <a data-toggle="collapse" href="#dropdown-Message">
                 <span class="icon fa fa-comment"></span><span class="title">消息管理</span>
@@ -89,10 +98,7 @@
                 <div class="panel-body">
                     <ul class="nav navbar-nav">
                         <li>
-                            <a href="../User/Index">新增</a>
-                        </li>
-                        <li>
-                            <a href="../User/Index">编辑、查看</a>
+                            <a href="../Message/Index">消息管理</a>
                         </li>
                     </ul>
                 </div>
@@ -114,22 +120,7 @@
                 </div>
             </div>
         </li>
-        <li class="@RenderSection("Li_Electronic",required:false) panel panel-default dropdown">
-            <a data-toggle="collapse" href="#dropdown-Electronic">
-                <span class="icon fa fa-credit-card"></span><span class="title">电子储存卡管理</span>
-            </a>
-            <!-- Dropdown level 1 -->
-            <div id="dropdown-Electronic" class="panel-collapse collapse">
-                <div class="panel-body">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="../ElectronicCard/Index">添加新类型卡</a>
-                        </li>
-                        
-                    </ul>
-                </div>
-            </div>
-        </li>
+       
 
         <li class="@RenderSection("Li_System",required:false) panel panel-default dropdown">
             <a data-toggle="collapse" href="#dropdown-System">
@@ -143,7 +134,7 @@
                             <a href="../User/Index">系统账户管理</a>
                         </li>
                         <li>
-                            <a href="../User/Index">退出登录</a>
+                            <a href="../Login/Index">退出登录</a>
                         </li>
                         <li>
                             <a href="../User/Index">修改密码</a>

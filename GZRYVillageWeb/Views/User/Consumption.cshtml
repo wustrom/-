@@ -6,14 +6,16 @@
 
 @section TitleName{
     <li>用户管理</li>
-    <li>会员列表</li>
-    <li class="active">消费记录</li>
+    <li class="active"><a href="../User/Index">会员列表</a></li>
 }
 
 @section js{
-    <script src="~/Content/js/User/Index.js"></script>
     <script src="~/Content/js/Shade.js"></script>
     <script src="~/Content/js/User/Index.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-zh-CN.js"></script>
+    <script src="~/Content/js/DateTime/jquery.ui.datepicker-zh-CN.js"></script>
 }
 
 @section css{
@@ -21,6 +23,8 @@
     <link href="~/Content/css/DataTable.css" rel="stylesheet" />
     <link href="~/Content/css/User/Index.css" rel="stylesheet" />
     <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <link href="~/Content/css/DateTime/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/css/SearchTime.css" rel="stylesheet" />
 }
 
 @section Li_User
@@ -36,19 +40,26 @@
                     <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 搜 索</button>
                     <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
                 </div>
+                <div class="col-lg-2 pull-right" id="DateTimeDiv">
+                    <button id="search2" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i>消费时间</button>
+                    <input type="text" placeholder="结束日期" name="CreateEndDate" id="CreateEndDate" class="form-control pull-right Search-Input">
+                </div>
+                <div class="col-lg-2 pull-right" id="DateTimeDiv">
+                    <input type="text" placeholder="开始日期" name="CreateStartDate" id="CreateStartDate" class="form-control pull-right Search-Input">
+                </div>
             </div>
             <table id="User" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
                 <thead>
                     <tr>
-                        <th data-data="ConsumptionId" data-visible="false">消费记录Id</th>
+                        <th data-data="PayRecordId" data-visible="false">消费记录Id</th>
                         <th data-orderable="false">
                             <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
                                 <input type="checkbox" id="checkbox-all" />
                                 <label for="checkbox-all"></label>
                             </div>
                         </th>
-                        <th data-data="StoreId" data-visible="false">购物店Id</th>
-                        <th data-data="ShopName">购物店名称</th>
+                        <th data-data="StoreID" data-visible="false">购物店Id</th>
+                        <th data-data="ShopItem">购物店名称</th>
                         <th data-data="ShopMoney">消费金额</th>
                         <th data-data="ShopTime">消费时间</th>
                     </tr>
@@ -60,6 +71,8 @@
 
 <script type="text/javascript">
     $(function () {
+        //获取时间
+        $("input[name='CreateStartDate'],input[name='CreateEndDate']").datetimepicker();
         var userTable = $('#User').dataTable({
             "ajax": {
                 "url": "@Url.Action("Get_Consumption_List", "UserAjax")",
@@ -78,6 +91,14 @@
                     var num = meta.row + 1;
                     return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + num + '" value="' + num + '" /><label for="checkbox-all-' + num + '"></label></div>';
                 }
+            },
+            {
+                "targets": -1,
+                "width": "200px",
+                render: function (data, type, full, meta) {
+                    var str = FormatDate(data);
+                    return str;
+                }
             }]
         });
         //查询按钮
@@ -88,56 +109,6 @@
 
 </script>
 
-<div class="box">
-    <div id="dialogBg"></div>
-    <div id="dialog" class="animated">
-        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
-        <div class="dialogTop">
-            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
-        </div>
-        <form action="" method="post" id="editForm">
-            <ul class="editInfos">
-                <li>
-                    <label>
-                        用户名称：<input type="text" id="UserName" value="" class="ipt" />
-                        <input type="hidden" id="UserName_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户昵称：<input type="text" id="UserNickName" value="" class="ipt" />
-                        <input type="hidden" id="UserNickName_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户手机：<input type="text" id="UserPhone" value="" class="ipt" />
-                        <input type="hidden" id="UserPhone_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户邮箱：<input type="text" id="UserEmail" value="" class="ipt" />
-                        <input type="hidden" id="UserEmail_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        用户头像：<img id="UserImage" />
-                        <input type="hidden" id="UserImage_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <label>
-                        购买次数：<input type="text" id="ConsumptionTime" value="" class="ipt" />
-                        <input type="hidden" id="ConsumptionTime_Hidden" />
-                    </label>
-                </li>
-                <li>
-                    <input id="Modify_User" type="button" onclick="" value="修改用户信息" class="submitBtn" />
-                </li>
-            </ul>
-        </form>
-    </div>
-</div>
+
+
 

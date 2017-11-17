@@ -7,6 +7,7 @@ using System.Text;
 using Common.LambdaOpertion;
 using Common.Extend;
 using DbOpertion.Models;
+using System.Data;
 
 namespace DbOpertion.Operation
 {
@@ -27,7 +28,7 @@ namespace DbOpertion.Operation
             {
                 query.Where(p => p.CardName.Contains(SearchKey));
             }
-            if (Key != null)
+            if (Key != null && Key != "CardImage")
             {
                 query.OrderByKey(Key, desc);
             }
@@ -47,7 +48,7 @@ namespace DbOpertion.Operation
                 query.Where(p => p.CardName.Contains(SearchKey));
 
             }
-            if (Key != null)
+            if (Key != null && Key != "CardImage")
             {
                 query.OrderByKey(Key, desc);
             }
@@ -55,5 +56,31 @@ namespace DbOpertion.Operation
 
 
         }
+        /// <summary>
+        /// 筛选重复的会员卡名称
+        /// </summary>
+        /// <param name="CardName"></param>
+        /// <returns></returns>
+        public List<MemberShipType> Check_MemCardName(string CardName)
+        {
+            var query = new LambdaQuery<MemberShipType>();
+            query.Where(p => p.CardName == CardName);
+            return query.GetQueryList();
+        }
+
+        /// <summary>
+        /// 根据Id删除多条数据
+        /// </summary>
+        /// <param name="KeyId">所选对象的Id</param>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public bool DeleteByIds(List<int> KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            var delete = new LambdaDelete<MemberShipType>();
+            delete.Where(p => p.MemberShipTypeId.ContainsIn(KeyId));
+            return delete.GetDeleteResult();
+        }
+
     }
 }

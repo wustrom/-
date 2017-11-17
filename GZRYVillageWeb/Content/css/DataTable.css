@@ -3,11 +3,23 @@
 }
 
 .row .col-lg-2 .Search-Input {
-    width: 150px;
+    width: 130px;
     margin-right: 10px;
     margin-top: 5px;
 }
 
 .checkbox3 label {
     margin-bottom: 2px;
+}
+
+.row .form-group .col-lg-2 {
+    min-width: 266px;
+}
+
+.row .form-group .pull-left {
+    left: -30px;
+}
+
+.row .form-group .pull-left button:last-child {
+    margin-left: 20px;
 }

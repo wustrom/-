@@ -1,16 +1,24 @@
 ﻿@CHARSET "UTF-8";
 
 body {
-    /*font: .85em/1.4 "微软雅黑","Microsoft Yahei",'Arial','san-serif';*/
+    font: .85em/1.4 "微软雅黑","Microsoft Yahei",'Arial','san-serif';
     color: #666;
     margin: 0;
     padding: 0;
 }
 
+.content-container .side-menu .navbar-default{
+    font-size: 12px;
+}
+
+.content-container .container-fluid .navbar-header{
+    font-size: 11.3px;
+}
+
 img {
     max-width: 100%;
     height: auto;
-    width: auto9;
+    width: auto;
     -ms-interpolation-mode: bicubic;
     vertical-align: middle;
 }
@@ -444,43 +452,43 @@ header {
     margin: 8px auto 8px auto;
 }
 
-    #editForm table tr td {
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
+#editForm table tr td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 
-    #editForm table .Label {
-        float: right;
-        display: inline-block;
-        max-width: 100%;
-        font-weight: 700;
-        padding-top: 11px;
-        padding-right: 5px;
-    }
+#editForm table .Label {
+    float: right;
+    display: inline-block;
+    max-width: 100%;
+    font-weight: 700;
+    padding-top: 11px;
+    padding-right: 5px;
+}
 
-    #editForm table .Label_TextArea {
-        padding-top: 5px;
-    }
-
-    #editForm table textarea {
-        resize: none;
-        width: 143px;
-    }
-
-    #editForm table .submit {
-        text-align: center;
-    }
-
-        #editForm table .submit .submitBtn {
-            margin-top: -5px;
-        }
+#editForm table .Label_TextArea {
+    padding-top: 5px;
+}
 
 .animated .editInfos ul,.animated .editInfos li {
     list-style: none;
 }
 
-.box_Editor #dialog .submitBtn {
-    margin-bottom: 10px;
+#editForm table textarea {
+    resize: none;
+    width: 143px;
+}
+
+#editForm table .submit {
+    text-align: center;
+}
+
+#editForm table .submit .submitBtn {
+    margin-top: -5px;
+}
+
+.box_Editor #dialog .submitBtn{
+    margin-bottom:10px;
 }
 
 .row .form-group .col-lg-2 {
@@ -499,7 +507,7 @@ header {
     margin-right: 3%;
 }
 
-#divDemo .w-e-text {
-    color: white;
-    background: black;
+#divDemo .w-e-text{
+    color:white;
+    background:black;
 }

@@ -1,0 +1,29 @@
+﻿form {
+    border: 1px solid #CCC;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px 0;
+    width: 400px;
+    background: #EEE;
+}
+
+#editForm .editInfos #result {
+    height: 90px;
+    margin-left: 65px;
+}
+
+#editForm .editInfos .Uplod_Img {
+    position: absolute;
+    margin-left: 65px;
+    font-size: 12px;
+    padding: 2px 12px;
+    margin-top:0px;
+}
+
+#editForm .editInfos .Img_Label {
+    position: absolute;
+}
+
+.Image_Li {
+    min-height: 23px;
+}

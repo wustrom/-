@@ -11,5 +11,9 @@ namespace GZRYVillageWeb.Request.MvcRequest.MemberShipLevel
         /// 等级优惠内容Id
         /// </summary>
         public int CouponContainsId { get; set; }
+        /// <summary>
+        /// 会员等级Id
+        /// </summary>
+        public int MembershipLevelId { get; set; }
     }
 }

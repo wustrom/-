@@ -30,7 +30,7 @@ $(function () {
                 if (data.HttpCode != 200) {
                     ErrorAlert = jqueryAlert({
                         'content': data.Message,
-                        'closeTime': 3000,
+                        'closeTime': 2000,
                     });
                 }
                 else {
@@ -40,7 +40,7 @@ $(function () {
             error: function (e) {
                 ErrorAlert = jqueryAlert({
                     'content': '请求处理出错',
-                    'closeTime': 3000,
+                    'closeTime': 2000,
                 });
             }
         });
@@ -64,7 +64,7 @@ $(function () {
                 if (data.HttpCode != 200) {
                     ErrorAlert = jqueryAlert({
                         'content': data.Message,
-                        'closeTime': 3000,
+                        'closeTime': 2000,
                     });
                 }
                 else {
@@ -78,7 +78,7 @@ $(function () {
                 }
                 ErrorAlert = jqueryAlert({
                     'content': '请求处理出错',
-                    'closeTime': 3000,
+                    'closeTime': 2000,
                 });
             }
         });
@@ -104,7 +104,7 @@ $(function () {
                 if (data.HttpCode != 200) {
                     ErrorAlert = jqueryAlert({
                         'content': data.Message,
-                        'closeTime': 3000,
+                        'closeTime': 2000,
                     });
                 }
                 else {
@@ -114,7 +114,7 @@ $(function () {
             error: function (e) {
                 ErrorAlert = jqueryAlert({
                     'content': '请求处理出错',
-                    'closeTime': 3000,
+                    'closeTime': 2000,
                 });
             }
         });

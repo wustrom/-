@@ -6,8 +6,7 @@
 
 @section TitleName{
     <li>用户管理</li>
-    <li>会员列表</li>
-    <li class="active">会员优惠卷</li>
+    <li class="active"><a href="../User/Index">会员列表</a></li>
 }
 
 @section js{
@@ -98,6 +97,7 @@
     });
 </script>
 <script>
+    //转换时间格式
     function FormatDate(data) {
         var dateStr = data.substring(6, data.length - 2);
         var oDate = new Date(parseInt(dateStr));

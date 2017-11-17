@@ -156,6 +156,7 @@
     <Compile Include="Helper\Base64Helper.cs" />
     <Compile Include="Helper\CacheHelper.cs" />
     <Compile Include="Helper\FileHelper.cs" />
+    <Compile Include="Helper\HtmlCodeHelper.cs" />
     <Compile Include="Helper\ImageUploadHelper.cs" />
     <Compile Include="Helper\MemCacheHelper1.cs" />
     <Compile Include="Helper\MemCacheHelper2.cs" />

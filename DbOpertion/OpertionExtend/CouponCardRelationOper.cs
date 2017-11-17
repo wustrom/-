@@ -44,9 +44,7 @@ namespace DbOpertion.Operation
         public bool Delete_CuoponId(int MemberShipTypeId, int CouponId)
         {
             var delete = new LambdaDelete<CouponCardRelation>();
-            delete.Where(p => p.CouponId == CouponId && p.MemberShipTypeId == MemberShipTypeId);
-       
-            
+            delete.Where(p => p.CouponId == CouponId && p.MemberShipTypeId == MemberShipTypeId); 
             return delete.GetDeleteResult();
         }
         /// <summary>

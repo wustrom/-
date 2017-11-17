@@ -6,22 +6,31 @@
 
 @section TitleName{
     <li>电子储存卡管理</li>
-    <li class="active"><a href="../ElectronicCard/Index">添加新类型卡</a></li>
-    <li class="active"><a href="../ElectronicCard/ElectronicCardView">查看该类型已生成的卡片</a></li>
-    <li class="active">卡消费记录</li>
+    <li class="active"><a href="../ElectronicCard/Index">卡片详情</a></li>
 }
 
 
 @section js{
     <script src="~/Content/js/Shade.js"></script>
-    <script src="~/Content/js/MemberCard/Index.js"></script>
+    <script src="~/Content/js/ElectronicType/Consumption.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-1.10.4.custom.min.js"></script>
+    <script src="~/Content/js/DateTime/jquery.ui.datepicker-zh-CN.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-addon.js"></script>
+    <script src="~/Content/js/DateTime/jquery-ui-timepicker-zh-CN.js"></script>
+
 }
 
 @section css{
+    <link href="~/Content/css/DateTime/jquery-ui.css" rel="stylesheet" />
     <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
     <link href="~/Content/css/DataTable.css" rel="stylesheet" />
     <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <link href="~/Content/css/SearchTime.css" rel="stylesheet" />
+}
 
+@section Li_Electronic
+{
+    active
 }
 
 <input type="hidden" id="Hidden_ElectronicId" value="@ViewBag.ElectronicId" />
@@ -33,13 +42,18 @@
                     <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 搜 索</button>
                     <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
                 </div>
-                <div class="col-lg-2 pull-left">
+                <div class="col-lg-2 pull-right" id="DateTimeDiv">
+                    <button id="search2" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i>消费时间</button>
+                    <input type="text" placeholder="结束日期" name="CreateEndDate" id="CreateEndDate" class="form-control pull-right Search-Input">
+                </div>
+                <div class="col-lg-2 pull-right" id="DateTimeDiv">
+                    <input type="text" placeholder="开始日期" name="CreateStartDate" id="CreateStartDate" class="form-control pull-right Search-Input">
                 </div>
             </div>
             <table id="User" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
                 <thead>
                     <tr>
-                        <th data-data="ElectronicId" data-visible="false">电子储值卡类型Id</th>
+                        <th data-data="ElectronicId" data-visible="false">卡片Id</th>
                         <th data-orderable="false">
                             <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
                                 <input type="checkbox" id="checkbox-all" />
@@ -47,10 +61,9 @@
                             </div>
                         </th>
                         <th data-data="UserNickName">用户名</th>
-                        <th data-data="ShopName">店铺名称</th>
-                        <th data-data="ShopMoney">消费金额</th>
+                        <th data-data="ShopItem">店铺名称</th>
+                        <th data-data="PayMoney">消费金额</th>
                         <th data-data="ShopTime">消费时间</th>
-                        <th data-data="ShopType">支付方式</th>
                     </tr>
                 </thead>
             </table>
@@ -60,6 +73,8 @@
 
 <script type="text/javascript">
     $(function () {
+        //获取时间
+        $("input[name='CreateStartDate'],input[name='CreateEndDate']").datetimepicker();
         var userTable = $('#User').dataTable({
             "ajax": {
                 "url": "@Url.Action("Get_Consumption_List", "ElectronicCardAjax")",
@@ -82,44 +97,22 @@
                 }
             },
                  {
-                    "targets": -2,
-                    "width": "140px",
-            render: function (data, type, full, meta) {
-                var str = FormatDate(data);
-                return str;
-            }
-        
-            }]
+                     "targets": -1,
+                     "width": "140px",
+                     render: function (data, type, full, meta) {
+                         var str = FormatDate(data);
+                         return str;
+                     }
+
+                 }]
         });
         //查询按钮
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
-      
+
     });
 
-</script>
-<script>
-    $(function () {
-        $("#btn_file").click(function () {
-            $("#files").trigger("click");
-        });
-    });
-
-</script>
-<script>
-    function FormatDate(data) {
-        var dateStr = data.substring(6, data.length - 2);
-        var oDate = new Date(parseInt(dateStr));
-        oYear = oDate.getFullYear();
-        oMonth = oDate.getMonth() + 1;
-        oDay = oDate.getDate();
-        oHour = oDate.getHours();
-        oMin = oDate.getMinutes();
-        oSec = oDate.getSeconds();
-        var str = oYear + "-" + oMonth + "-" + oDay + "  " + oHour + ":" + oMin + ":" + oSec;
-        return str;
-    }
 </script>
 
 

@@ -1,0 +1,183 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LeftPartPage.cshtml";
+}
+
+@section TitleName{
+    <li>消息管理</li>
+    <li class="active">消息详情</li>
+}
+
+
+@section js{
+    <script src="~/Content/js/Shade.js"></script>
+    <script src="~/Content/js/Message/Index.js"></script>
+    <script src="~/Content/lib/js/jquery.form.js"></script>
+    <script src="~/Content/js/wangEditor.min.js"></script>
+    <script src="~/Content/js/MembershipLevel/LevelCouponPage.js"></script>
+}
+
+@section css{
+    <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/DataTable.css" rel="stylesheet" />
+    <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <link href="~/Content/css/Message/Message.css" rel="stylesheet" />
+}
+
+@section Li_Message
+{
+    active
+}
+<input type="hidden" id="Hidden_Search" />
+<section>
+    <div class="row">
+        <div style="width:100%">
+            <div class="form-group col-lg-12">
+                <div class="col-lg-2 pull-right">
+                    <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 搜 索</button>
+                    <input type="text" placeholder="请输入搜索内容" id="search-Input" class="form-control pull-right Search-Input">
+                </div>
+                <div class="col-lg-2 pull-left">
+                    <button type="button" class="btn btn-primary btn-success" data-toggle="modal" data-target="#modalSuccess" id="insert">
+                        <i class="glyphicon glyphicon-plus"></i> 添加数据
+                    </button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modalSuccess" id="DeleteAll">
+                        <i class="glyphicon glyphicon-minus"></i> 删除数据
+                    </button>
+                </div>
+            </div>
+            <table id="MessageTable" class="col-lg-12 table table-striped table-bordered" data-page-length="10" data-order="[[0,&quot;asc&quot;]]" width="100%">
+                <thead>
+                    <tr>
+                        <th data-data="MessageID" data-visible="false">消息Id</th>
+                        <th data-data="MessageID" data-orderable="false">
+                            <div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light">
+                                <input type="checkbox" id="checkbox-all" />
+                                <label for="checkbox-all"></label>
+                            </div>
+                        </th>
+                        <th data-data="MessageName">消息名称</th>
+                        @*<th data-data="MessageContains">消息内容</th>*@
+                        <th data-data="MessageImage">消息图片</th>
+                        <th data-data="MessageDescribe" width="400px">消息描述</th>
+                        <th data-data="MessageID" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
+
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</section>
+<script type="text/javascript">
+    $(function () {
+        var userTable = $('#MessageTable').dataTable({
+            "ajax": {
+                "url": "@Url.Action("Get_Message_List", "MessageAjax")",
+                "data": function (data) {
+                    //添加额外的参数传给服务器
+                    data.SearchKey = $("#search-Input").val();
+                    return JSON.stringify(data);
+                }
+            },
+            "columnDefs": [
+            {
+                "targets": 1,
+                "width": "15px",
+                render: function (data, type, full, meta) {
+                    //var num = meta.row + 1;
+                    return '<div class="checkbox3 checkbox-success checkbox-check checkbox-round  checkbox-light"><input type="checkbox" id="checkbox-all-' + data + '" value="' + data + '" /><label for="checkbox-all-' + data + '"></label></div>';
+                }
+            },
+            {
+                "targets": -1,
+                "width": "50px",
+                render: function (data, type, full, meta) {
+                    return '<a class="btn btn-sm btn-info" onclick="MessageContainsInfo(' + data + ')">编辑</a>'; //+ '<a class="btn btn-sm btn-info" href="">查看</a>'
+                }
+            },
+            {
+                "targets": -3,
+                render: function (data, type, full, meta) {
+                    return '<img style="height:35px;" src="' + data + '"></img>';
+                }
+            }]
+        });
+        //查询按钮
+        $("#search").click(function () {
+            userTable.api().ajax.reload();
+        });
+        //新增按钮
+        $("#insert").click(function () {
+            add();
+        });
+        //添加
+        $("#Insert_Message").click(function () {
+            InsertMessage();
+        });
+        //多选删除数据后重新刷新页面
+        $("#Hidden_Search").click(function () {
+            userTable.api().ajax.reload();
+        })
+    });
+
+</script>
+<div class="box">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <img src="~/Content/image/Shade/ico.png" class="dialogIco" width="50" height="50" />
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <div id="editForm">
+            <ul class="editInfos">
+                <li>
+                    <label>
+                        消息名称：<input type="text" id="MessageName" value="" class="ipt" />
+                        <input type="hidden" id="MessageName_Hidden" />
+                    </label>
+                </li>
+                <li>
+                    <label>
+                        消息描述：<textarea id="MessageDescribe" placeholder="请填写消息描述" class="ipt"></textarea>
+                        <input type="hidden" id="MessageDescribe_Hidden" />
+                    </label>
+                </li>
+                <li class="Image_Li">
+                    <label class="Img_Label">
+                        卡片图案：
+                        <input type="hidden" id="MemberShipTypeId_Hidden" />
+                    </label>
+                    <button type="button" id="btn_show" class="btn btn-primary Uplod_Img">上传图片</button>
+
+                    <form id="form_upload" style="padding:20px; display:none;" action="upload" method="post" enctype="multipart/form-data">
+                        <input id="upImg" name="upImg" style="width:350px;height:25px;" size="38" type="file" /><input id="Sumbit_Img" type="submit" value="上传" />
+                    </form>
+                    <img alt="" style="display:none;" id="result" src="" />
+                </li>
+                <li>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input id="Insert_Message" type="button" onclick="" value="添加消息" class="submitBtn" />
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="box1 box_Editor">
+    <div id="dialogBg"></div>
+    <div id="dialog" class="animated">
+        <div class="dialogTop">
+            <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
+        </div>
+        <div class="Editor_Content">
+            <div id="divDemo">
+                <p>欢迎使用<b>wangEditor 富文本编辑器</b>，请输入内容...</p>
+            </div>
+        </div>
+        <div style="text-align:center;vertical-align:middle;">
+            <input id="Update_Message" type="button" onclick="" value="修改消息内容" class="submitBtn" />
+        </div>
+    </div>
+</div>
+
+

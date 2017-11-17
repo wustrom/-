@@ -7,6 +7,7 @@ using System.Text;
 using Common.LambdaOpertion;
 using Common.Extend;
 using DbOpertion.Models;
+using System.Data;
 
 namespace DbOpertion.Operation
 {
@@ -25,7 +26,7 @@ namespace DbOpertion.Operation
             var query = new LambdaQuery<ElectronicType>();
             if (!SearchKey.IsNullOrEmpty())
             {
-                query.Where(p =>  p.CardMoney.Contains(SearchKey));
+                query.Where(p => p.CardTypeName.Contains(SearchKey) || p.CardMoney.Contains(SearchKey));
             }
             if (Key != null)
             {
@@ -45,7 +46,7 @@ namespace DbOpertion.Operation
             var query = new LambdaQuery<ElectronicType>();
             if (!SearchKey.IsNullOrEmpty())
             {
-                query.Where(p => p.CardMoney.Contains(SearchKey));
+                query.Where(p => p.CardTypeName.Contains(SearchKey) || p.CardMoney.Contains(SearchKey));
 
             }
             if (Key != null)
@@ -61,10 +62,38 @@ namespace DbOpertion.Operation
         /// </summary>
         /// <param name="CardName"></param>
         /// <returns></returns>
-        public List<ElectronicType> SelectElectronicTypeByName(string CardName)
+        public List<ElectronicType> SelectElectronicTypeByName(string CardTypeName)
         {
             var query = new LambdaQuery<ElectronicType>();
+            query.Where(p => p.CardTypeName == CardTypeName);
             return query.GetQueryList();
+        }
+
+        /// <summary>
+        /// 根据Id删除多条数据
+        /// </summary>
+        /// <param name="KeyId">所选对象的Id</param>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public bool DeleteByIds(List<int> KeyId, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            var delete = new LambdaDelete<ElectronicType>();
+            delete.Where(p => p.ElectronicTypeId.ContainsIn(KeyId));
+            return delete.GetDeleteResult();
+        }
+        /// <summary>
+        ///根据Id获取类型卡的储值金额
+        /// </summary>
+        /// <param name="ElectronicTypeId">储值卡类型Id</param>
+        /// <param name="connection"></param>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        public ElectronicType GetCardMoneyById(int ElectronicTypeId, IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            var query = new LambdaQuery<ElectronicType>();
+            query.Where(p=>p.ElectronicTypeId== ElectronicTypeId);
+            return query.GetQueryList(connection, transaction).FirstOrDefault();
         }
     }
 }

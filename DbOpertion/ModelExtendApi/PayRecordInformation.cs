@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DbOpertion.Models
 {
-    public class PayRecordInfo
+    public class PayRecordInformation
     {
         /// <summary>
         /// 消费记录ID

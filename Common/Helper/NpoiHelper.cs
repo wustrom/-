@@ -12,24 +12,11 @@
  *  
  * *******************************************************************/
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.IO;
-using System.Text;
 using System.Web;
-using NPOI;
-using NPOI.HPSF;
-using NPOI.HSSF;
 using NPOI.HSSF.UserModel;
-using NPOI.HSSF.Util;
-using NPOI.POIFS;
 using NPOI.SS.UserModel;
-using NPOI.Util;
-using NPOI.SS;
-using NPOI.DDF;
-using NPOI.SS.Util;
-using System.Collections;
-using System.Text.RegularExpressions;
 using NPOI.XSSF.UserModel;
 
 namespace Common.Helper

@@ -20,8 +20,7 @@
     editor.customConfig.uploadImgShowBase64 = true;
     editor.create();
     $("#btn_Text").bind("click", function () {
-        debugger;
         $("#divDemo img").css("width", "100%");
-        alert('<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body style="color:white;background:black; width:100%;height:100%;margin:0px;">' + editor.txt.html() + '</body>');
+        alert('<head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"></head><body style="color:white;background:black; width:96%;height:100%;padding:0 2%;">' + editor.txt.html() + '</body>');
     });
 });

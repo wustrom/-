@@ -60,7 +60,7 @@ namespace DbOpertion.Cache
         /// <returns></returns>
         public Message SelectById(int KeyId)
         {
-            return MessageOper.Instance.SelectById(KeyId);
+            return MessageOper.Instance.SelectById(KeyId).FirstOrDefault();
         }
     }
 }

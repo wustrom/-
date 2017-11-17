@@ -6,7 +6,7 @@
 
 @section TitleName{
     <li>会员等级管理</li>
-    <li class="active"><a href="../ElectronicCard/Index">各类会员等级</a></li>
+    <li class="active">会员等级信息</li>
 }
 
 
@@ -15,6 +15,7 @@
     <script src="~/Content/js/MembershipLevel/Index.js"></script>
     <script src="~/Content/js/wangEditor.min.js"></script>
     <script src="~/Content/js/MembershipLevel/LevelCouponPage.js"></script>
+
 }
 
 @section css{
@@ -23,6 +24,10 @@
     <link href="~/Content/css/Shade.css" rel="stylesheet" />
 }
 
+@section Li_LevelManger
+{
+    active
+}
 <section>
     <div class="row">
         <div style="width:100%">
@@ -48,7 +53,6 @@
                         <th data-data="LevelMin">等级所需条件</th>
                         <th data-data="LevelMax">下一等级所需条件</th>
                         <th data-data="MembershipLevelId" style="border-left:none;border-right:none;text-align:center" data-orderable="false">操作</th>
-
                     </tr>
                 </thead>
             </table>
@@ -88,7 +92,7 @@
         $("#search").click(function () {
             userTable.api().ajax.reload();
         });
-
+      
     });
 
 </script>
@@ -135,11 +139,11 @@
             <a href="javascript:;" class="claseDialogBtn"><i class="fa fa-close"></i></a>
         </div>
         <div class="Editor_Content">
-            <div id="divDemo"><p>欢迎使用<b>wangEditor 富文本编辑器</b>，请输入内容...</p></div>
+            <div id="divDemo"><p>欢迎使用<b>wangEditor 富文本编辑器</b>，请输入内容...</p>
+            </div>
         </div>
         <div style="text-align:center;vertical-align:middle;">
-            <input id="Modify_MemberShipLevel" type="button" onclick="" value="修改等级信息" class="submitBtn" />
+            <input id="Update_MemberShipLevel" type="button" onclick="" value="修改优惠内容" class="submitBtn" />
         </div>
     </div>
 </div>
-

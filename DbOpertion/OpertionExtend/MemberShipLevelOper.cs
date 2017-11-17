@@ -66,13 +66,35 @@ namespace DbOpertion.Operation
         /// <summary>
         /// 判断等级名称是否相同
         /// </summary>
-        /// <param name="LevelName"></param>
+        /// <param name="LevelName">等级名称</param>
+        /// <param name="MembershipLevelId">会员等级Id</param>
         /// <returns></returns>
         public List<MemberShipLevel> Check_MembershipLevelName(string LevelName, int MembershipLevelId)
         {
             var query = new LambdaQuery<MemberShipLevel>();
             query.Where(p => p.LevelName == LevelName && p.MembershipLevelId != MembershipLevelId);
             return query.GetQueryList();
+        }
+        /// <summary>
+        /// 修改当前等级时同时修改下一等级所需的条件
+        /// </summary>
+        /// <param name="MembershipLevelId">会员卡等级Id</param>
+        /// <param name="LevelMin">当前等级所需条件</param>
+        /// <param name="connection">表示到数据源的已打开连接</param>
+        /// <param name="transaction">表示要在数据源上执行的事物</param>
+        /// <returns></returns>
+        public bool Update_MemberLevelMin(int? MembershipLevelId,int? LevelMin,IDbConnection connection = null, IDbTransaction transaction = null)
+        {
+            var update = new LambdaUpdate<MemberShipLevel>();
+            if (!MembershipLevelId.IsNullOrEmpty())
+            {
+                update.Where(p => p.MembershipLevelId == MembershipLevelId);
+            }
+            if (!LevelMin.IsNullOrEmpty())
+            {
+                update.Set(p => p.LevelMin == LevelMin);
+            }
+            return update.GetUpdateResult(connection, transaction);
         }
 
     }

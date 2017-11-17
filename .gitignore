@@ -3,3 +3,11 @@
 ################################################################################
 
 /AliyunHelper/bin/Debug
+/AliyunHelper/obj/Debug
+/Common/bin/Debug
+/Common/obj/Debug
+/DbOpertion/bin/Debug
+/DbOpertion/obj/Debug
+/packages
+/GZRYVillageWeb/bin
+/GZRYVillageWeb/obj/Debug

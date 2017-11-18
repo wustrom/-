@@ -12,3 +12,121 @@
 {
     active
 }
+<script>
+    function EnterKey() {
+        if (event.keyCode == 13) {
+            alert($("#Hidden_Input").val());
+        }
+    }
+    $(function () {
+        t = setInterval("focusOn()", 5000);
+        focusOn();
+    })
+    function focusOn() {
+        $("#Hidden_Input").focus();
+        //alert($("#Hidden_Input").val());
+    }
+
+</script>
+<style>
+    #Hidden_Input{
+        margin-bottom:10px;
+    }
+    table tr {
+        height: 30px;
+    }
+</style>
+<div>
+    <input type="text" id="Hidden_Input" onkeydown="EnterKey()" />
+</div>
+
+<div class="col-sm-3">
+    <div class="panel panel-info">
+        <div class="panel-heading">用户信息</div>
+        <div class="panel-body">
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            用户昵称：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            用户性别：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            手机号码：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            用户等级：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            消费次数：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="col-sm-3">
+    <div class="panel panel-info">
+        <div class="panel-heading">用户信息</div>
+        <div class="panel-body">
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            用户昵称：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            用户性别：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            手机号码：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            用户等级：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            消费次数：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

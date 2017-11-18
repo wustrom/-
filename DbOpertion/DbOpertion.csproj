@@ -53,6 +53,7 @@
     <Compile Include="CacheExtendApi\Cache_MemberShipCard.cs" />
     <Compile Include="CacheExtendApi\Cache_MemberShipLevel.cs" />
     <Compile Include="CacheExtendApi\Cache_Message.cs" />
+    <Compile Include="CacheExtendApi\Cache_Store.cs" />
     <Compile Include="CacheExtendApi\Cache_TUser.cs" />
     <Compile Include="Cache\Cache_AddCard.cs" />
     <Compile Include="Cache\Cache_Consumption.cs" />

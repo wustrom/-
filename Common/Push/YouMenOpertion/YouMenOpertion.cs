@@ -12,7 +12,8 @@ namespace Common.Push.YouMenOpertion
 {
     public class YouMenOpertion : SingleTon<YouMenOpertion>
     {
-        UMengMessagePush umPush = new UMengMessagePush("58105bf1aed17925a900395f", "v2ylbfwcsd1dqnkasionxf1uhicnxjey");
+        UMengMessagePush umPushAndroid = new UMengMessagePush("58105bf1aed17925a900395f", "v2ylbfwcsd1dqnkasionxf1uhicnxjey");
+        UMengMessagePush umPushIos = new UMengMessagePush("5a0e79b38f4a9d422400003a", "dgbahblbnnv9ajorp0qhm81odzwz9q16");
 
         /// <summary>
         /// 推送给所有安卓用户
@@ -31,7 +32,7 @@ namespace Common.Push.YouMenOpertion
             postJson.payload.body.custom = "comment-notify";
             postJson.description = "评论提醒-UID:" + 123;
             postJson.thirdparty_id = "COMMENT";
-            ReturnJsonClass resu = umPush.SendMessage(postJson);
+            ReturnJsonClass resu = umPushAndroid.SendMessage(postJson);
             return resu;
         }
 
@@ -44,14 +45,10 @@ namespace Common.Push.YouMenOpertion
             postJson.type = "broadcast";
             postJson.payload = new YouMenResult.JsonIOS.Payload();
             postJson.payload.aps = new Aps();
-            postJson.payload.aps.alert = "123";
-            postJson.payload.aps.badge = "123";
-            postJson.payload.aps.category = "123";
-            postJson.payload.aps.content_available = "123";
-            postJson.payload.aps.sound = "123";
+            postJson.payload.aps.alert = "您的评论有回复";
             postJson.description = "评论提醒-UID:" + 123;
             postJson.thirdparty_id = "COMMENT";
-            ReturnJsonClass resu = umPush.SendMessage(postJson);
+            ReturnJsonClass resu = umPushIos.SendMessage(postJson);
             return resu;
         }
 
@@ -75,7 +72,7 @@ namespace Common.Push.YouMenOpertion
             postJson.thirdparty_id = "COMMENT";
             postJson.description = "评论提醒-UID:" + 5583;
             //ReturnJsonClass resu = umPush.SendMessage(postJson);
-            umPush.AsynSendMessage(postJson, callBack);
+            umPushAndroid.AsynSendMessage(postJson, callBack);
         }
 
         private void callBack(ReturnJsonClass result)

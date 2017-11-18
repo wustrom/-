@@ -27,9 +27,9 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
         [HttpPost]
         [ValidateModel]
         [WebApiException]
-        public ResultJsonModel<GetMyCardResponse, UserLevelResponse, List<GetElecCardListResponse>, List<GetMyCouponResponse>, string, GetMessageListResponse> GetFirstPage(UserTokenRequest request)
+        public ResultJsonModel<GetMyCardResponse, UserLevelResponse, List<GetElecCardListResponse>, List<GetMyCouponResponse>, GetStoreListResponse, GetMessageListResponse> GetFirstPage(CoordWithTokenRequest request)
         {
-            ResultJsonModel<GetMyCardResponse, UserLevelResponse, List<GetElecCardListResponse>, List<GetMyCouponResponse>, string, GetMessageListResponse> result = new ResultJsonModel<GetMyCardResponse, UserLevelResponse, List<GetElecCardListResponse>, List<GetMyCouponResponse>, string, GetMessageListResponse>();
+            ResultJsonModel<GetMyCardResponse, UserLevelResponse, List<GetElecCardListResponse>, List<GetMyCouponResponse>, GetStoreListResponse, GetMessageListResponse> result = new ResultJsonModel<GetMyCardResponse, UserLevelResponse, List<GetElecCardListResponse>, List<GetMyCouponResponse>, GetStoreListResponse, GetMessageListResponse>();
             //用户等级
             MyClubController myclub = new MyClubController();
             var LevelInfo = myclub.GetCurrentLevelInfo(request);
@@ -69,6 +69,15 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
                 result.Model4 = coupon.Model1;
             }
 
+            //地址
+            MapController map = new MapController();
+            CoordRequest coordrequest = new CoordRequest { Latitude = request.Latitude, Longitude = request.Longitude };
+            var address = map.GetFirstStore(coordrequest);
+            if (address.HttpCode == 200)
+            {
+                result.Model5 = address.Model1;
+            }
+
             //消息列表
             MessageController message = new MessageController();
             HostRequest hostRequest = new HostRequest { Host = Url.Request.Headers.Host };
@@ -94,9 +103,19 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
         [HttpPost]
         [ValidateModel]
         [WebApiException]
-        public ResultJsonModel<string, GetMessageListResponse> GetFirstPageNoLogin()
+        public ResultJsonModel<GetStoreListResponse, GetMessageListResponse> GetFirstPageNoLogin(CoordRequest request)
         {
-            ResultJsonModel<string, GetMessageListResponse> result = new ResultJsonModel<string, GetMessageListResponse>();
+            ResultJsonModel<GetStoreListResponse, GetMessageListResponse> result = new ResultJsonModel<GetStoreListResponse, GetMessageListResponse>();
+
+            //地址
+            MapController map = new MapController();
+            CoordRequest coordrequest = new CoordRequest { Latitude = request.Latitude, Longitude = request.Longitude };
+            var address = map.GetFirstStore(coordrequest);
+            if (address.HttpCode == 200)
+            {
+                result.Model1 = address.Model1;
+            }
+
             //消息列表
             MessageController message = new MessageController();
             HostRequest hostRequest = new HostRequest { Host = Url.Request.Headers.Host };
@@ -112,7 +131,6 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
                 result.HttpCode = 300;
                 result.Message = Enum_Message.NoMoreDataMessage.Enum_GetString();
             }
-
             return result;
         }
     }

@@ -407,6 +407,7 @@
     <Compile Include="Controllers\MvcAjaxControllers\MemberCardAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\MemberShipLevelAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\MessageAjaxController.cs" />
+    <Compile Include="Controllers\MvcAjaxControllers\QRCodeAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\UserAjaxController.cs" />
     <Compile Include="Controllers\MvcPageControllers\CouponController.cs" />
     <Compile Include="Controllers\MvcPageControllers\ElectronicCardController.cs" />
@@ -559,6 +560,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Response\MvcResponse\" />
+    <Folder Include="Views\Default\" />
+    <Folder Include="Views\QRCodeAjax\" />
     <Folder Include="Views\QRCode\" />
   </ItemGroup>
   <ItemGroup>

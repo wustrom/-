@@ -15,7 +15,8 @@
 <script>
     function EnterKey() {
         if (event.keyCode == 13) {
-            alert($("#Hidden_Input").val());
+            alert($(".Search-Input").val());
+            $('.Search-Input').val("");
         }
     }
     $(function () {
@@ -23,21 +24,41 @@
         focusOn();
     })
     function focusOn() {
-        $("#Hidden_Input").focus();
+        $(".Search-Input").focus();
         //alert($("#Hidden_Input").val());
     }
 
 </script>
 <style>
-    #Hidden_Input{
-        margin-bottom:10px;
+    #Hidden_Input {
+        margin-bottom: 10px;
     }
+
     table tr {
         height: 30px;
     }
+
+    .form-group .btn-warning {
+        border-radius: 6px;
+    }
+
+    .form-group .Search-Input {
+        width: 125px;
+        margin-top: 5px;
+        margin-right: 5px;
+        border-radius: 20px;
+    }
+
+    .form-group .col-lg-2 {
+        min-width: 275px;
+    }
 </style>
-<div>
-    <input type="text" id="Hidden_Input" onkeydown="EnterKey()" />
+
+<div class="form-group col-lg-12">
+    <div class="col-lg-2 pull-right">
+        <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 二维码扫描 </button>
+        <input type="text" placeholder="请扫描二维码" onkeydown="EnterKey()" id="search-Input" class="form-control pull-right Search-Input">
+    </div>
 </div>
 
 <div class="col-sm-3">
@@ -85,9 +106,54 @@
         </div>
     </div>
 </div>
+<div class="col-sm-6">
+    <div class="panel panel-info">
+        <div class="panel-heading">用户的优惠卷</div>
+        <div class="panel-body">
+            <table>
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td>
+                            用户昵称：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            用户性别：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            手机号码：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            用户等级：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            消费次数：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 <div class="col-sm-3">
     <div class="panel panel-info">
-        <div class="panel-heading">用户信息</div>
+        <div class="panel-heading">核实消费信息</div>
         <div class="panel-body">
             <table>
                 <colgroup>

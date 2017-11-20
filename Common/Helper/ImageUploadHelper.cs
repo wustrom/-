@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -35,6 +37,48 @@ namespace Common.Helper
         {
             MemoryStream stream = new MemoryStream(Convert.FromBase64String(base64Code));
             return new Bitmap(stream);
+        }
+
+        /// <summary>
+        /// 无损压缩图片    
+        /// <param name="sFile">原图片</param>    
+        /// <param name="dFile">压缩后保存位置</param>    
+        /// <param name="dHeight">高度</param>    
+        /// <param name="dWidth"></param>    
+        /// <param name="flag">压缩质量(数字越小压缩率越高) 1-100</param>    
+        /// <returns></returns>    
+
+        public bool YaSuo(Image iSource, string outPath, int flag)
+        {
+            ImageFormat tFormat = iSource.RawFormat;
+            EncoderParameters ep = new EncoderParameters();
+            long[] qy = new long[1];
+            qy[0] = flag;
+            EncoderParameter eParam = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, qy);
+            ep.Param[0] = eParam;
+            try
+            {
+                ImageCodecInfo[] arrayICI = ImageCodecInfo.GetImageDecoders();
+                ImageCodecInfo jpegICIinfo = null;
+                for (int x = 0; x < arrayICI.Length; x++)
+                {
+                    if (arrayICI[x].FormatDescription.Equals("JPEG"))
+                    {
+                        jpegICIinfo = arrayICI[x];
+                        break;
+                    }
+                }
+                if (jpegICIinfo != null)
+                    iSource.Save(outPath, jpegICIinfo, ep);
+                else
+                    iSource.Save(outPath, tFormat);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+            iSource.Dispose();
         }
     }
 }

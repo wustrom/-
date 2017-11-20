@@ -1,4 +1,6 @@
 ﻿using Common.Enum_My;
+using Common.Filter;
+using Common.Filter.WebApi;
 using Common.Result;
 using DbOpertion.CacheExtendApi;
 using GZRYVillageWeb.Request.ApiRequest;
@@ -20,6 +22,9 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
         /// <summary>
         /// 获得商铺列表
         /// </summary>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
         public ResultJsonModel<List<GetStoreListResponse>> GetStoreList()
         {
             ResultJsonModel<List<GetStoreListResponse>> result = new ResultJsonModel<List<GetStoreListResponse>>();
@@ -46,6 +51,9 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
         /// <summary>
         /// 获得商铺列表
         /// </summary>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
         public ResultJsonModel<GetStoreListResponse> GetFirstStore(CoordRequest request)
         {
             ResultJsonModel<GetStoreListResponse> result = new ResultJsonModel<GetStoreListResponse>();

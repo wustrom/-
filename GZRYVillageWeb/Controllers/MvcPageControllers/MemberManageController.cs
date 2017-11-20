@@ -15,6 +15,8 @@ using Common.Mvc.Filter;
 using Common.Helper;
 using Common.Enum_My;
 using Common.Extend;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace GZRYVillageWeb.Controllers.MvcPageControllers
 {
@@ -50,7 +52,7 @@ namespace GZRYVillageWeb.Controllers.MvcPageControllers
         [UserLogin]
         public ActionResult MemberView(MemberShipCardIdRequest request)
         {
-             ViewBag.MemberShipTypeId = request.MemberShipTypeId;
+            ViewBag.MemberShipTypeId = request.MemberShipTypeId;
             return View();
         }
         /// <summary>
@@ -74,7 +76,9 @@ namespace GZRYVillageWeb.Controllers.MvcPageControllers
                 var fileName = RandHelper.Instance.Str(6) + DateTime.Now.Ticks + fileExten;
                 try
                 {
-                    upImg.SaveAs(filePhysicalPath + "/" + fileName);
+                    var image = Image.FromStream(upImg.InputStream);
+                    ImageUploadHelper.Instance.YaSuo(image, filePhysicalPath + "/" + fileName, 30);
+                    //upImg.SaveAs(filePhysicalPath + "/" + fileName);
                     pic = "/upload/MemberManage/" + fileName;
                 }
                 catch (Exception ex)
@@ -179,6 +183,6 @@ namespace GZRYVillageWeb.Controllers.MvcPageControllers
             }
         }
 
-        
+
     }
 }

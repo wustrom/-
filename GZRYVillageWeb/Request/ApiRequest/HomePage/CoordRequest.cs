@@ -19,5 +19,6 @@ namespace GZRYVillageWeb.Request.ApiRequest
         /// 纬度
         /// </summary>
         public double? Longitude { get; set; }
+
     }
 }

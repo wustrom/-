@@ -65,5 +65,6 @@ namespace GZRYVillageWeb.Response.ApiResponse
         /// 距离
         /// </summary>
         public string Distance { get; set; }
+        
     }
 }

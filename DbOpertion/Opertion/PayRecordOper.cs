@@ -123,6 +123,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.ShopItem == payrecord.ShopItem);
             }
+            if (!payrecord.NeedPayMoney.IsNullOrEmpty())
+            {
+                update.Set(p => p.NeedPayMoney == payrecord.NeedPayMoney);
+            }
             return update.GetUpdateResult(connection, transaction);
         }
 
@@ -153,6 +157,10 @@ namespace DbOpertion.Operation
             if (!payrecord.ShopItem.IsNullOrEmpty())
             {
                 insert.Insert(p => p.ShopItem == payrecord.ShopItem);
+            }
+            if (!payrecord.NeedPayMoney.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.NeedPayMoney == payrecord.NeedPayMoney);
             }
             return insert.GetInsertResult(connection, transaction);
         }

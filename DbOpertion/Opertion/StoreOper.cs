@@ -127,6 +127,14 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.StoreName == store.StoreName);
             }
+            if (!store.UserName.IsNullOrEmpty())
+            {
+                update.Set(p => p.UserName == store.UserName);
+            }
+            if (!store.UserPassword.IsNullOrEmpty())
+            {
+                update.Set(p => p.UserPassword == store.UserPassword);
+            }
             return update.GetUpdateResult(connection, transaction);
         }
 
@@ -161,6 +169,14 @@ namespace DbOpertion.Operation
             if (!store.StoreName.IsNullOrEmpty())
             {
                 insert.Insert(p => p.StoreName == store.StoreName);
+            }
+            if (!store.UserName.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.UserName == store.UserName);
+            }
+            if (!store.UserPassword.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.UserPassword == store.UserPassword);
             }
             return insert.GetInsertResult(connection, transaction);
         }

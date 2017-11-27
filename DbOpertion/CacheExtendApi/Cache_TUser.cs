@@ -97,6 +97,16 @@ namespace DbOpertion.Cache
         }
 
         /// <summary>
+        /// 根据Token获得用户信息
+        /// </summary>
+        /// <param name="UserId"></param>
+        /// <returns></returns>
+        public TUser GetUserInfo(int UserID)
+        {
+            return TUserOper.Instance.SelectById(UserID);
+        }
+
+        /// <summary>
         /// 设置用户注册验证码
         /// </summary>
         /// <param name="phone">用户手机号码</param>
@@ -195,11 +205,19 @@ namespace DbOpertion.Cache
                 if (TUserOper.Instance.Insert(UserInfo, connection, Transaction))
                 {
                     var user = SelectRepeat(UserInfo.UserPhone, null, connection, Transaction);
+                    //根据等级更新用户优惠券
+                    if (!Cache_CouponLevelRelation.Instance.UpdateUserCoupon(1, user.UserId, connection, Transaction))
+                    {
+                        Transaction.Rollback();
+                        connection.Close();
+                        return null;
+                    }
                     if (Cache_MemberShipCard.Instance.SetMemberShipUser(user.UserId, CardName, Active, connection, Transaction))
                     {
-                        ClearMemberCode(UserInfo.UserPhone);
+
                         Transaction.Commit();
                         connection.Close();
+                        ClearMemberCode(UserInfo.UserPhone);
                         return user;
                     }
                 }
@@ -213,7 +231,6 @@ namespace DbOpertion.Cache
                 connection.Close();
                 return null;
             }
-
         }
     }
 }

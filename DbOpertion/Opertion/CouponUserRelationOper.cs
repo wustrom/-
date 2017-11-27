@@ -135,6 +135,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.IsDelete == couponuserrelation.IsDelete);
             }
+            if (!couponuserrelation.Forever.IsNullOrEmpty())
+            {
+                update.Set(p => p.Forever == couponuserrelation.Forever);
+            }
             return update.GetUpdateResult(connection, transaction);
         }
 
@@ -177,6 +181,10 @@ namespace DbOpertion.Operation
             if (!couponuserrelation.IsDelete.IsNullOrEmpty())
             {
                 insert.Insert(p => p.IsDelete == couponuserrelation.IsDelete);
+            }
+            if (!couponuserrelation.Forever.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.Forever == couponuserrelation.Forever);
             }
             return insert.GetInsertResult(connection, transaction);
         }

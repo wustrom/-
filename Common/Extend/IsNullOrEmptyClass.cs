@@ -103,7 +103,7 @@ namespace Common.Extend
 
         public static bool IsNullOrEmpty(this decimal? s)
         {
-            if (s == null || s == EmptyInt)
+            if (s == null)
             {
                 return true;
             }
@@ -116,7 +116,7 @@ namespace Common.Extend
 
         public static bool IsNullOrEmpty(this int? s)
         {
-            if (s == null || s == EmptyInt)
+            if (s == null)
             {
                 return true;
             }
@@ -128,7 +128,7 @@ namespace Common.Extend
 
         public static bool IsNullOrEmpty(this double? s)
         {
-            if (s == null || s == EmptyInt)
+            if (s == null)
             {
                 return true;
             }

@@ -12,21 +12,353 @@
 {
     active
 }
+<script src="~/Content/js/DataTable.js"></script>
+<link href="~/Content/css/tabstyle-min.css" rel="stylesheet" />
 <script>
+    var ErrorAlert;
+    var SuccessAlert;
     function EnterKey() {
         if (event.keyCode == 13) {
-            alert($(".Search-Input").val());
-            $('.Search-Input').val("");
+            QrCodeAjax(true);
         }
     }
-    $(function () {
-        t = setInterval("focusOn()", 5000);
-        focusOn();
-    })
-    function focusOn() {
-        $(".Search-Input").focus();
-        //alert($("#Hidden_Input").val());
+    function QrCodeAjax(flag) {
+        var value_search = $("#Search-QRCode").val();
+        $('.Search-Input').val("");
+        jQuery.axpost("QRCodeAjax/Index", "QRCodeStr:'" + value_search + "'", function (data) {
+            UserInfo(data);
+            CouponList(data);
+            if (!flag) {
+                return;
+            }
+            if (SuccessAlert) {
+                SuccessAlert.show();
+            }
+            else {
+                SuccessAlert = jqueryAlert({
+                    'content': '二维码扫描成功',
+                    'closeTime': 2000,
+
+                });
+            }
+            return;
+        }, ErrorAlert);
+
     }
+
+    function focusOnUserCode() {
+        $("#Search-QRCode").focus();
+    }
+
+    function focusOnElecCode() {
+        $("#Search-ElecQRCode").focus();
+    }
+
+    function UserInfo(data) {
+        $("#HiddenUserID").val(data.Model1.UserId);
+        $('#UserInfoTable tr:nth-child(1) td:nth-child(2)').html(data.Model1.UserNickName);
+
+        if (data.Model1.Sex) {
+            $('#UserInfoTable tr:nth-child(2) td:nth-child(2)').html("男");
+        }
+        else {
+            $('#UserInfoTable tr:nth-child(2) td:nth-child(2)').html("女");
+        }
+        $('#UserInfoTable tr:nth-child(3) td:nth-child(2)').html(data.Model1.UserPhone);
+        $('#UserInfoTable tr:nth-child(4) td:nth-child(2)').html(data.Model1.UserLevel);
+        $('#UserInfoTable tr:nth-child(5) td:nth-child(2)').html(data.Model1.ConsumptionTime);
+        if (data.Model1.DiamondsMoney == null) {
+            $('#UserInfoTable tr:nth-child(6) td:nth-child(2)').html(0);
+        }
+        else {
+            $('#UserInfoTable tr:nth-child(6) td:nth-child(2)').html(parseInt(data.Model1.DiamondsMoney / 30));
+        }
+    }
+
+    function CouponList(data) {
+        var str = "";
+        $.each(data.Model2, function (i, n) {
+            str = str + '<tr><td><div class="radio3 radio-check radio-success radio-inline"><input type="radio" id="Coupon_' + n.CouponUserRelationId + '" name="radio2" value="' + n.CouponUserRelationId + '"><label for="Coupon_' + n.CouponUserRelationId + '"></label></div></td>' + "<td>" + n.CouponName + "</td>" + "<td>" + n.CouponDescribe + "</td>" + "<td>" + n.ExpirationDate + "</td>" + "</tr>";
+        })
+        $("#UserCoupon tbody").html(str);
+    }
+
+    var UserAlert;
+    var ShopItemAlert;
+    var ShopMoneyAlert;
+    var OrderSuccessAlrt;
+    function CreateOrder() {
+        var UserId = $("#HiddenUserID").val();
+        if (UserId == "0") {
+            if (UserAlert) {
+                UserAlert.show();
+            }
+            else {
+                UserAlert = jqueryAlert({
+                    'content': '请先扫描用户二维码',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }
+        var ShopMoney = $("#ShopMoney").val();
+        var shopMoneyFloat = parseFloat(ShopMoney);
+        if (isNaN(shopMoneyFloat)) {
+            if (ShopMoneyAlert) {
+                ShopMoneyAlert.show();
+            }
+            else {
+                ShopMoneyAlert = jqueryAlert({
+                    'content': '消费金额未输入或格式不正确',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }
+        var ShopItem = $("#ShopItem").val();
+        if (ShopItem == "") {
+            if (UserAlert) {
+                UserAlert.show();
+            }
+            else {
+                UserAlert = jqueryAlert({
+                    'content': '请输入支付项目',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }
+        jQuery.axpost("QRCodeAjax/CreatOrder", "UserID:'" + UserId + "',ShopMoney:'" + shopMoneyFloat + "',ShopItem:'" + ShopItem + "'", function (data) {
+            $("#ShopMoney").attr("disabled", "disabled");
+            $("#ShopItem").attr("disabled", "disabled");
+            $("#NoPayMoney").html($("#ShopMoney").val());
+            $("#EnterOrder").attr("disabled", "disabled");
+            $("#CanleOrder").removeAttr("disabled");
+            $("#PayRecordId").val(data.Model1);
+            var ShopMoney = $("#ShopMoney").val();
+            if (OrderSuccessAlrt) {
+                OrderSuccessAlrt.show();
+            }
+            else {
+                OrderSuccessAlrt = jqueryAlert({
+                    'content': '生成订单成功',
+                    'closeTime': 2000,
+
+                });
+            }
+            return;
+        }, ErrorAlert);
+    }
+
+    var DeleteOrderAlert;
+    var CanleDeleteOrderAlert;
+    function DeleteOrder() {
+        var ShopMoney = $("#ShopMoney").val();
+        var ShopMoney2 = $("#NoPayMoney").html();
+        var shopMoneyFloat = parseFloat(ShopMoney);
+        if (isNaN(shopMoneyFloat)) {
+            if (ShopMoneyAlert) {
+                ShopMoneyAlert.show();
+            }
+            else {
+                ShopMoneyAlert = jqueryAlert({
+                    'content': '消费金额未输入或格式不正确',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }
+        var shopMoneyFloat2 = parseFloat(ShopMoney2);
+        if (isNaN(shopMoneyFloat2)) {
+            if (ShopMoneyAlert) {
+                ShopMoneyAlert.show();
+            }
+            else {
+                ShopMoneyAlert = jqueryAlert({
+                    'content': '消费金额未输入或格式不正确',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }
+        if (shopMoneyFloat == shopMoneyFloat2) {
+            jQuery.axpost("QRCodeAjax/DeleteOrder", "PayRecordId:'" + $("#PayRecordId").val() + "'", function (data) {
+                $("#ShopMoney").removeAttr("disabled");
+                $("#ShopItem").removeAttr("disabled");
+                $("#NoPayMoney").html(0);
+                $("#EnterOrder").removeAttr("disabled");
+                $("#CanleOrder").attr("disabled", "disabled");
+                $("#PayRecordId").val(0);
+                var ShopMoney = $("#ShopMoney").val();
+                if (CanleDeleteOrderAlert) {
+                    CanleDeleteOrderAlert.show();
+                }
+                else {
+                    CanleDeleteOrderAlert = jqueryAlert({
+                        'content': '取消订单成功',
+                        'closeTime': 2000,
+
+                    });
+                }
+                return;
+            }, ErrorAlert);
+        }
+        else {
+            if (DeleteOrderAlert) {
+                DeleteOrderAlert.show();
+            }
+            else {
+                DeleteOrderAlert = jqueryAlert({
+                    'content': '已经支付的订单不能取消',
+                    'closeTime': 2000,
+
+                });
+            }
+        }
+    }
+
+    var PayRecordAlert;
+    var ElecQRCodeAlert;
+    var ElecCardCodeSuccessAlert;
+    var RadioAlert;
+    function ElecCardCode() {
+        if (event.keyCode == 13) {
+            var UserId = $("#HiddenUserID").val();
+            if (UserId == "0") {
+                if (UserAlert) {
+                    UserAlert.show();
+                }
+                else {
+                    UserAlert = jqueryAlert({
+                        'content': '请先扫描用户二维码',
+                        'closeTime': 2000,
+                    });
+                }
+                return;
+            }
+            var radioValue = $("input[type='radio']:checked").val();
+            if (radioValue == "option2" || radioValue == undefined) {
+                radioValue = 0;
+            }
+            var PayRecordId = $("#PayRecordId").val();
+            if (PayRecordId == "0") {
+                if (PayRecordAlert) {
+                    PayRecordAlert.show();
+                }
+                else {
+                    PayRecordAlert = jqueryAlert({
+                        'content': '请先生成订单',
+                        'closeTime': 2000,
+                    });
+                }
+                return;
+            }
+            var ElecQRCode = $("#Search-ElecQRCode").val();
+            $("#Search-ElecQRCode").val("");
+            if (ElecQRCode == "") {
+                if (ElecQRCodeAlert) {
+                    ElecQRCodeAlert.show();
+                }
+                else {
+                    ElecQRCodeAlert = jqueryAlert({
+                        'content': '请先扫描储值卡二维码',
+                        'closeTime': 2000,
+                    });
+                }
+                return;
+            }
+            jQuery.axpost("QRCodeAjax/ElecCardCode", "CardQRCodeStr:'" + ElecQRCode + "',PayRecordId:'" + PayRecordId + "',CouponId:'" + radioValue + "'", function (data) {
+                if (data.Model2 == 0) {
+                    $("#ShopMoney").removeAttr("disabled");
+                    $("#ShopItem").removeAttr("disabled");
+                    $("#ShopMoney").val();
+                    $("#ShopItem").val();
+                    $("#EnterOrder").removeAttr("disabled");
+                    $("#CanleOrder").attr("disabled", "disabled");
+                    $("#PayRecordId").val(0);
+                    $("#PayRecordId").val(0);
+                    $("#ShopItem").val("");
+                    $("#ShopMoney").val("");
+                    $("#NoPayMoney").html("0");
+                }
+                $("#ElecCardMoney").html(data.Model2);
+                $("#CardNumber").html(data.Model3);
+                $("#Search-QRCode").val(data.Model4);
+                QrCodeAjax(false);
+                $("#ElecCard1 tr:nth-child(3) td:nth-child(2)").html(data.Model1);
+                if (ElecCardCodeSuccessAlert) {
+                    ElecCardCodeSuccessAlert.show();
+                }
+                else {
+                    ElecCardCodeSuccessAlert = jqueryAlert({
+                        'content': '扫描成功',
+                        'closeTime': 2000,
+                    });
+                }
+                return;
+            }, ErrorAlert);
+        }
+    }
+
+    function PayFormCash() {
+        var UserId = $("#HiddenUserID").val();
+        if (UserId == "0") {
+            if (UserAlert) {
+                UserAlert.show();
+            }
+            else {
+                UserAlert = jqueryAlert({
+                    'content': '请先扫描用户二维码',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }
+        var radioValue = $("input[type='radio']:checked").val();
+        if (radioValue == "option2" || radioValue == undefined) {
+            radioValue = 0;
+        }
+        var PayRecordId = $("#PayRecordId").val();
+        if (PayRecordId == "0") {
+            if (PayRecordAlert) {
+                PayRecordAlert.show();
+            }
+            else {
+                PayRecordAlert = jqueryAlert({
+                    'content': '请先生成订单',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }
+        jQuery.axpost("QRCodeAjax/PayForCash", "PayRecordId:'" + PayRecordId + "',CouponId:'" + radioValue + "',UserId:'" + UserId + "'", function (data) {
+            $("#ShopMoney").removeAttr("disabled");
+            $("#ShopItem").removeAttr("disabled");
+            $("#ShopMoney").val();
+            $("#ShopItem").val();
+            $("#EnterOrder").removeAttr("disabled");
+            $("#CanleOrder").attr("disabled", "disabled");
+            $("#PayRecordId").val(0);
+            $("#PayRecordId").val(0);
+            $("#ShopItem").val("");
+            $("#ShopMoney").val("");
+            $("#NoPayMoney").html("0");
+            $("#Search-QRCode").val(data.Model1);
+            QrCodeAjax(false);
+            if (ElecCardCodeSuccessAlert) {
+                ElecCardCodeSuccessAlert.show();
+            }
+            else {
+                ElecCardCodeSuccessAlert = jqueryAlert({
+                    'content': '扫描成功',
+                    'closeTime': 2000,
+                });
+            }
+            return;
+        }, ErrorAlert);
+    }
+</script>
+<script>
 
 </script>
 <style>
@@ -34,8 +366,27 @@
         margin-bottom: 10px;
     }
 
-    table tr {
-        height: 30px;
+    .panel-body table tr {
+        height: 60px;
+        font-size: 17px;
+    }
+
+    .panel-body .table {
+        height: 100%;
+        width: 100%;
+    }
+
+    .panel-body table tr td:first-child {
+        min-width: 85px;
+    }
+
+    .panel-body table tr td input[type="text"] {
+        width: 150px;
+    }
+
+    #UserInfoTable tr {
+        height: 60px;
+        font-size: 17px;
     }
 
     .form-group .btn-warning {
@@ -43,29 +394,100 @@
     }
 
     .form-group .Search-Input {
-        width: 125px;
+        width: 140px;
         margin-top: 5px;
         margin-right: 5px;
         border-radius: 20px;
     }
 
-    .form-group .col-lg-2 {
-        min-width: 275px;
+    .panel-info .panel-body table tr td label {
+        margin-bottom: 0px;
+    }
+
+    .form-group .UserCode {
+        min-width: 341px;
+    }
+
+    .CodePanel {
+        height: 600px;
+    }
+
+    .scorll-body .content-body {
+        overflow: auto;
+        height: 520px;
+    }
+
+    .Elec-Card {
+        margin-top: -5px;
+        padding: 3px 5px;
+        border-radius: 6px;
+    }
+
+    .panel-info .panel-body table .form-control {
+        padding: 6px 10px;
+        border-radius: 6px;
+    }
+
+    .panel-info .panel-body table button {
+        border-radius: 6px;
+    }
+
+    .RadiusBtn {
+        border-radius: 6px;
+    }
+
+    .radio3.radio-success input:checked + label::before {
+        top: -2px;
+    }
+
+    .radio3.radio-check input:checked + label::after {
+        top: -2px;
+    }
+
+    .radio3.radio-success input:checked + label::after {
+        top: -2px;
+    }
+
+    #UserCoupon tr td {
+        text-align: center;
+    }
+
+    .CardPanel {
+        height: 269px;
+    }
+
+    .panel-body #ElecCard1 tr td input[type="text"] {
+        width: 235px;
+    }
+
+    .FinalBtn {
+        margin-right: 10px;
+    }
+
+    #menu-list a {
+        width: 107px;
+    }
+
+    #User_paginate {
+        position: absolute;
+        top: 520px;
+        right: 20px;
     }
 </style>
 
 <div class="form-group col-lg-12">
-    <div class="col-lg-2 pull-right">
-        <button id="search" class="btn btn-warning pull-right" type="button"><i class="fa fa-search"></i> 二维码扫描 </button>
-        <input type="text" placeholder="请扫描二维码" onkeydown="EnterKey()" id="search-Input" class="form-control pull-right Search-Input">
+    <div class="col-lg-2 pull-right UserCode">
+        <button id="search" class="btn btn-warning pull-right" onclick="focusOnUserCode()" type="button">用户二维码扫描前点击 </button>
+        <input type="text" placeholder="请扫描用户二维码" onkeydown="EnterKey()" id="Search-QRCode" class="form-control pull-right Search-Input">
     </div>
 </div>
 
 <div class="col-sm-3">
-    <div class="panel panel-info">
+    <div class="panel panel-info CodePanel">
         <div class="panel-heading">用户信息</div>
         <div class="panel-body">
-            <table>
+            <input type="hidden" id="HiddenUserID" value="0" />
+            <table id="UserInfoTable">
                 <colgroup>
                     <col style="width:30%;" />
                     <col style="width:70%;" />
@@ -98,6 +520,12 @@
                     <tr>
                         <td>
                             消费次数：
+                        </td>
+                        <td>******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            钻&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;石：
                         </td>
                         <td>******</td>
                     </tr>
@@ -107,47 +535,43 @@
     </div>
 </div>
 <div class="col-sm-6">
-    <div class="panel panel-info">
+    <div class="panel panel-info CodePanel">
         <div class="panel-heading">用户的优惠卷</div>
         <div class="panel-body">
-            <table>
-                <colgroup>
-                    <col style="width:30%;" />
-                    <col style="width:70%;" />
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td>
-                            用户昵称：
-                        </td>
-                        <td>******</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            用户性别：
-                        </td>
-                        <td>******</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            手机号码：
-                        </td>
-                        <td>******</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            用户等级：
-                        </td>
-                        <td>******</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            消费次数：
-                        </td>
-                        <td>******</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="scorll-body">
+                <div class="content-body">
+                    <table id="UserCoupon" style="">
+                        <colgroup>
+                            <col style="width:5%;text-align:center;" />
+                            <col style="width:20%;text-align:center;" />
+                            <col style="width:45%;text-align:center;" />
+                            <col style="width:30%;text-align:center;" />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <td>
+                                    <div class="radio3 radio-check radio-success radio-inline">
+                                        <input type="radio" id="radio5" name="radio2" value="option2">
+                                        <label for="radio5">
+
+                                        </label>
+                                    </div>
+                                </td>
+                                <td>
+                                    优惠券名称
+                                </td>
+                                <td>
+                                    优惠券简述
+                                </td>
+                                <td>
+                                    优惠券过期时间
+                                </td>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -155,6 +579,7 @@
     <div class="panel panel-info">
         <div class="panel-heading">核实消费信息</div>
         <div class="panel-body">
+            <input id="PayRecordId" type="hidden" value="0" />
             <table>
                 <colgroup>
                     <col style="width:30%;" />
@@ -163,36 +588,71 @@
                 <tbody>
                     <tr>
                         <td>
-                            用户昵称：
+                            消费金额：
                         </td>
-                        <td>******</td>
+                        <td>
+                            <input id="ShopMoney" type="text" class="form-control" placeholder="请输入消费金额" />
+                        </td>
                     </tr>
                     <tr>
                         <td>
-                            用户性别：
+                            支付项目：
                         </td>
-                        <td>******</td>
+                        <td>
+                            <input id="ShopItem" type="text" class="form-control" placeholder="请输入支付项目" />
+                        </td>
                     </tr>
                     <tr>
                         <td>
-                            手机号码：
+                            未&nbsp;&nbsp;支&nbsp;付：
                         </td>
-                        <td>******</td>
+                        <td><label id="NoPayMoney">0</label>¥</td>
                     </tr>
                     <tr>
-                        <td>
-                            用户等级：
+                        <td colspan="2">
+                            <button id="EnterOrder" class="btn btn-success" onclick="CreateOrder()">确认生成订单</button>
+                            <button id="CanleOrder" class="btn btn-danger" onclick="DeleteOrder()" disabled="disabled">取消当前订单</button>
                         </td>
-                        <td>******</td>
                     </tr>
-                    <tr>
-                        <td>
-                            消费次数：
-                        </td>
-                        <td>******</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
     </div>
+    <div class="panel panel-info CardPanel">
+        <div class="panel-heading ">
+            储值卡消费
+            <button id="search" class="btn btn-warning pull-right Elec-Card" onclick="focusOnElecCode()" type="button">储值卡扫描前点击</button>
+        </div>
+        <div class="panel-body">
+            <table id="ElecCard1" style="">
+                <colgroup>
+                    <col style="width:30%;" />
+                    <col style="width:70%;" />
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td colspan="2">
+                            <input type="text" placeholder="若二维码扫描不成功请输入卡号" onkeydown="ElecCardCode()" id="Search-ElecQRCode" class="form-control Search-Input Elec-Card-Name">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            卡片号码：
+                        </td>
+                        <td id="CardNumber">******</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            剩余金额：
+                        </td>
+                        <td id="ElecCardMoney">******</td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <button class="btn btn-success float-right RadiusBtn FinalBtn" onclick="PayFormCash()">剩余金额现金支付</button>
 </div>

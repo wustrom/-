@@ -19,7 +19,7 @@ namespace Common.Filter.WebApi
             //信息
             //resultJson.Message = actionExecutedContext.Exception.Message;
             resultJson.Message = "程序出现错误，请联系管理员！";
-            actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(System.Net.HttpStatusCode.OK, resultJson);
+            actionExecutedContext.Response = actionExecutedContext.Request.CreateResponse(System.Net.HttpStatusCode.OK, resultJson);   
             base.OnException(actionExecutedContext);
         }
     }

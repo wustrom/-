@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "TermsOfUse";
+    Layout = "~/Views/Shared/LeftPartPage.cshtml";
+}
+
+@section js{
+    <script src="~/Content/lib/js/jquery-3.2.1.js"></script>
+    <script src="~/Content/js/wangEditor.min.js"></script>
+    <script src="~/Content/js/MembershipLevel/LevelCouponPage.js"></script>
+}
+
+@section css{
+    <link href="~/Content/lib/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/DataTable.css" rel="stylesheet" />
+    <link href="~/Content/css/Shade.css" rel="stylesheet" />
+    <style>
+        .Editor_Content .Content {
+            width: 49.5%;
+        }
+
+        .Editor_Content h2 {
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .Editor_Content .Content #divDemo {
+            height: 80%;
+        }
+
+            .Editor_Content .Content #divDemo .w-e-text-container {
+                height: 500px !important;
+            }
+
+        .alert-container {
+            z-index: 10000 !important;
+            background-color: #353d47;
+        }
+    </style>
+}
+
+<div class="Editor_Content">
+    <div class="pull-left Content">
+        <h2>
+            常见问题
+        </h2>
+        <div id="divDemo" class="divDemoLeft">
+        </div>
+        <div>
+            <button id="search" class="btn btn-primary" type="button" onclick="UpdateCommonProblem()">
+                修改常见问题
+            </button>
+        </div>
+    </div>
+    <div class="pull-right Content">
+        <h2>
+            使用条款
+        </h2>
+        <div id="divDemo" class="divDemoRight">
+        </div>
+        <div>
+            <button id="search" class="btn btn-primary" type="button" onclick="UpdateTermsOfUse()">
+                修改使用条款
+            </button>
+        </div>
+    </div>
+</div>
+<div>
+
+</div>
+

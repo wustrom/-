@@ -107,6 +107,10 @@ namespace DbOpertion.Operation
             {
                 update.Set(p => p.CouponName == coupon.CouponName);
             }
+            if (!coupon.CouponDetails.IsNullOrEmpty())
+            {
+                update.Set(p => p.CouponDetails == coupon.CouponDetails);
+            }
             if (!coupon.CouponDescribe.IsNullOrEmpty())
             {
                 update.Set(p => p.CouponDescribe == coupon.CouponDescribe);
@@ -118,6 +122,10 @@ namespace DbOpertion.Operation
             if (!coupon.IsDelete.IsNullOrEmpty())
             {
                 update.Set(p => p.IsDelete == coupon.IsDelete);
+            }
+            if (!coupon.Forever.IsNullOrEmpty())
+            {
+                update.Set(p => p.Forever == coupon.Forever);
             }
             return update.GetUpdateResult(connection, transaction);
         }
@@ -134,6 +142,10 @@ namespace DbOpertion.Operation
             {
                 insert.Insert(p => p.CouponName == coupon.CouponName);
             }
+            if (!coupon.CouponDetails.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.CouponDetails == coupon.CouponDetails);
+            }
             if (!coupon.CouponDescribe.IsNullOrEmpty())
             {
                 insert.Insert(p => p.CouponDescribe == coupon.CouponDescribe);
@@ -145,6 +157,10 @@ namespace DbOpertion.Operation
             if (!coupon.IsDelete.IsNullOrEmpty())
             {
                 insert.Insert(p => p.IsDelete == coupon.IsDelete);
+            }
+            if (!coupon.Forever.IsNullOrEmpty())
+            {
+                insert.Insert(p => p.Forever == coupon.Forever);
             }
             return insert.GetInsertResult(connection, transaction);
         }

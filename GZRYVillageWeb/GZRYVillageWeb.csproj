@@ -281,6 +281,11 @@
     <Content Include="Content\css\MemberCard\Index.css" />
     <Content Include="Content\css\Message\Message.css" />
     <Content Include="Content\css\SearchTime.css" />
+    <Content Include="Content\css\tabstyle-min.css" />
+    <Content Include="Content\img\tab\close.png" />
+    <Content Include="Content\img\tab\list.png" />
+    <Content Include="Content\img\tab\next.png" />
+    <Content Include="Content\img\tab\prev.png" />
     <Content Include="Content\img\title.png" />
     <Content Include="Content\js\Coupon\Coupon.js" />
     <Content Include="Content\js\Coupon\GrantCoupon.js" />
@@ -338,6 +343,7 @@
     <Content Include="Content\js\Message\Index.js" />
     <Content Include="Content\js\modal.js" />
     <Content Include="Content\js\Shade.js" />
+    <Content Include="Content\js\tab-min.js" />
     <Content Include="Content\js\theming.js" />
     <Content Include="Content\js\User\Index.js" />
     <Content Include="Content\js\wangEditor.min.js" />
@@ -409,6 +415,7 @@
     <Compile Include="Controllers\MvcAjaxControllers\MessageAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\QRCodeAjaxController.cs" />
     <Compile Include="Controllers\MvcAjaxControllers\UserAjaxController.cs" />
+    <Compile Include="Controllers\MvcPageControllers\CommonHtmlController.cs" />
     <Compile Include="Controllers\MvcPageControllers\CouponController.cs" />
     <Compile Include="Controllers\MvcPageControllers\ElectronicCardController.cs" />
     <Compile Include="Controllers\MvcPageControllers\LoginController.cs" />
@@ -417,6 +424,7 @@
     <Compile Include="Controllers\MvcPageControllers\MessageController.cs" />
     <Compile Include="Controllers\MvcPageControllers\QRCodeController.cs" />
     <Compile Include="Controllers\MvcPageControllers\UserController.cs" />
+    <Compile Include="Controllers\WebApiControllers\CommonHtmlController.cs" />
     <Compile Include="Controllers\WebApiControllers\MapController.cs" />
     <Compile Include="Controllers\WebApiControllers\PushController.cs" />
     <Compile Include="Controllers\WebApiControllers\TitleController.cs" />
@@ -455,6 +463,7 @@
     <Compile Include="Request\AjaxRequest\MembershipLevel\MemberLevelRequest.cs" />
     <Compile Include="Request\AjaxRequest\Message\MessageRequest.cs" />
     <Compile Include="Request\AjaxRequest\Message\UpdateMessageContainsRequest.cs" />
+    <Compile Include="Request\AjaxRequest\QRCode\CreateOrderRequest.cs" />
     <Compile Include="Request\AjaxRequest\UserIdRequest.cs" />
     <Compile Include="Request\AjaxRequest\User\UserReqest.cs" />
     <Compile Include="Request\ApiRequest\HomePage\CoordRequest.cs" />
@@ -494,6 +503,8 @@
     <Compile Include="Request\ApiRequest\HostRequest.cs" />
     <Compile Include="Response\AjaxResponse\Consumption\ConsumptionResponse.cs" />
     <Compile Include="Response\AjaxResponse\Login\LoginResponse.cs" />
+    <Compile Include="Response\AjaxResponse\QRCode\CouponInfoResponse.cs" />
+    <Compile Include="Response\AjaxResponse\QRCode\TUserInfoResponse.cs" />
     <Compile Include="Response\AjaxResponse\User\TUserResponse.cs" />
     <Compile Include="Response\AjaxResponse\User\UserResponse.cs" />
     <Compile Include="Response\ApiResponse\Map\GetStoreListResponse.cs" />
@@ -550,6 +561,8 @@
     <Content Include="Views\Coupon\Coupon.cshtml" />
     <Content Include="Views\Coupon\GrantCoupon.cshtml" />
     <Content Include="Views\Message\Index.cshtml" />
+    <Content Include="Views\CommonHtml\CommonProblem.cshtml" />
+    <Content Include="Views\CommonHtml\TermsOfUse.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -560,9 +573,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Response\MvcResponse\" />
-    <Folder Include="Views\Default\" />
-    <Folder Include="Views\QRCodeAjax\" />
-    <Folder Include="Views\QRCode\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AliyunHelper\AliyunHelper.csproj">

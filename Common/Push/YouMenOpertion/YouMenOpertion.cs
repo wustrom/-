@@ -48,6 +48,7 @@ namespace Common.Push.YouMenOpertion
             postJson.payload.aps.alert = "您的评论有回复";
             postJson.description = "评论提醒-UID:" + 123;
             postJson.thirdparty_id = "COMMENT";
+            postJson.production_mode = false;
             ReturnJsonClass resu = umPushIos.SendMessage(postJson);
             return resu;
         }

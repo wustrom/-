@@ -65,5 +65,15 @@ namespace DbOpertion.Cache
             var MemberRelation_List = MemberLevelRelationOper.Instance.SelectAll(null, false);
             return new Tuple<List<MemberShipLevel>, List<MemberLevelRelation>>(item1: LevelInfo_List, item2: MemberRelation_List);
         }
+
+        /// <summary>
+        /// 筛选等级信息
+        /// </summary>
+        /// <returns></returns>
+        public List<MemberShipLevel> SelectLevelList()
+        {
+            return MemberShipLevelOper.Instance.SelectAll(null, false);
+
+        }
     }
 }

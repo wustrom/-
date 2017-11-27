@@ -62,7 +62,7 @@ namespace Common.Push.YouMenResult
         /// </summary>
         public Policy policy { get; set; }
 
-        public string production_mode { get; set; }
+        public bool production_mode { get; set; }
         /// <summary>
         /// 可选 发送消息描述，建议填写。
         /// </summary>

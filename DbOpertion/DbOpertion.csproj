@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheExtendApi\Cache_CouponLevelRelation.cs" />
     <Compile Include="CacheExtendApi\Cache_Consumption.cs" />
     <Compile Include="CacheExtendApi\Cache_Coupon.cs" />
     <Compile Include="CacheExtendApi\Cache_ElectronicCard.cs" />
@@ -56,12 +57,14 @@
     <Compile Include="CacheExtendApi\Cache_Store.cs" />
     <Compile Include="CacheExtendApi\Cache_TUser.cs" />
     <Compile Include="Cache\Cache_AddCard.cs" />
+    <Compile Include="CacheExtendApi\Cache_QRCode.cs" />
     <Compile Include="Cache\Cache_Consumption.cs" />
     <Compile Include="Cache\Cache_Coupon.cs" />
     <Compile Include="Cache\Cache_CouponCardRelation.cs" />
     <Compile Include="Cache\Cache_CouponUserRelation.cs" />
     <Compile Include="Cache\Cache_ElectronicCard.cs" />
     <Compile Include="Cache\Cache_ElectronicType.cs" />
+    <Compile Include="Cache\Cache_Html.cs" />
     <Compile Include="Cache\Cache_MemberCouponRelation.cs" />
     <Compile Include="Cache\Cache_MemberShipCard.cs" />
     <Compile Include="Cache\Cache_MemberShipLevel.cs" />
@@ -79,10 +82,12 @@
     <Compile Include="ModelExtend\PayRecordInfo.cs" />
     <Compile Include="Model\Active.cs" />
     <Compile Include="Model\AUser.cs" />
+    <Compile Include="Model\CommonHtml.cs" />
     <Compile Include="Model\Consumption.cs" />
     <Compile Include="Model\ConsumptionRecord.cs" />
     <Compile Include="Model\Coupon.cs" />
     <Compile Include="Model\CouponCardRelation.cs" />
+    <Compile Include="Model\CouponLevelRelation.cs" />
     <Compile Include="Model\CouponUserRelation.cs" />
     <Compile Include="Model\ElectronicCard.cs" />
     <Compile Include="Model\ElectronicCardRelation.cs" />
@@ -95,7 +100,9 @@
     <Compile Include="Model\PayRecord.cs" />
     <Compile Include="Model\Store.cs" />
     <Compile Include="Model\TUser.cs" />
+    <Compile Include="OpertionExtendApi\CouponLevelRelationOper.cs" />
     <Compile Include="OpertionExtendApi\ActiveOper.cs" />
+    <Compile Include="OpertionExtendApi\CommonHtmlOper.cs" />
     <Compile Include="OpertionExtendApi\ConsumptionOper.cs" />
     <Compile Include="OpertionExtendApi\CouponCardRelationOper.cs" />
     <Compile Include="OpertionExtendApi\CouponUserRelationOper.cs" />
@@ -103,6 +110,7 @@
     <Compile Include="OpertionExtendApi\ElectronicCardRelationOper.cs" />
     <Compile Include="OpertionExtendApi\MemberShipCardOper.cs" />
     <Compile Include="OpertionExtendApi\MessageOper.cs" />
+    <Compile Include="OpertionExtendApi\PayRecordOper.cs" />
     <Compile Include="OpertionExtendApi\TUserOper.cs" />
     <Compile Include="OpertionExtend\AUserOper.cs" />
     <Compile Include="OpertionExtend\ConsumptionOper.cs" />
@@ -121,9 +129,11 @@
     <Compile Include="OpertionExtend\TUserOper.cs" />
     <Compile Include="Opertion\ActiveOper.cs" />
     <Compile Include="Opertion\AUserOper.cs" />
+    <Compile Include="Opertion\CommonHtmlOper.cs" />
     <Compile Include="Opertion\ConsumptionOper.cs" />
     <Compile Include="Opertion\ConsumptionRecordOper.cs" />
     <Compile Include="Opertion\CouponCardRelationOper.cs" />
+    <Compile Include="Opertion\CouponLevelRelationOper.cs" />
     <Compile Include="Opertion\CouponOper.cs" />
     <Compile Include="Opertion\CouponUserRelationOper.cs" />
     <Compile Include="Opertion\ElectronicCardOper.cs" />

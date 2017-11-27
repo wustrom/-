@@ -22,19 +22,19 @@
       <publishTime>07/20/2017 10:01:01</publishTime>
     </File>
     <File Include="bin/AliyunHelper.dll">
-      <publishTime>11/17/2017 15:51:20</publishTime>
+      <publishTime>11/20/2017 15:19:49</publishTime>
     </File>
     <File Include="bin/AliyunHelper.pdb">
-      <publishTime>11/17/2017 15:51:20</publishTime>
+      <publishTime>11/20/2017 15:19:49</publishTime>
     </File>
     <File Include="bin/ApplicationInsights.config">
       <publishTime>09/27/2017 17:23:14</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>11/17/2017 15:51:20</publishTime>
+      <publishTime>11/20/2017 15:19:48</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>11/17/2017 15:51:20</publishTime>
+      <publishTime>11/20/2017 15:19:48</publishTime>
     </File>
     <File Include="bin/DAL.dll">
       <publishTime>10/26/2017 14:34:18</publishTime>
@@ -43,10 +43,10 @@
       <publishTime>10/26/2017 14:34:18</publishTime>
     </File>
     <File Include="bin/DbOpertion.dll">
-      <publishTime>11/17/2017 15:51:20</publishTime>
+      <publishTime>11/20/2017 15:19:49</publishTime>
     </File>
     <File Include="bin/DbOpertion.pdb">
-      <publishTime>11/17/2017 15:51:20</publishTime>
+      <publishTime>11/20/2017 15:19:49</publishTime>
     </File>
     <File Include="bin/Enyim.Caching.dll">
       <publishTime>08/22/2016 01:13:00</publishTime>
@@ -64,13 +64,13 @@
       <publishTime>02/26/2017 20:29:28</publishTime>
     </File>
     <File Include="bin/GZRYVillageWeb.dll">
-      <publishTime>11/17/2017 15:51:23</publishTime>
+      <publishTime>11/20/2017 15:19:53</publishTime>
     </File>
     <File Include="bin/GZRYVillageWeb.pdb">
-      <publishTime>11/17/2017 15:51:23</publishTime>
+      <publishTime>11/20/2017 15:19:53</publishTime>
     </File>
     <File Include="bin/GZRYVillageWeb.XML">
-      <publishTime>11/17/2017 15:51:23</publishTime>
+      <publishTime>11/20/2017 15:19:53</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>01/03/2011 14:16:38</publishTime>
@@ -724,7 +724,7 @@
       <publishTime>11/17/2017 13:51:32</publishTime>
     </File>
     <File Include="Views/Login/Login.cshtml">
-      <publishTime>11/17/2017 13:51:32</publishTime>
+      <publishTime>11/20/2017 11:10:20</publishTime>
     </File>
     <File Include="Views/Master/DataTable.cshtml">
       <publishTime>10/20/2017 15:41:06</publishTime>
@@ -751,7 +751,7 @@
       <publishTime>11/17/2017 13:52:28</publishTime>
     </File>
     <File Include="Views/Shared/LeftPartPage.cshtml">
-      <publishTime>11/17/2017 13:52:53</publishTime>
+      <publishTime>11/20/2017 14:47:54</publishTime>
     </File>
     <File Include="Views/Shared/ParantPage.cshtml">
       <publishTime>11/17/2017 13:52:53</publishTime>

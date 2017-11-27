@@ -30,6 +30,10 @@ namespace DbOpertion.Models
         /// </summary>
         public String ShopItem { get; set; }
         /// <summary>
+        ///
+        /// </summary>
+        public Decimal? NeedPayMoney { get; set; }
+        /// <summary>
         /// 获取对应主键
         /// </summary>
         public string GetBuilderPrimaryKey()

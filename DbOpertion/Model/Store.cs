@@ -34,6 +34,14 @@ namespace DbOpertion.Models
         /// </summary>
         public String StoreName { get; set; }
         /// <summary>
+        ///
+        /// </summary>
+        public String UserName { get; set; }
+        /// <summary>
+        ///
+        /// </summary>
+        public String UserPassword { get; set; }
+        /// <summary>
         /// 获取对应主键
         /// </summary>
         public string GetBuilderPrimaryKey()

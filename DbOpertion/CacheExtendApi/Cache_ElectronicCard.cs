@@ -120,5 +120,23 @@ namespace DbOpertion.Cache
                 }
             }
         }
+
+        /// <summary>
+        /// 根据ID筛选储值卡
+        /// </summary>
+        /// <returns></returns>
+        public ElectronicCard SelectById(string Card)
+        {
+            int Id = 0;
+            if (int.TryParse(Card, out Id))
+            {
+                return ElectronicCardOper.Instance.SelectById(Id);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
     }
 }

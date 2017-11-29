@@ -50,6 +50,7 @@
     <Compile Include="CacheExtendApi\Cache_CouponLevelRelation.cs" />
     <Compile Include="CacheExtendApi\Cache_Consumption.cs" />
     <Compile Include="CacheExtendApi\Cache_Coupon.cs" />
+    <Compile Include="CacheExtendApi\Cache_CouponUserRelation.cs" />
     <Compile Include="CacheExtendApi\Cache_ElectronicCard.cs" />
     <Compile Include="CacheExtendApi\Cache_MemberShipCard.cs" />
     <Compile Include="CacheExtendApi\Cache_MemberShipLevel.cs" />

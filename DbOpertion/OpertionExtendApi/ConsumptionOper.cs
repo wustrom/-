@@ -70,7 +70,7 @@ namespace DbOpertion.Operation
         public List<PayRecordInformation> SelectByUserAndCardId(int CardId)
         {
             List<SqlParameter> parmList = new List<SqlParameter>();
-            parmList.Add(new SqlParameter("@ElectronicTypeId", CardId));
+            parmList.Add(new SqlParameter("@ElectronicId", CardId));
             string sql = string.Format(@"SELECT a.ConsumptionRecordId,a.PayMoney,b.ShopTime,c.UserNickName,
                                                 c.UserPhone,d.StoreName FROM ConsumptionRecord a
                                          LEFT JOIN PayRecord b on a.PayRecordId = b.PayRecordId

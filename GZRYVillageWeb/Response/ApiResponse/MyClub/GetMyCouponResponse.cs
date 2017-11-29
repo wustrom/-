@@ -17,12 +17,19 @@ namespace GZRYVillageWeb.Response.ApiResponse
         public GetMyCouponResponse(CouponUserRelation relation)
         {
             //优惠券名称
+            this.CouponRealtionId = relation.CouponUserRelationId;
+            //优惠券名称
             this.CouponName = relation.CouponName;
             //优惠券简述
             this.CouponDescribe = relation.CouponDescribe;
             //到期时间
-            this.ExpirationDate = relation.ExpirationDate == null ?null:relation.ExpirationDate.Value.ToString("yyyy-MM-dd");
+            this.ExpirationDate = relation.ExpirationDate == null ? null : relation.ExpirationDate.Value.ToString("yyyy-MM-dd");
         }
+
+        /// <summary>
+        /// 优惠券关系ID
+        /// </summary>
+        public int CouponRealtionId { get; set; }
 
         /// <summary>
         /// 优惠券名称

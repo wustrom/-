@@ -12,8 +12,8 @@ namespace Common.Push.YouMenOpertion
 {
     public class YouMenOpertion : SingleTon<YouMenOpertion>
     {
-        UMengMessagePush umPushAndroid = new UMengMessagePush("58105bf1aed17925a900395f", "v2ylbfwcsd1dqnkasionxf1uhicnxjey");
-        UMengMessagePush umPushIos = new UMengMessagePush("5a0e79b38f4a9d422400003a", "dgbahblbnnv9ajorp0qhm81odzwz9q16");
+        UMengMessagePush umPushAndroid = new UMengMessagePush("5a1d04eaf43e4877a2000015", "b5onae9ms4nkfzueqibldr9u3t4uu5sb");
+        UMengMessagePush umPushIos = new UMengMessagePush("5a1d06b88f4a9d1e8a000049", "xuw842xqepmikzmaq515yjrcbg27jel3");
 
         /// <summary>
         /// 推送给所有安卓用户
@@ -31,6 +31,7 @@ namespace Common.Push.YouMenOpertion
             postJson.payload.body.after_open = "go_custom";
             postJson.payload.body.custom = "comment-notify";
             postJson.description = "评论提醒-UID:" + 123;
+            postJson.production_mode = true;
             postJson.thirdparty_id = "COMMENT";
             ReturnJsonClass resu = umPushAndroid.SendMessage(postJson);
             return resu;

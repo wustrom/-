@@ -99,6 +99,7 @@ namespace DbOpertion.Cache
                         userRelation.ExpirationDate = DateTime.Now.AddDays(coupon.ExpirationDay.Value).Date.AddHours(23).AddMinutes(59).AddMilliseconds(59);
                         userRelation.ReleaseDate = DateTime.Now;
                         userRelation.UserId = UserID;
+                        userRelation.CouponId = coupon.CouponId;
                         if (!CouponUserRelationOper.Instance.Insert(userRelation, connection, transaction))
                         {
                             return false;

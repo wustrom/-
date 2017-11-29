@@ -240,7 +240,33 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
             else
             {
                 result.HttpCode = 300;
-                result.Message = Enum_Message.DataNotSuccessMessage.Enum_GetString();
+                result.Message = Enum_Message.NoMoreDataMessage.Enum_GetString();
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 获得优惠卷网页
+        /// </summary>
+        /// <param name="CouponRelationId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ValidateModel]
+        [WebApiException]
+        public ResultJsonModel<string> GetCouponHtml(GetCouponHtmlRequest request)
+        {
+            ResultJsonModel<string> result = new ResultJsonModel<string>();
+            var Coupon = Cache_CouponUserRelation.Instance.SelectCoupon(request.CouponRelationId);
+            if (Coupon != null)
+            {
+                result.HttpCode = 200;
+                result.Message = Enum_Message.SuccessMessage.Enum_GetString();
+                result.Model1 = Coupon.CouponDetails;
+            }
+            else
+            {
+                result.HttpCode = 300;
+                result.Message = Enum_Message.NoMoreDataMessage.Enum_GetString();
             }
             return result;
         }

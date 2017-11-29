@@ -469,6 +469,7 @@
     <Compile Include="Request\ApiRequest\HomePage\CoordRequest.cs" />
     <Compile Include="Request\ApiRequest\HomePage\CoordWithTokenRequest.cs" />
     <Compile Include="Request\ApiRequest\Message\GetMessageHtmlByIdRequest.cs" />
+    <Compile Include="Request\ApiRequest\MyClub\GetCouponHtmlRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\GetUserQRCodeRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\SetActiveCardRequest.cs" />
     <Compile Include="Request\ApiRequest\MyClub\GetMyCardListRequest.cs" />

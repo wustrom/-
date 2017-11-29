@@ -30,6 +30,7 @@ namespace DbOpertion.Cache
             {
                 var coupon = CouponOper.Instance.SelectById(item.CouponId.Value, connection, transaction);
                 CouponUserRelation userRelation = new CouponUserRelation();
+                userRelation.CouponId = coupon.CouponId;
                 userRelation.CouponDescribe = coupon.CouponDescribe;
                 userRelation.CouponName = coupon.CouponName;
                 userRelation.Forever = coupon.Forever;

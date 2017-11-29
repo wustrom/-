@@ -22,19 +22,19 @@
       <publishTime>07/20/2017 10:01:01</publishTime>
     </File>
     <File Include="bin/AliyunHelper.dll">
-      <publishTime>11/20/2017 15:19:49</publishTime>
+      <publishTime>11/28/2017 16:58:07</publishTime>
     </File>
     <File Include="bin/AliyunHelper.pdb">
-      <publishTime>11/20/2017 15:19:49</publishTime>
+      <publishTime>11/28/2017 16:58:07</publishTime>
     </File>
     <File Include="bin/ApplicationInsights.config">
       <publishTime>09/27/2017 17:23:14</publishTime>
     </File>
     <File Include="bin/Common.dll">
-      <publishTime>11/20/2017 15:19:48</publishTime>
+      <publishTime>11/28/2017 16:58:07</publishTime>
     </File>
     <File Include="bin/Common.pdb">
-      <publishTime>11/20/2017 15:19:48</publishTime>
+      <publishTime>11/28/2017 16:58:07</publishTime>
     </File>
     <File Include="bin/DAL.dll">
       <publishTime>10/26/2017 14:34:18</publishTime>
@@ -43,10 +43,10 @@
       <publishTime>10/26/2017 14:34:18</publishTime>
     </File>
     <File Include="bin/DbOpertion.dll">
-      <publishTime>11/20/2017 15:19:49</publishTime>
+      <publishTime>11/28/2017 16:58:08</publishTime>
     </File>
     <File Include="bin/DbOpertion.pdb">
-      <publishTime>11/20/2017 15:19:49</publishTime>
+      <publishTime>11/28/2017 16:58:08</publishTime>
     </File>
     <File Include="bin/Enyim.Caching.dll">
       <publishTime>08/22/2016 01:13:00</publishTime>
@@ -64,13 +64,13 @@
       <publishTime>02/26/2017 20:29:28</publishTime>
     </File>
     <File Include="bin/GZRYVillageWeb.dll">
-      <publishTime>11/20/2017 15:19:53</publishTime>
+      <publishTime>11/28/2017 16:58:11</publishTime>
     </File>
     <File Include="bin/GZRYVillageWeb.pdb">
-      <publishTime>11/20/2017 15:19:53</publishTime>
+      <publishTime>11/28/2017 16:58:11</publishTime>
     </File>
     <File Include="bin/GZRYVillageWeb.XML">
-      <publishTime>11/20/2017 15:19:53</publishTime>
+      <publishTime>11/28/2017 16:58:11</publishTime>
     </File>
     <File Include="bin/ICSharpCode.SharpZipLib.dll">
       <publishTime>01/03/2011 14:16:38</publishTime>
@@ -325,7 +325,7 @@
       <publishTime>01/28/2015 04:04:32</publishTime>
     </File>
     <File Include="Content/css/DataTable.css">
-      <publishTime>11/17/2017 15:48:27</publishTime>
+      <publishTime>11/28/2017 10:35:37</publishTime>
     </File>
     <File Include="Content/css/DateTime/admin.css">
       <publishTime>11/17/2017 13:21:05</publishTime>
@@ -353,6 +353,9 @@
     </File>
     <File Include="Content/css/style.css">
       <publishTime>11/17/2017 13:18:35</publishTime>
+    </File>
+    <File Include="Content/css/tabstyle-min.css">
+      <publishTime>11/22/2017 14:39:09</publishTime>
     </File>
     <File Include="Content/css/themes.css">
       <publishTime>11/17/2017 13:18:35</publishTime>
@@ -432,6 +435,18 @@
     <File Include="Content/img/screenshots/theming.png">
       <publishTime>09/27/2017 17:29:12</publishTime>
     </File>
+    <File Include="Content/img/tab/close.png">
+      <publishTime>11/22/2017 14:18:43</publishTime>
+    </File>
+    <File Include="Content/img/tab/list.png">
+      <publishTime>11/22/2017 14:07:05</publishTime>
+    </File>
+    <File Include="Content/img/tab/next.png">
+      <publishTime>11/22/2017 14:04:30</publishTime>
+    </File>
+    <File Include="Content/img/tab/prev.png">
+      <publishTime>11/22/2017 14:04:30</publishTime>
+    </File>
     <File Include="Content/img/thumbnails/picjumbo.com_HNCK4737.jpg">
       <publishTime>09/27/2017 17:29:12</publishTime>
     </File>
@@ -496,7 +511,7 @@
       <publishTime>11/17/2017 13:39:01</publishTime>
     </File>
     <File Include="Content/js/Login/Index.js">
-      <publishTime>10/14/2017 09:13:58</publishTime>
+      <publishTime>11/21/2017 11:05:08</publishTime>
     </File>
     <File Include="Content/js/MemberCard/Index.js">
       <publishTime>10/27/2017 10:26:14</publishTime>
@@ -508,7 +523,7 @@
       <publishTime>11/14/2017 11:40:34</publishTime>
     </File>
     <File Include="Content/js/MembershipLevel/LevelCouponPage.js">
-      <publishTime>11/14/2017 11:10:12</publishTime>
+      <publishTime>11/21/2017 13:50:41</publishTime>
     </File>
     <File Include="Content/js/Message/Index.js">
       <publishTime>11/17/2017 13:41:07</publishTime>
@@ -518,6 +533,9 @@
     </File>
     <File Include="Content/js/Shade.js">
       <publishTime>11/17/2017 13:39:01</publishTime>
+    </File>
+    <File Include="Content/js/tab-min.js">
+      <publishTime>11/22/2017 16:26:13</publishTime>
     </File>
     <File Include="Content/js/theming.js">
       <publishTime>11/17/2017 13:39:01</publishTime>
@@ -702,6 +720,12 @@
     <File Include="SwaggerUI/swagger-ui.min.js">
       <publishTime>10/11/2017 10:59:16</publishTime>
     </File>
+    <File Include="Views/CommonHtml/CommonProblem.cshtml">
+      <publishTime>11/20/2017 16:52:20</publishTime>
+    </File>
+    <File Include="Views/CommonHtml/TermsOfUse.cshtml">
+      <publishTime>11/21/2017 13:43:14</publishTime>
+    </File>
     <File Include="Views/Coupon/Coupon.cshtml">
       <publishTime>11/17/2017 13:51:06</publishTime>
     </File>
@@ -724,7 +748,7 @@
       <publishTime>11/17/2017 13:51:32</publishTime>
     </File>
     <File Include="Views/Login/Login.cshtml">
-      <publishTime>11/20/2017 11:10:20</publishTime>
+      <publishTime>11/27/2017 10:51:05</publishTime>
     </File>
     <File Include="Views/Master/DataTable.cshtml">
       <publishTime>10/20/2017 15:41:06</publishTime>
@@ -742,7 +766,7 @@
       <publishTime>11/06/2017 17:28:31</publishTime>
     </File>
     <File Include="Views/MemberShipLevel/LevelCouponPage.cshtml">
-      <publishTime>11/10/2017 13:57:39</publishTime>
+      <publishTime>11/20/2017 16:52:09</publishTime>
     </File>
     <File Include="Views/MemberShipLevel/LevelIndex.cshtml">
       <publishTime>11/17/2017 13:52:03</publishTime>
@@ -751,7 +775,7 @@
       <publishTime>11/17/2017 13:52:28</publishTime>
     </File>
     <File Include="Views/Shared/LeftPartPage.cshtml">
-      <publishTime>11/20/2017 14:47:54</publishTime>
+      <publishTime>11/27/2017 15:03:15</publishTime>
     </File>
     <File Include="Views/Shared/ParantPage.cshtml">
       <publishTime>11/17/2017 13:52:53</publishTime>
@@ -766,13 +790,13 @@
       <publishTime>11/17/2017 13:52:44</publishTime>
     </File>
     <File Include="Views/User/Index.cshtml">
-      <publishTime>11/17/2017 13:52:44</publishTime>
+      <publishTime>11/24/2017 11:02:51</publishTime>
     </File>
     <File Include="Views/web.config">
       <publishTime>09/27/2017 17:23:10</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>11/17/2017 15:51:46</publishTime>
+      <publishTime>11/28/2017 16:23:56</publishTime>
     </File>
   </ItemGroup>
 </Project>

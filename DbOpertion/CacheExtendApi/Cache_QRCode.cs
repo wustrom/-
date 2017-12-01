@@ -28,6 +28,15 @@ namespace DbOpertion.Cache
         }
 
         /// <summary>
+        /// 根据用户ID查找订单
+        /// </summary>
+        public PayRecord SelectOrder(int UserId)
+        {
+            return PayRecordOper.Instance.SelectByUserId(UserId);
+        }
+
+
+        /// <summary>
         /// 删除订单
         /// </summary>
         public bool DeleteOrder(int KeyId)
@@ -81,7 +90,7 @@ namespace DbOpertion.Cache
                                     userinfo.ConsumptionTime++;
                                     userinfo.LevelScore++;
                                     var CurrentLevel2 = Level.Where(p => p.LevelMin <= userinfo.LevelScore && userinfo.LevelScore < (p.LevelMin + p.LevelMax)).FirstOrDefault();
-                                    if (CurrentLevel1.NextLevelId == null)
+                                    if (CurrentLevel2.NextLevelId == null)
                                     {
                                         userinfo.DiamondsMoney = userinfo.DiamondsMoney + pay.ShopMoney;
                                     }
@@ -190,7 +199,7 @@ namespace DbOpertion.Cache
                         userinfo.ConsumptionTime++;
                         userinfo.LevelScore++;
                         var CurrentLevel2 = Level.Where(p => p.LevelMin <= userinfo.LevelScore && userinfo.LevelScore < (p.LevelMin + p.LevelMax)).FirstOrDefault();
-                        if (CurrentLevel1.NextLevelId == null)
+                        if (CurrentLevel2.NextLevelId == null)
                         {
                             userinfo.DiamondsMoney = userinfo.DiamondsMoney + pay.ShopMoney;
                         }

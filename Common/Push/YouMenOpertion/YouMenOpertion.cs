@@ -18,19 +18,19 @@ namespace Common.Push.YouMenOpertion
         /// <summary>
         /// 推送给所有安卓用户
         /// </summary>
-        public ReturnJsonClass AndriodPushByAllUser()
+        public ReturnJsonClass AndriodPushByAllUser(string ticker,string Title, string text, string Description)
         {
             PostUMengJsonAndroid postJson = new PostUMengJsonAndroid();
             postJson.type = "broadcast";
             postJson.payload = new YouMenResult.JsonAndroid.Payload();
             postJson.payload.display_type = "notification";
             postJson.payload.body = new ContentBody();
-            postJson.payload.body.ticker = "评论提醒";
-            postJson.payload.body.title = "您的评论有回复";
-            postJson.payload.body.text = "您的评论有回复咯。。。。。";
+            postJson.payload.body.ticker = ticker;
+            postJson.payload.body.title = Title;
+            postJson.payload.body.text = text;
             postJson.payload.body.after_open = "go_custom";
             postJson.payload.body.custom = "comment-notify";
-            postJson.description = "评论提醒-UID:" + 123;
+            postJson.description = Description;
             postJson.production_mode = true;
             postJson.thirdparty_id = "COMMENT";
             ReturnJsonClass resu = umPushAndroid.SendMessage(postJson);
@@ -40,14 +40,14 @@ namespace Common.Push.YouMenOpertion
         /// <summary>
         /// 推送给所有IOS用户
         /// </summary>
-        public ReturnJsonClass IOSPushByAllUser()
+        public ReturnJsonClass IOSPushByAllUser(string Alert, string Description)
         {
             PostUMengJsonIOS postJson = new PostUMengJsonIOS();
             postJson.type = "broadcast";
             postJson.payload = new YouMenResult.JsonIOS.Payload();
             postJson.payload.aps = new Aps();
-            postJson.payload.aps.alert = "您的评论有回复";
-            postJson.description = "评论提醒-UID:" + 123;
+            postJson.payload.aps.alert = Alert;
+            postJson.description = Description;
             postJson.thirdparty_id = "COMMENT";
             postJson.production_mode = false;
             ReturnJsonClass resu = umPushIos.SendMessage(postJson);

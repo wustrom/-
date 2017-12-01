@@ -70,11 +70,10 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
                         var userId = dic.Where(p => p.Key.ToUpper() == "USERID").FirstOrDefault().Value;
                         if (dic.Where(p => p.Key.ToUpper() == "USERID").FirstOrDefault().Value != null)
                         {
-                            ResultJsonModel<TUserInfoResponse, List<CouponInfoResponse>> json = new ResultJsonModel<TUserInfoResponse, List<CouponInfoResponse>>();
+                            ResultJsonModel<TUserInfoResponse, List<CouponInfoResponse>, PayRecord> json = new ResultJsonModel<TUserInfoResponse, List<CouponInfoResponse>, PayRecord>();
                             int IntId = 0;
                             if (int.TryParse(userId, out IntId))
                             {
-
                                 var userInfo = Cache_TUser.Instance.GetUserInfo(IntId);
                                 var membershipLevelList = Cache_MemberShipLevel.Instance.SelectLevelList();
                                 if (userInfo != null)
@@ -90,7 +89,9 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
                                         CouponInfoResponse infoResponse = new CouponInfoResponse(item);
                                         list_Response.Add(infoResponse);
                                     }
+                                    var order = Cache_QRCode.Instance.SelectOrder(userInfo.UserId);
                                     json.Model2 = list_Response;
+                                    json.Model3 = order;
                                     return new JsonResult() { Data = json };
                                 }
                                 else

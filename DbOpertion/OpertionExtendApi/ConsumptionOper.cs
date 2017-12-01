@@ -76,7 +76,7 @@ namespace DbOpertion.Operation
                                          LEFT JOIN PayRecord b on a.PayRecordId = b.PayRecordId
                                          LEFT JOIN TUser c on b.UserId = c.UserId
                                          LEFT JOIN Store d on d.StoreId= b.StoreID
-                                         WHERE a.ElectronicId = @ElectronicId;");
+                                         WHERE a.ElectronicId = @ElectronicId");
             return SqlOpertion.Instance.GetQueryList<PayRecordInformation>(sql, parmList);
         }
     }

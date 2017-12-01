@@ -28,6 +28,7 @@
         jQuery.axpost("QRCodeAjax/Index", "QRCodeStr:'" + value_search + "'", function (data) {
             UserInfo(data);
             CouponList(data);
+            PayRecondInfo(data);
             if (!flag) {
                 return;
             }
@@ -83,6 +84,19 @@
         $("#UserCoupon tbody").html(str);
     }
 
+    function PayRecondInfo(data) {
+        if (data.Model3 != null) {
+            $("#ShopMoney").val(data.Model3.ShopMoney);
+            $("#ShopItem").val(data.Model3.ShopItem);
+            $("#NoPayMoney").html(data.Model3.NeedPayMoney);
+            $("#ShopMoney").attr("disabled", "disabled");
+            $("#ShopItem").attr("disabled", "disabled");
+            $("#EnterOrder").attr("disabled", "disabled");
+            $("#CanleOrder").removeAttr("disabled");
+            $("#PayRecordId").val(data.Model3.PayRecordId);
+        }
+    }
+
     var UserAlert;
     var ShopItemAlert;
     var ShopMoneyAlert;
@@ -135,7 +149,6 @@
             $("#EnterOrder").attr("disabled", "disabled");
             $("#CanleOrder").removeAttr("disabled");
             $("#PayRecordId").val(data.Model1);
-            var ShopMoney = $("#ShopMoney").val();
             if (OrderSuccessAlrt) {
                 OrderSuccessAlrt.show();
             }
@@ -275,7 +288,6 @@
                     $("#ShopItem").val();
                     $("#EnterOrder").removeAttr("disabled");
                     $("#CanleOrder").attr("disabled", "disabled");
-                    $("#PayRecordId").val(0);
                     $("#PayRecordId").val(0);
                     $("#ShopItem").val("");
                     $("#ShopMoney").val("");

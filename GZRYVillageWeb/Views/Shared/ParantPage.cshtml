@@ -4,7 +4,7 @@
     {
         AdminUser = new DbOpertion.Models.AUser();
     }
-    
+
 }
 <!DOCTYPE html>
 <html>
@@ -28,7 +28,7 @@
     <link rel="stylesheet" type="text/css" href="~/Content/css/themes/flat-blue.css">
     @RenderSection("css", required: false)
     <!-- Javascript Libs -->
-   
+
     <script type="text/javascript" src="~/Content/lib/js/jquery.min.js"></script>
     <script type="text/javascript" src="~/Content/lib/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="~/Content/lib/js/Chart.min.js"></script>
@@ -45,7 +45,7 @@
     <!-- Javascript -->
     <script type="text/javascript" src="~/Content/js/ajax.js"></script>
     <script type="text/javascript" src="~/Content/js/app.js"></script>
-    
+
     @RenderSection("js", required: false)
 </head>
 
@@ -69,53 +69,8 @@
                         <button type="button" class="navbar-right-expand-toggle pull-right visible-xs">
                             <i class="fa fa-times icon"></i>
                         </button>
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-comments-o"></i></a>
-                            <ul class="dropdown-menu animated fadeInDown">
-                                <li class="title">
-                                    Notification <span class="badge pull-right">0</span>
-                                </li>
-                                <li class="message">
-                                    No new notification
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="dropdown danger">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-star-half-o"></i> 4</a>
-                            <ul class="dropdown-menu danger  animated fadeInDown">
-                                <li class="title">
-                                    Notification <span class="badge pull-right">4</span>
-                                </li>
-                                <li>
-                                    <ul class="list-group notifications">
-                                        <a href="#">
-                                            <li class="list-group-item">
-                                                <span class="badge">1</span> <i class="fa fa-exclamation-circle icon"></i>                                                new registration
-                                            </li>
-                                        </a>
-                                        <a href="#">
-                                            <li class="list-group-item">
-                                                <span class="badge success">1</span> <i class="fa fa-check icon"></i> new
-                                                orders
-                                            </li>
-                                        </a>
-                                        <a href="#">
-                                            <li class="list-group-item">
-                                                <span class="badge danger">2</span> <i class="fa fa-comments icon"></i> customers
-                                                messages
-                                            </li>
-                                        </a>
-                                        <a href="#">
-                                            <li class="list-group-item message">
-                                                view all
-                                            </li>
-                                        </a>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
                         <li class="dropdown profile">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Emily Hart <span class="caret"></span></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">个人信息<span class="caret"></span></a>
                             <ul class="dropdown-menu animated fadeInDown">
                                 <li class="profile-img">
                                     <img src="~/Content/img/profile/picjumbo.com_HNCK4153_resize.jpg" class="profile-img">

@@ -15,7 +15,7 @@ namespace DbOpertion.Operation
     public partial class PayRecordOper : SingleTon<PayRecordOper>
     {
         /// <summary>
-        /// 筛选用户数据根据Id
+        /// 筛选用户数据根据Id和时间
         /// </summary>
         ///  <param name="Key">主键</param>
         ///  <param name="desc">排序</param>
@@ -24,6 +24,19 @@ namespace DbOpertion.Operation
         {
             var query = new LambdaQuery<PayRecord>();
             query.Where(p => p.UserId == UserId && p.ShopTime == time);
+            return query.GetQueryList().FirstOrDefault();
+        }
+
+        /// <summary>
+        /// 筛选用户数据根据Id
+        /// </summary>
+        ///  <param name="Key">主键</param>
+        ///  <param name="desc">排序</param>
+        /// <returns>对象列表</returns>
+        public PayRecord SelectByUserId(int? UserId)
+        {
+            var query = new LambdaQuery<PayRecord>();
+            query.Where(p => p.UserId == UserId && p.NeedPayMoney != 0);
             return query.GetQueryList().FirstOrDefault();
         }
     }

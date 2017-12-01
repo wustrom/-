@@ -28,7 +28,7 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
         public ResultJsonModel PushByAndriodUser()
         {
             ResultJsonModel result = new ResultJsonModel();
-            var ret = YouMenOpertion.Instance.AndriodPushByAllUser();
+            var ret = YouMenOpertion.Instance.AndriodPushByAllUser("评论提醒", "您的评论有回复", "您的评论有回复咯。。。。。", "评论提醒-UID:123");
             if (ret.ret == "SUCCESS")
             {
                 result.HttpCode = 200;
@@ -51,7 +51,7 @@ namespace GZRYVillageWeb.Controllers.WebApiControllers
         public ResultJsonModel PushByIOSUser()
         {
             ResultJsonModel result = new ResultJsonModel();
-            var ret = YouMenOpertion.Instance.IOSPushByAllUser();
+            var ret = YouMenOpertion.Instance.IOSPushByAllUser("您的评论有回复", "评论提醒-UID:123");
             if (ret.ret == "SUCCESS")
             {
                 result.HttpCode = 200;

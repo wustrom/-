@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -13,7 +15,7 @@ namespace Common.Helper
     /// <summary>  
     /// 验证图片类  
     /// </summary>  
-    public class YZMHelper : SingleTon<YZMHelper>
+    public class YZMHelper
     {
         #region 私有字段  
         private string text;
@@ -52,11 +54,6 @@ namespace Common.Helper
         #region 构造函数  
         public YZMHelper()
         {
-            HttpContext.Current.Response.Expires = 0;
-            HttpContext.Current.Response.Buffer = true;
-            HttpContext.Current.Response.ExpiresAbsolute = DateTime.Now.AddSeconds(-1);
-            HttpContext.Current.Response.AddHeader("pragma", "no-cache");
-            HttpContext.Current.Response.CacheControl = "no-cache";
             this.text = RandHelper.Instance.Number(4);
             CreateImage();
         }
@@ -180,6 +177,20 @@ namespace Common.Helper
             }
             srcBmp.Dispose();
             return destBmp;
+        }
+
+        /// <summary>
+        /// 根据图片输出字节流
+        /// </summary>
+        /// <returns></returns>
+        public byte[] GetVaildateBytes()
+        {
+            //保存图片数据
+            MemoryStream stream = new MemoryStream();
+            Image.Save(stream, ImageFormat.Jpeg);
+
+            //输出图片流
+            return stream.ToArray();
         }
         #endregion
     }

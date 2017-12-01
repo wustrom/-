@@ -14,6 +14,7 @@ using GZRYVillageWeb.Request.AjaxRequest;
 using GZRYVillageWeb.Response.AjaxResponse;
 using Common.Helper;
 using Common.Extend;
+using System.Drawing;
 
 namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
 {
@@ -209,6 +210,17 @@ namespace GZRYVillageWeb.Controllers.MvcAjaxControllers
             }
             return Json(jsonresult, JsonRequestBehavior.AllowGet);
 
+        }
+
+        /// <summary>
+        /// 获得YZM图片
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetYZMImage()
+        {
+            YZMHelper yzmHelper = new YZMHelper();
+            Session["yzmCode"] = yzmHelper.Text;
+            return File(yzmHelper.GetVaildateBytes(), "image/Jpeg");
         }
     }
 }
